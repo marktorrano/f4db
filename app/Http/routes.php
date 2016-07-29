@@ -1,16 +1,40 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 Route::get('/', function () {
-    return view('welcome');
+    return view('pages.survinator');
 });
+
+Route::group(['middleware' => 'web'], function () {
+
+    Route::post('signatures/{lang}/{docType}', function($lang, $docType, Illuminate\Http\Request $request)
+    {
+
+        $data = json_decode($request->getContent(), true);
+
+//        dd($data);
+
+        if($lang == 'fr' && $docType == 'ssr'){
+
+            return view('documents.ssr-fr', ['data' => $data]);
+
+        }
+        if($lang == 'nl' && $docType == 'ssr'){
+
+            return view('documents.ssr-nl', ['data' => $data]);
+
+        }
+        if($lang == 'fr' && $docType == 'tsa'){
+
+            return view('documents.tsa-fr', ['data' => $data]);
+
+        }
+        if($lang == 'fr' && $docType == 'tsa'){
+
+            return view('documents.tsa-fr', ['data' => $data]);
+
+        }
+
+    });
+
+});
+
