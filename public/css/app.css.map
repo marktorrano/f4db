@@ -1,0 +1,1 @@
+{"version":3,"sources":["app.scss"],"names":[],"mappings":"AAAA;EACE,mBAAmB;EACnB,eAAe,EAChB","file":"app.css","sourcesContent":[".btn-tsa{\n  position: absolute;\n  margin: 0 auto;\n}"],"sourceRoot":"/source/"}
