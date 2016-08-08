@@ -3,5 +3,5 @@
     <meta id="base_url" data-value="{{url('/')}}">
     <title>Site Survey Docs</title>
 
-    {{--TODO set if statements for languages--}}
-    <link rel="stylesheet" href="{{asset('css/app.css')}}"/>
+    <link rel="stylesheet" href="{{asset('assets/css/app.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/print.css')}}" media="screen, print"/>
