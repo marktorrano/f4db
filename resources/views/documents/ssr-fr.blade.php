@@ -1,13 +1,11 @@
 @extends('layouts.app')
-@push('style')
-    <link rel="stylesheet" href="{{asset('css/ssr-fr.css')}}"/>
+@push('styles')
+<link rel="stylesheet" href="{{asset('assets/css/ssr-fr.css')}}"/>
 @endpush
 
 @section('content')
-<div id="survinator">
-    <div class="book">
-
-        <div class="page index">
+    <div class="book" id="survinator">
+        <page size='A4' class="page index">
             <div class="header index">
                 <div class="headerTitle">
                     MDU Site Survey Report – Procès-verbal étude de site
@@ -26,8 +24,9 @@
                             <td>Adres(sen):</td>
                             <td>
                                 <ul class="list">
-                                    <li>@{{ $data.street }} @{{ $data.house_number }}, @{{ $data.postal_code }} @{{ $data.city }}</li>
-                                    <li>Streetname housenumber, zipcode city</li>
+                                    <li>
+                                        {!!  $data['street'] . ' ' . $data['house_number'] . ', ' . $data['postal_code'] . ' ' . $data['city']!!}
+                                    </li>
                                 </ul>
                             </td>
                         </tr>
@@ -36,237 +35,199 @@
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header"></div>
             <div class="subpage">
 
                 <h3>1. Informations générales</h3>
 
+                <table>
+                    <tr>
+                        <td>
+                            <li>Date de la visite: @if(isset($data['survey_outside_started']))<span
+                                        class="is-a-date">{!! $data['survey_outside_started'] !!} @endif </span></li>
+                            <li>Version:</li>
+                            <li>Date dossier: $DATE</li>
+                            <li>Now de bâtiment (ref syndic): $REF-SYNDIC</li>
+                        </td>
+                        <td>
+                            <li>Nbre d'unités LU: @if(isset($data['nr_lu'])){!! $data['nr_lu'] !!} @endif</li>
+                            <li>Nbre d'unités BU-S: @if(isset($data['nr_bu_s'])){!! $data['nr_bu_s'] !!} @endif</li>
+                            <li>Nbre d'unités BU-L: @if(isset($data['nr_bu_l'])){!! $data['nr_bu_l'] !!} @endif</li>
+                            <li>Nbre d'unités SU: @if(isset($data['nr_su'])){!! $data['nr_su'] !!} @endif</li>
+                            <li>Nbre d'étages (RDC + x):</li>
+                        </td>
+                    </tr>
+                </table>
+                <ul>
+
+
+                </ul>
+
+                <h3>2. Informations syndic – ACP - Propriétaire</h4>
+
                     <table>
+                        <thead>
                         <tr>
-                            <td>
-                                <li>Date de la visite: $VISIT-DATE</li>
-                                <li>Version: $VERSION</li>
-                                <li>Date dossier: $DATE</li>
-                                <li>Now de bâtiment (ref syndic): $REF-SYNDIC</li>
-                            </td>
-                            <td>
-                                <li>Nbre d'unités LU: $NR-LU</li>
-                                <li>Nbre d'unités BU-S: $NR-BU-S</li>
-                                <li>Nbre d'unités BU-L: $NR-BU-L</li>
-                                <li>Nbre d'unités SU: $NR-SU</li>
-                                <li>Nbre d'étages (RDC + x): $FLOOR-COUNT</li>
-                            </td>
+                            <th>Syndic/ACP/Propriétaire</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
                         </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Syndic</td>
+                            <td> syndic.name_contact</td>
+                            <td> syndic.email</td>
+                            <td> syndic.primary_phone_contact</td>
+                        </tr>
+                        <tr>
+                            <td>ACP</td>
+                            <td>acp.name_contact</td>
+                            <td>acp.email</td>
+                            <td>acp.primary_phone_contact</td>
+                        </tr>
+                        <tr>
+                            <td>Propriétaire</td>
+                            <td>owner.name_contact</td>
+                            <td>owner.email</td>
+                            <td>owner.primary_phone_contact</td>
+                        </tr>
+
+                        </tbody>
                     </table>
-                    <ul>
 
 
+                    <h3>3. Présent lors de la visite d’étude</h3>
+
+                    <table>
+                        <thead>
+                        <tr v-for="present_during_visit in docs.doc.present_during_visit">
+                            <th>present_during_visit.name</th>
+                            <th>Société</th>
+                            <th>present_during_visit.email</th>
+                            <th>present_during_visit.primary_phone_contact</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="supervisor in docs.doc.present_during_visit">
+                            <td>supervisor.name</td>
+                            <td>Société</td>
+                            <td>supervisor.email</td>
+                            <td>supervisor.primary_phone_contact</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+
+                    <h3>4. Info Fiberhood - cadastre - IFH</h3>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Reference</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Fiberhood</td>
+                            <td> docs.doc.fiberhood</td>
+                        </tr>
+                        <tr>
+                            <td>Cadastre</td>
+                            <td>docs.doc.cadaster</td>
+                        </tr>
+                        <tr>
+                            <td>MDU LAMKey - IFH</td>
+                            <td>$MDU-LAM-KEY</td>
+                        </tr>
+                        <tr>
+                            <td>Distribution planifiée</td>
+                            <td>docs.doc.planned_distribution</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
+                    <h3>5. Visuel – Façade & Rue</h3>
+
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Façade</th>
+                            <th>Details</th>
+                            <th>Oui/Non</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Façade de caractère</td>
+                            <td>patrimony_remarks</td>
+                            <td>patrimony</td>
+                        </tr>
+                        <tr>
+                            <td>Présence de câbles d’électricité</td>
+                            <td>existing_infrastructure_electricity_remarks</td>
+                            <td>existing_infrastructure_electricity</td>
+                        </tr>
+                        <tr>
+                            <td>Présence de câbles coaxiaux</td>
+                            <td>existing_infrastructure_coax_remarks</td>
+                            <td>existing_infrastructure_coax</td>
+                        </tr>
+                        <tr>
+                            <td>Présence de multi-taps coax</td>
+                            <td>existing_infrastructure_multitaps_remarks</td>
+                            <td>existing_infrastructure_multitaps</td>
+                        </tr>
+                        <tr>
+                            <td>Présence éclairage publique</td>
+                            <td></td>
+                            <td>existing_infrastructure_public_lighting</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="list">
+                        <li>publicity_remarks</li>
                     </ul>
 
-                    <h3>2. Informations syndic – ACP - Propriétaire</h3>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Syndic/ACP/Propriétaire</th>
-                                <th>Contact</th>
-                                <th>Email</th>
-                                <th>Téléphone</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Syndic</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>ACP</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Propriétaire</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Syndic</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>ACP</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Propriétaire</td>
-                                <td>Contact</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                    <br>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Rue</th>
+                            <th>Details</th>
+                            <th>Oui/Non</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Mobilier de rue (ex abribus)</td>
+                            <td>street_objects_remarks</td>
+                            <td>street_objects</td>
+                        </tr>
+                        <tr>
+                            <td>Obstructions façade</td>
+                            <td>street_obstructions_remarks</td>
+                            <td>street_obstructions</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <ul class="list">
+                        <li>general_situation_remarks</li>
+                    </ul>
 
 
-
-
-                        <h3>3. Présent lors de la visite d’étude</h3>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Société</th>
-                                <th>Email</th>
-                                <th>Téléphone</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Nom</td>
-                                <td>Société</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Nom</td>
-                                <td>Société</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Nom</td>
-                                <td>Société</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            <tr>
-                                <td>Nom</td>
-                                <td>Société</td>
-                                <td>Email</td>
-                                <td>Téléphone</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-
-
-
-
-
-
-                        <h3>4. Info Fiberhood - cadastre - IFH</h3>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Nom</th>
-                                <th>Reference</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Fiberhood</td>
-                                <td>$FIBERHOOD</td>
-                            </tr>
-                            <tr>
-                                <td>Cadastre</td>
-                                <td>$CADASTER</td>
-                            </tr>
-                            <tr>
-                                <td>MDU LAMKey - IFH</td>
-                                <td>$MDU-LAM-KEY</td>
-                            </tr>
-                            <tr>
-                                <td>Distribution planifiée</td>
-                                <td>$FACADE-OR-UNDERGROUND</td>
-                            </tr>
-                            </tbody>
-                        </table>
-
-
-
-                        <h3>5. Visuel – Façade & Rue</h3>
-
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Façade</th>
-                                <th>Details</th>
-                                <th>Oui/Non</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Façade de caractère</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            <tr>
-                                <td>Présence de câbles d’électricité</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            <tr>
-                                <td>Présence de câbles coaxiaux</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            <tr>
-                                <td>Présence de multi-taps coax</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            <tr>
-                                <td>Présence éclairage publique</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <ul class="list"><li>Remarks: ...</li></ul>
-
-                        <br>
-                        <table>
-                            <thead>
-                            <tr>
-                                <th>Rue</th>
-                                <th>Details</th>
-                                <th>Oui/Non</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>Mobilier de rue (ex abribus)</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            <tr>
-                                <td>Obstructions façade</td>
-                                <td>...</td>
-                                <td>...</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <ul class="list"><li>Remarks: ...</li></ul>
-
-
-
-
-
+            </div>
             <div class="footer"></div>
+        </page>
 
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header"></div>
             <div class="subpage">
 
@@ -500,7 +461,6 @@
                 </div>
 
 
-
                 <h3>7. Remarks</h3>
 
                 <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:8.5cm">
@@ -510,13 +470,9 @@
 
             </div>
             <div class="footer"></div>
-        </div>
+        </page>
 
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -525,18 +481,18 @@
                 <h3>8. Intro existante – extérieur / intérieur</h3>
                 <img src="http://placehold.it/650x800?text=Intro+existante+–+extérieur+/+intérieur">
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-800px;">Documentez l’introduction existante en maquant clairement la localisation à l’alignement externe du bâtiment ainsi qu’à l’intérieur (cave/salle technique).Si possible, indiquez où une nouvelle intro pourrait être effectuée.</div>
+                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-800px;">Documentez
+                    l’introduction existante en maquant clairement la localisation à l’alignement externe du bâtiment
+                    ainsi qu’à l’intérieur (cave/salle technique).Si possible, indiquez où une nouvelle intro pourrait
+                    être effectuée.
+                </div>
 
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -552,18 +508,16 @@
 
                 <img src="http://placehold.it/650x700?text=Accès+au+MDU+et+aux+équipements+Proximus">
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-680px;">Insérez photos/schémas relatifs à l’accès vers les équipements Proximus (entrée, sous-sol, etc)</div>
+                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-680px;">Insérez photos/schémas
+                    relatifs à l’accès vers les équipements Proximus (entrée, sous-sol, etc)
+                </div>
 
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -575,7 +529,9 @@
 
                 <img src="http://placehold.it/650x500?text=Plan+cadastral+-+CADGIS">
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-450px;">http://ccff02.minfin.fgov.be/cadgisweb/?local=fr_BE</div>
+                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-450px;">
+                    http://ccff02.minfin.fgov.be/cadgisweb/?local=fr_BE
+                </div>
 
                 <h4>Vue aérienne (Google)</h4>
 
@@ -584,14 +540,9 @@
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -617,18 +568,11 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
                 </div>
 
 
-
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -664,18 +608,9 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -703,26 +638,9 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -744,28 +662,16 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas$
 
             </div>
             <div class="footer index"></div>
-        </div>
+        </page>
 
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="page">
+        <page class="page" size="A4">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
             <div class="subpage ">
 
                 <div class="landscape">
-                    <h4>Détails des unités  - LU / BU / SU</h4>
+                    <h4>Détails des unités - LU / BU / SU</h4>
 
                     <table>
                         <tbody>
@@ -919,287 +825,14 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas$
 
             </div>
             <div class="footer index"></div>
-        </div>
 
-
-
-
-
-
-
-
-
+        </page>
 
 
     </div>
-
-</div>
 
 @endsection
 
 @push('scripts')
 
-<script>
-
-    var vm = new Vue({
-
-        el: "#survinator",
-
-        data: {
-            "_id": "bda8d3dc905f2549b6b9f506cf240c78",
-            "type": "building",
-            "lam_mk": 1573940,
-            "lam_street_code": 4511,
-            "street": "Gootstraat - Rue de la Gouttière",
-            "house_number": 25,
-            "postal_code": 1000,
-            "city": "Brussel - Bruxelles",
-            "wall_mount": "NA",
-            "survey_reason": "NA",
-            "vertical_cabling_type_orig": "Unknown",
-            "vertical_cabling_type_new": "Unknown",
-            "intro_tube": "None",
-            "survey_flag": true,
-            "fiberhood": "FH2",
-            "loop": "211",
-            "loop_bloc": "14",
-            "state": "inside_done",
-            "survey_type": "inside",
-            "survey_state_surveyor": "Admin IT 11 (JT)",
-            "survey_state_surveyor_jfs_id": 2382,
-            "facade": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-facade-image-20160729T094805883Z17590584000000003"
-                ]
-            },
-            "bu_type": "mdu",
-            "secondary_address": [
-                {
-                    "street": "Secondary Address",
-                    "house_number": 25,
-                    "mailbox": "Suffix",
-                    "postal_code": 1000,
-                    "city": "Brussel - Bruxelles"
-                },
-                {
-                    "street": "Secondary Address second",
-                    "house_number": 25,
-                    "mailbox": "Suffix",
-                    "postal_code": 1000,
-                    "city": "Brussel - Bruxelles"
-                }
-            ],
-            "firstname": "Name of Syndic",
-            "syndic": [
-                {
-                    "name": "Second Syndic",
-                    "address": "Second Street Second Street Second Street ",
-                    "name_contact": "Second Contact Name",
-                    "primary_phone_contact": "213123",
-                    "secondary_phone_contact": "123123"
-                },
-                {
-                    "name": "Third Syndic",
-                    "address": "Third Street Third Street Third Street Third Street Third Street Third Street Third Street Third Street Third Street Third Street ",
-                    "name_contact": "Third Syndic",
-                    "primary_phone_contact": "43895349857",
-                    "secondary_phone_contact": "43985709345"
-                }
-            ],
-            "cadaster": "Cadaster",
-            "acp": [
-                {
-                    "name": "ACP",
-                    "address": "ACP street ACP street ACP street ACP street ACP street ACP street ",
-                    "name_contact": "ACP",
-                    "primary_phone_contact": "435345",
-                    "secondary_phone_contact": "436545"
-                }
-            ],
-            "owner": [
-                {
-                    "name": "Owner",
-                    "address": "Owner Street Owner Street Owner Street Owner Street Owner Street Owner Street Owner Street ",
-                    "name_contact": "Owner Name",
-                    "primary_phone_contact": "345435345",
-                    "secondary_phone_contact": "346346435"
-                },
-                {
-                    "name": "Second Owner",
-                    "address": "Second Owner Street Second Owner Street Second Owner Street ",
-                    "name_contact": "Second Owner",
-                    "primary_phone_contact": "43534542",
-                    "secondary_phone_contact": "435345"
-                }
-            ],
-            "present_during_visit": [
-                {
-                    "name": "Present During Visit",
-                    "address": "Present During Visit Present During Visit Present During Visit Present During Visit Present During Visit ",
-                    "name_contact": "Present During Visit",
-                    "primary_phone_contact": "785687678",
-                    "secondary_phone_contact": "87687678"
-                },
-                {
-                    "name": "Second Present During Visit",
-                    "address": "Second Street Second Street Second Street Second Street Second Street Second Street ",
-                    "name_contact": "Second Present During Visit",
-                    "primary_phone_contact": "345435",
-                    "secondary_phone_contact": "435345435"
-                }
-            ],
-            "planned_distribution": "faced",
-            "quadrant": "a",
-            "patrimony": "yes",
-            "patrimony_remarks": "Patrimony",
-            "existing_infrastructure_electricity": "yes",
-            "existing_infrastructure_electricity_remarks": "Electricity Cables",
-            "existing_infrastructure_coax": "yes",
-            "existing_infrastructure_coax_remarks": "Coax Cables",
-            "existing_infrastructure_multitaps": "yes",
-            "existing_infrastructure_multitaps_remarks": "Multitap ",
-            "existing_infrastructure_public_lighting": "yes",
-            "publicity": "yes",
-            "publicity_remarks": "Publicity Info",
-            "street_objects": "yes",
-            "street_objects_remarks": "Street Furniture",
-            "street_obstructions": "yes",
-            "street_obstructions_remarks": "Other Obstruction",
-            "general_situation_remarks": "General Building",
-            "nr_lu": "2",
-            "nr_bu_s": "2",
-            "nr_bu_l": "2",
-            "nr_su": "2",
-            "nr_total": "2",
-            "access_to_telco_room": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-access_to_telco_room-image-20160729T095811930Z7819523400000001",
-                    "bda8d3dc905f2549b6b9f506cf240c78-access_to_telco_room-image-20160729T095820417Z7904397000000001"
-                ]
-            },
-            "requirements_to_enter_telco_room": "Access to telco room",
-            "coper_intro_type": "old",
-            "equipment_present": "fiber",
-            "horizontal_shaft_present": "yes-accessible",
-            "horizontal_shaft_present_img": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-horizontal_shaft_present_img-image-20160729T095829870Z7998932100000001"
-                ]
-            },
-            "vertical_shaft_present": "yes-accessible",
-            "vertical_shaft_present_img": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-vertical_shaft_present_img-image-20160729T095837262Z8072851350000001"
-                ]
-            },
-            "electricity_in_telco": "yes",
-            "installation_space": "yes",
-            "installation_remarks": "Other Telco Room",
-            "insde_cdf_connection_type": "krone",
-            "existing_vertical_cabling": "cat5",
-            "coax_installations": "multitab-in-technical-room",
-            "individual_coax": "yes",
-            "copper_intro": {
-                "number_of_photos": "2",
-                "copper_intro_photos": [
-                    {
-                        "outside": {
-                            "doc_type_image": [
-                                "bda8d3dc905f2549b6b9f506cf240c78-outside-image-20160729T095903296Z8333190350000001"
-                            ]
-                        },
-                        "inside": {
-                            "doc_type_image": [
-                                "bda8d3dc905f2549b6b9f506cf240c78-inside-image-20160729T095905799Z83582154"
-                            ]
-                        }
-                    },
-                    {
-                        "outside": {
-                            "doc_type_image": [
-                                "bda8d3dc905f2549b6b9f506cf240c78-outside-image-20160729T095956500Z8865223600000001",
-                                "bda8d3dc905f2549b6b9f506cf240c78-outside-image-20160729T095958978Z889001045"
-                            ]
-                        },
-                        "inside": {
-                            "doc_type_image": [
-                                "bda8d3dc905f2549b6b9f506cf240c78-inside-image-20160729T095956509Z8865320650000001",
-                                "bda8d3dc905f2549b6b9f506cf240c78-inside-image-20160729T095958985Z889007235"
-                            ]
-                        }
-                    }
-                ]
-            },
-            "customer_interested_in_fiber": {
-                "number_of_photos": "2",
-                "desired_fiber_photos": [
-                    {
-                        "desired_fiber_address": "Gootstraat - Rue de la Gouttière 25 1000 Brussel - Bruxelles",
-                        "outside": {
-                            "doc_type_image": []
-                        },
-                        "inside": {
-                            "doc_type_image": []
-                        }
-                    },
-                    {
-                        "desired_fiber_address": "Secondary Address 25 Suffix 1000 Brussel - Bruxelles",
-                        "outside": {
-                            "doc_type_image": []
-                        },
-                        "inside": {
-                            "doc_type_image": []
-                        }
-                    }
-                ]
-            },
-            "floor_plan": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-floor_plan-image-20160729T095935611Z865634225",
-                    "bda8d3dc905f2549b6b9f506cf240c78-floor_plan-image-20160729T095940127Z8701500800000001"
-                ]
-            },
-            "building_layout": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-building_layout-image-20160729T095938096Z8681192000000001",
-                    "bda8d3dc905f2549b6b9f506cf240c78-building_layout-image-20160729T095942411Z8724334450000001"
-                ]
-            },
-            "intro_on_facade_cabling_proposal": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-intro_on_facade_cabling_proposal-image-20160729T095945713Z8757357000000001",
-                    "bda8d3dc905f2549b6b9f506cf240c78-intro_on_facade_cabling_proposal-image-20160729T095948058Z878080405"
-                ]
-            },
-            "intro_underground_proposal": {
-                "doc_type_image": [
-                    "bda8d3dc905f2549b6b9f506cf240c78-intro_underground_proposal-image-20160729T095949755Z879777675",
-                    "bda8d3dc905f2549b6b9f506cf240c78-intro_underground_proposal-image-20160729T095953185Z883208185"
-                ]
-            },
-            "_rev": "135-43e98c19200b3f0082779ae68dbdc175"
-        },
-
-        ready: function(){
-        },
-
-        methods: {
-
-            onSubmitForm: function (e){
-
-//                e.preventDefault();
-
-                data = JSON.stringify(vm.$data);
-
-                this.$http.post(url + '/signatures', data).then(function(res){
-                    console.log(res);
-                });
-
-            }
-
-        }
-
-    });
-
-</script>
 @endpush
