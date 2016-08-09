@@ -6,7 +6,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-    Route::post('signatures/{id}', 'DocumentController@printDocument');
+    Route::get('documents/{id}', 'DocumentController@printReport');
+    Route::get('agreement/{id}', 'DocumentController@printAgreement');
 
 });
 
