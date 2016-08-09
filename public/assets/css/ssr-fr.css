@@ -176,6 +176,7 @@ margin-left: -131px;
   float: left; }
 
 .footerPagenumber {
+  margin-top: 4em;
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
   font-size: 9px;
   float: right; }
@@ -192,9 +193,6 @@ margin-left: -131px;
 .existing-telco > table > tbody > tr > th {
   border: 1px solid #5c2d91;
   color: #5c2d91; }
-
-pre {
-  font-size: 11px; }
 
 @page {
   size: A4;

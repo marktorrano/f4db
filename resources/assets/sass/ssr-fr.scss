@@ -135,6 +135,7 @@ ul.address {
   /*padding: 1cm;*/
   padding-top: 1cm;
   padding-bottom: 1cm;
+
   /*border: 1px dotted grey;*/
   height: 257mm;
   /*outline: 2cm #fff solid;*/
@@ -208,6 +209,7 @@ margin-left: -131px;
 }
 
 .footerPagenumber {
+  margin-top: 4em;
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
   font-size: 9px;
   float: right;
@@ -229,9 +231,7 @@ margin-left: -131px;
   color: rgb(92, 45, 145);
 }
 
-pre {
-  font-size: 11px;
-}
+
 
 @page {
   size: A4;
