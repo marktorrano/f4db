@@ -37,9 +37,8 @@ h3 {
 
 h4 {
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
-  font-size: 12px;
-  color: #5c2d91;
-  margin: 0.1cm; }
+  font-size: 24px;
+  color: #5c2d91; }
 
 h5 {
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
@@ -53,11 +52,6 @@ h6 {
   font-size: 18px;
   color: #5c2d91;
   margin: 0; }
-
-thead > tr > th,
-tr > th {
-  text-align: left;
-  font-family: "Proximus-Bold", "Courier New", Courier, monospace; }
 
 table, tr, td {
   vertical-align: top; }
@@ -79,10 +73,7 @@ div.subpage.index > h3 {
 
 ul.list {
   list-style-type: none;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  padding-left: 3px;
+  padding: 0;
   margin: 0; }
 
 ul.address {
@@ -99,15 +90,10 @@ ul.address {
   background: white;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); }
 
-.landscape {
-  /*border: 1px solid red;*/
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-  height: 190mm;
-  width: 235mm;
-  margin-left: -32mm;
-  margin-top: 2cm; }
+.page.index {
+  background-image: url("../img/page_bg_index.png") !important;
+  background-repeat: no-repeat !important;
+  background-position: left !important; }
 
 .subpage {
   /*padding: 1cm;*/
@@ -117,21 +103,6 @@ ul.address {
   height: 257mm;
   /*outline: 2cm #fff solid;*/ }
 
-body > div > div.page.landscape > div.subpage {
-  height: 10mm; }
-
-/*.subpage.landscape {
-    border: 1px solid red;
-    -webkit-transform: rotate(-90deg);
-    -moz-transform:rotate(-90deg);
-    filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
-
-height: 170mm;
-width: 238mm;
-margin-top: 151px;
-margin-bottom: 173px;
-margin-left: -131px;
-}*/
 .header {
   /*border: 1px solid red;*/
   position: absolute;
@@ -141,17 +112,14 @@ margin-left: -131px;
   background-image: url("../img/header_logo_proximus.png");
   background-repeat: no-repeat; }
 
+.header.index {
+  background-image: none; }
+
 .headerTitle {
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
   font-size: 12px;
   float: right;
-  padding-top: 0cm; }
-
-.header.index > .headerTitle {
-  border: 1px solid grey;
-  padding: 10px;
-  font-size: 14px;
-  color: grey; }
+  padding-top: 1cm; }
 
 .footer {
   /*border: 1px solid red;*/
@@ -161,11 +129,11 @@ margin-left: -131px;
   width: 170mm;
   background-image: none; }
 
-/*.footer.index {
-    background-image: url('./img/header_logo_proximus.png');
-    background-repeat: no-repeat;
-    background-position: right;
-}*/
+.footer.index {
+  background-image: url("../img/header_logo_proximus.png");
+  background-repeat: no-repeat;
+  background-position: right; }
+
 .footerTitle {
   font-family: "Proximus-Bold", "Courier New", Courier, monospace;
   font-size: 12px; }
@@ -179,19 +147,6 @@ margin-left: -131px;
   font-family: "Proximus-Regular", "Courier New", Courier, monospace;
   font-size: 9px;
   float: right; }
-
-.existing-telco > table,
-.existing-telco > table > tr,
-.existing-telco > table > tr > td {
-  padding: 0;
-  margin: 0; }
-
-.existing-telco > table > tbody > tr > td {
-  border: 1px dotted gray; }
-
-.existing-telco > table > tbody > tr > th {
-  border: 1px solid #5c2d91;
-  color: #5c2d91; }
 
 @page {
   size: A4;
@@ -211,4 +166,4 @@ margin-left: -131px;
     background: initial;
     page-break-after: always; } }
 
-/*# sourceMappingURL=ssr-nl.css.map */
+/*# sourceMappingURL=tsa-nl.css.map */

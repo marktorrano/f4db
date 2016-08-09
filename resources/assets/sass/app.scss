@@ -1,21 +1,25 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
-.btn-tsa{
-  position: absolute;
-  right: 1em;
-}
+
 page {
   background: white;
   display: block;
-  padding: 20mm;
-  margin: 10mm auto;
-  margin-bottom: 0.5cm;
+  margin: 0 auto;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-  border: 1px #D3D3D3 solid;
-  border-radius: 5px;
+  //border: 1px #D3D3D3 solid;
+  //border-radius: 5px;
+  position: relative;
+  page-break-before: always;
 }
 
 page[size="A4"] {
   width: 21cm;
-  height: 29.7cm;
+  height: 29.7cm !important;
 }
+
+@media print {
+  .btn-tsa {
+    display: none;
+  }
+}
+
 
