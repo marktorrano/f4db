@@ -22,4 +22,34 @@ page[size="A4"] {
   }
 }
 
+.facade-img {
+  display: flex;
+  flex-wrap: wrap;
+  width: 640px;
+  height: 700px;
+  overflow: hidden;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.doc-img {
+  width: 640px;
+  height: 750px;
+  overflow: hidden;
+  img{
+    position: inherit;
+    width: 33%;
+    margin-top: 5px;
+  }
+}
+#access_to_telco_room {
+  page-break-after: always !important;
+
+}
+
+.access-to-telco-room {
+}
+
 

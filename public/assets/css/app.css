@@ -5746,4 +5746,28 @@ page[size="A4"] {
   .btn-tsa {
     display: none; } }
 
+.facade-img {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 640px;
+  height: 700px;
+  overflow: hidden; }
+  .facade-img img {
+    width: 100%;
+    height: 100%; }
+
+.doc-img {
+  width: 640px;
+  height: 750px;
+  overflow: hidden; }
+  .doc-img img {
+    position: inherit;
+    width: 33%;
+    margin-top: 5px; }
+
+#access_to_telco_room {
+  page-break-after: always !important; }
+
 /*# sourceMappingURL=app.css.map */
