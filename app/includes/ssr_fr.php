@@ -102,5 +102,7 @@ $t = [
 'page11.th.resident'                      => 'Résident',
 'page11.th.phone'                         => 'Tel / GSM',
 'page11.th.email'                         => 'Email',
+'cabling_solution_floor_plan'             => 'Plan d’étage',
+'cabling_solution_building_layout'        => 'Plan du batiment',
 ];
 ?>
