@@ -11,7 +11,7 @@ use DB;
 class DocumentController extends Controller
 {
     //
-    public function printReport($id, $lang = 'fr')
+    public function printReport($id, $lang)
     {
 
         $images['index'] = [
@@ -23,7 +23,9 @@ class DocumentController extends Controller
             'intro_underground_proposal',
             'vertical_shaft_present_img',
             'copper_intro',
-            'customer_interested_in_fiber'
+            'customer_interested_in_fiber',
+            'horizontal_shaft_present_img',
+            'vertical_shaft_present_img'
         ];
 
         $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
@@ -48,10 +50,14 @@ class DocumentController extends Controller
         foreach ($images['index'] as $imageIndex) {
             if (isset($aData[$imageIndex]) && ($imageIndex == 'copper_intro' || $imageIndex == 'customer_interested_in_fiber')) {
                 $aData['copper_intro']['img_outside'] = []; //initialize img outside array
+                $aData['copper_intro']['img_outside_remarks'] = []; //initialize img outside array
                 $aData['copper_intro']['img_inside'] = []; //initialize img inside array
+                $aData['copper_intro']['img_inside_remarks'] = []; //initialize img inside array
+                $aData['customer_interested_in_fiber']['fiber_address'] = []; //initialize fiber address array
                 $aData['customer_interested_in_fiber']['img_outside'] = []; //initialize img outside array
+                $aData['customer_interested_in_fiber']['img_outside_remarks'] = []; //initialize img outside array
                 $aData['customer_interested_in_fiber']['img_inside'] = []; //initialize img inside array
-                $aData['existing_intro']['number_of_pages'] = [];
+                $aData['customer_interested_in_fiber']['img_inside_remarks'] = []; //initialize img inside array
                 $imgCount = 0;
                 if ($aData['copper_intro'] && isset($aData['copper_intro']['copper_intro_photos'])) {
                     if (isset($aData['copper_intro']['copper_intro_photos'][0]['outside']['doc_type_image'])) {
@@ -60,13 +66,20 @@ class DocumentController extends Controller
                             $res = Curl::to($path)->asJson()->get();
                             $data = json_encode($res);
                             $arr = json_decode($data, true);
+                            $imgRemarks = '';
                             if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                 $nearlineId = $arr['edited_nearline_id'];
                                 $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                                if(isset($arr['remarks'])){
+                                    $imgRemarks = $arr['remarks'];
+                                }
                             }
+                            array_push($aData['copper_intro']['img_outside_remarks'], $imgRemarks); //img remarks outside
                             array_push($aData['copper_intro']['img_outside'], $imgPath); //img url outside
                             $imgCount++;
                         }
+                        $aData['copper_intro']['img_outside_pages'] = ceil($imgCount / 6);
+                        $imgCount = 0;
                     }
                     if (isset($aData['copper_intro']['copper_intro_photos'][0]['inside']['doc_type_image'])) {
                         foreach ($aData['copper_intro']['copper_intro_photos'][0]['inside']['doc_type_image'] as $image) {
@@ -74,13 +87,20 @@ class DocumentController extends Controller
                             $res = Curl::to($path)->asJson()->get();
                             $data = json_encode($res);
                             $arr = json_decode($data, true);
+                            $imgRemarks = '';
                             if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                 $nearlineId = $arr['edited_nearline_id'];
                                 $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                             }
+                            if(isset($arr['remarks'])){
+                                $imgRemarks = $arr['remarks'];
+                            }
+                            array_push($aData['copper_intro']['img_inside_remarks'], $imgRemarks); //img remarks inside
                             array_push($aData['copper_intro']['img_inside'], $imgPath); //img url inside
                             $imgCount++;
                         }
+                        $aData['copper_intro']['img_inside_pages'] = ceil($imgCount / 6);
+                        $imgCount = 0;
                     }
                     if (isset($aData['customer_interested_in_fiber']['desired_fiber_photos'][0]['outside']['doc_type_image'])) {
                         foreach ($aData['customer_interested_in_fiber']['desired_fiber_photos'][0]['outside']['doc_type_image'] as $image) {
@@ -88,14 +108,21 @@ class DocumentController extends Controller
                             $res = Curl::to($path)->asJson()->get();
                             $data = json_encode($res);
                             $arr = json_decode($data, true);
+                            $imgRemarks = '';
                             if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                 $nearlineId = $arr['edited_nearline_id'];
                                 $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                             }
+                            if(isset($arr['remarks'])){
+                                $imgRemarks = $arr['remarks'];
+                            }
+                            array_push($aData['customer_interested_in_fiber']['fiber_address'], $aData['customer_interested_in_fiber']['desired_fiber_photos'][0]['desired_fiber_address']); //initialize fiber address array
+                            array_push($aData['customer_interested_in_fiber']['img_outside_remarks'], $imgRemarks); //img remarks outside
                             array_push($aData['customer_interested_in_fiber']['img_outside'], $imgPath); //img url outside
                             $imgCount++;
                         }
-
+                        $aData['customer_interested_in_fiber']['img_outside_pages'] = ceil($imgCount / 6);
+                        $imgCount = 0;
                     }
                     if (isset($aData['customer_interested_in_fiber']['desired_fiber_photos'][0]['inside']['doc_type_image'])) {
                         foreach ($aData['customer_interested_in_fiber']['desired_fiber_photos'][0]['inside']['doc_type_image'] as $image) {
@@ -103,15 +130,20 @@ class DocumentController extends Controller
                             $res = Curl::to($path)->asJson()->get();
                             $data = json_encode($res);
                             $arr = json_decode($data, true);
+                            $imgRemarks = '';
                             if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                 $nearlineId = $arr['edited_nearline_id'];
                                 $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                             }
+                            if(isset($arr['remarks'])){
+                                $imgRemarks = $arr['remarks'];
+                            }
+                            array_push($aData['customer_interested_in_fiber']['img_inside_remarks'], $imgRemarks); //img remarks inside
                             array_push($aData['customer_interested_in_fiber']['img_inside'], $imgPath); //img url inside
                             $imgCount++;
                         }
+                        $aData['customer_interested_in_fiber']['img_outside_pages'] = ceil($imgCount / 6);
                     }
-                    $aData['existing_intro']['number_of_pages'] = $imgCount/6;
                 }
 
 
@@ -125,6 +157,14 @@ class DocumentController extends Controller
 
                     if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                         $nearlineId = $arr['edited_nearline_id'];
+                        if (isset($arr['is_main']) && $arr['is_main'] == 1) {
+                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        }
+                        if (isset($arr['is_main']) && $arr['is_main'] == 1) {
+                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        } else {
+                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        }
                         $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                     }
                     array_push($aData[$imageIndex]['img'], $imgPath); //img url
@@ -151,10 +191,13 @@ class DocumentController extends Controller
         return $response;
     }
 
-    public function printAgreement($id, $lang = 'nl')
+    public function printAgreement($id, $lang)
     {
 
         $images['index'] = [
+            'facade',
+            'intro_underground_proposal',
+            'intro_on_facade_cabling_proposal'
 
         ];
 
@@ -165,7 +208,46 @@ class DocumentController extends Controller
         $aData = json_decode($oData, true);
 
         $aData['lang'] = $lang;
+        foreach ($images['index'] as $imageIndex) {
+            if (isset($aData[$imageIndex]['doc_type_image'])) {
+                $aData[$imageIndex]['img'] = []; //initialize img array
+                $aData[$imageIndex]['main_img'] = [];
+                foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
+                    $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
+                    $res = Curl::to($path)->asJson()->get();
+                    $data = json_encode($res);
+                    $arr = json_decode($data, true);
 
+                    if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                        $nearlineId = $arr['edited_nearline_id'];
+                        if (isset($arr['is_main']) && $arr['is_main'] == 1) {
+                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        } else {
+                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        }
+                        $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                    }
+                    array_push($aData[$imageIndex]['img'], $imgPath); //img url
+                }
+
+                $aData[$imageIndex]['number_of_pages'] = ceil((count($aData[$imageIndex]['img'])) / 6);
+            }
+        }
+        $totalLu = 0;
+        $aData['total_lu'] = [];
+        if (isset($aData['nr_lu'])) {
+            $totalLu += $aData['nr_lu'];
+        }
+        if (isset($aData['nr_bu_s'])) {
+            $totalLu += $aData['nr_bu_s'];
+        }
+        if (isset($aData['nr_bu_l'])) {
+            $totalLu += $aData['nr_bu_l'];
+        }
+        if (isset($aData['nr_su'])) {
+            $totalLu += $aData['nr_su'];
+        }
+        $aData['total_lu'] = $totalLu;
 
         if ($res) { //data is in couchDB
 
