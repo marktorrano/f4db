@@ -100,21 +100,26 @@
                     <tr>
                         <td>
                             <li><?=$t['page02.li.dateSurvey']?><?php ?>
-                                : @if(isset($data['survey_outside_started'])){!! $data['survey_outside_started'] !!} @endif</li>
-                            <li><?=$t['page02.li.version']?></li>
-                            <li><?=$t['page02.li.dateFile']?></li>
-                            <li><?=$t['page02.li.refSyndic']?>:</li>
+                                @if(isset($data['survey_outside_started'])){!! $data['survey_outside_started'] !!} @endif</li>
+                            <li><?=$t['page02.li.dateFile']?>@if(isset($data['survey_inside_finished'])){!! $data['survey_inside_finished'] !!} @endif</li>
+                            <li><?=$t['page02.li.refSyndic']?></li>
                         </td>
                         <td>
                             <li><?=$t['page02.li.numberUnits']?>
-                                LU: @if(isset($data['nr_lu'])){!! $data['nr_lu'] !!}@else 0 @endif</li>
+                                LU:<span class="italic"> @if(isset($data['nr_lu'])){!! $data['nr_lu'] !!}@else
+                                        0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                BU-S: @if(isset($data['nr_bu_s'])){!! $data['nr_bu_s'] !!}@else 0 @endif</li>
+                                BU-S:<span class="italic"> @if(isset($data['nr_bu_s'])){!! $data['nr_bu_s'] !!}@else
+                                        0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                BU-L: @if(isset($data['nr_bu_l'])){!! $data['nr_bu_l'] !!}@else 0 @endif</li>
+                                BU-L:<span class="italic"> @if(isset($data['nr_bu_l'])){!! $data['nr_bu_l'] !!}@else
+                                        0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                NR-SU: @if(isset($data['nr_su'])){!! $data['nr_su'] !!}@else 0 @endif</li>
-                            <li><?=$t['page02.li.numberFloors']?>@if(isset($data['number_floors'])){!! $data['number_floors'] !!} @endif</li>
+                                NR-SU:<span class="italic"> @if(isset($data['nr_su'])){!! $data['nr_su'] !!}@else
+                                        0</span> @endif</li>
+                            <li><?=$t['page02.li.numberFloors']?><span
+                                        class="italic"> @if(isset($data['nr_total'])){!! $data['nr_total'] !!}</span> @endif
+                            </li>
                         </td>
                     </tr>
                 </table>
@@ -175,7 +180,6 @@
                     <thead>
                     <tr>
                         <th>Nom</th>
-                        <th>Société</th>
                         <th>Email</th>
                         <th>Téléphone</th>
                     </tr>
@@ -185,7 +189,6 @@
                         @foreach($data['present_during_visit'] as $pdv)
                             <tr>
                                 <td>@if(isset($pdv['name'])){!! $pdv['name'] !!}@endif</td>
-                                <td></td>
                                 <td>@if(isset($pdv['email'])){!! $pdv['email'] !!}@endif</td>
                                 <td>@if(isset($pdv['primary_phone_contact'])){!! $pdv['primary_phone_contact'] !!}@endif</td>
                             </tr>
@@ -238,8 +241,8 @@
                     <tbody>
                     <tr>
                         <td><?=$t['page02.td.facadeType']?></td>
-                        <td>...</td>
-                        <td>...</td>
+                        <td>@if(isset($data['patrimony_remarks'])){!! $data['patrimony_remarks'] !!}@endif</td>
+                        <td>@if(isset($data['patrimony'])){!! ucwords($data['patrimony']) !!}@endif</td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.electricalCablesPresent']?></td>
@@ -264,7 +267,7 @@
                     </tbody>
                 </table>
                 <ul class="list">
-                    <li><?=$t['page02.li.remarks']?> ...</li>
+                    <li><?=$t['page02.li.remarks']?> @if(isset($data['publicity_remarks'])){!! ucfirst($data['publicity_remarks']) !!} @endif</li>
                 </ul>
 
                 <br>
@@ -290,7 +293,7 @@
                     </tbody>
                 </table>
                 <ul class="list">
-                    <li><?=$t['page02.li.remarks']?> ...</li>
+                    <li><?=$t['page02.li.remarks']?> @if(isset($data['general_situation_remarks'])) {!! ucfirst($data['general_situation_remarks']) !!}@endif </li>
                 </ul>
 
 
@@ -309,10 +312,10 @@
                         <tbody>
                         <tr>
                             <th colspan="2" width="212">
-                                <strong><?=$t['page03.th.repariteurType']?></strong>
+                                <strong><?=$t['page03.th.repariteurType']?> Copper Intro</strong>
                             </th>
                             <th colspan="4" width="434">
-                                <strong><?=$t['page03.th.oldNew']?></strong>
+                                <strong>@if(isset($data['coper_intro_type'])) {!! ucwords($data['coper_intro_type']) !!}@endif</strong>
                             </th>
                         </tr>
                         <tr>
@@ -346,11 +349,16 @@
                         </tr>
                         <tr>
                             <td width="157">&nbsp;</td>
-                            <td width="55">&nbsp;</td>
-                            <td width="75">&nbsp;</td>
-                            <td width="63">&nbsp;</td>
-                            <td width="116">&nbsp;</td>
-                            <td width="180">&nbsp;</td>
+                            <td width="55">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'hdpe'))
+                                    X @endif</td>
+                            <td width="75">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'splice_box'))
+                                    X @endif</td>
+                            <td width="63">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'fiber'))
+                                    X @endif</td>
+                            <td width="116">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'rack'))
+                                    X @endif</td>
+                            <td width="180">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'subduct'))
+                                    X @endif</td>
                         </tr>
                         </tbody>
                     </table>
@@ -373,33 +381,37 @@
                                 &nbsp;<?=$t['page03.td.vertical']?>
                             </td>
                             <td colspan="2" width="138">&nbsp;</td>
-                            <td colspan="2" width="296">@if(isset($data['vertical_shaft_present'])){!! ucwords($data['vertical_shaft_present']) !!}@endif</td>
+                            <td colspan="2"
+                                width="296">@if(isset($data['vertical_shaft_present'])){!! ucwords($data['vertical_shaft_present']) !!}@endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
                                 &nbsp;<?=$t['page03.td.horizontal']?>
                             </td>
-                            <td colspan="2" width="138">@if(isset($data['horizontal_shaft_present'])){!! ucwords($data['horizontal_shaft_present']) !!}@endif</td>
+                            <td colspan="2"
+                                width="138">@if(isset($data['horizontal_shaft_present'])){!! ucwords($data['horizontal_shaft_present']) !!}@endif</td>
                             <td colspan="2" width="296">&nbsp;</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
                                 <?=$t['page03.td.electricity']?>&eacute;
                             </td>
-                            <td colspan="4" width="434">@if(isset($data['electricity_in_telco'])){!! ucwords($data['electricity_in_telco']) !!}@endif</td>
+                            <td colspan="4"
+                                width="434">@if(isset($data['electricity_in_telco'])){!! ucwords($data['electricity_in_telco']) !!}@endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
                                 <?=$t['page03.td.detailsHt']?>&nbsp;
                             </td>
-                            <td colspan="4" width="434">&nbsp;</td>
+                            <td colspan="4"
+                                width="434">@if(isset($data['installation_remarks'])){!! ucfirst($data['installation_remarks']) !!} @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
                                 <?=$t['page03.td.roomForTools']?>
                             </td>
                             <td colspan="4" width="434">
-                                <strong><?=$t['page03.td.yesNo']?></strong>
+                                <strong>@if(isset($data['installation_space'])){!! ucwords($data['installation_space']) !!} @endif</strong>
                             </td>
                         </tr>
                         </tbody>
@@ -428,15 +440,15 @@
                                 <strong><?=$t['page03.th.connections']?></strong>
                             </th>
                             <th width="57">
-                                <strong><?=$t['page03.th.x']?></strong>
+                                <strong></strong>
                             </th>
                             <th width="151">&nbsp;</th>
                             <th width="66">
-                                <strong><?=$t['page03.th.x']?></strong>
+                                <strong></strong>
                             </th>
                             <th width="170">&nbsp;</th>
                             <th width="47">
-                                <strong><?=$t['page03.th.x']?></strong>
+                                <strong></strong>
                             </th>
                         </tr>
                         <tr>
@@ -450,81 +462,115 @@
                             <td width="154">
                                 <?=$t['page03.td.kroneBlocks']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && $data['insde_cdf_connection_type'] == 'krone')
+                                    <strong>X</strong>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.fiber']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && $data['existing_vertical_cabling'] == 'fiber')
+                                    <strong>X</strong>@endif</td>
                             <td width="170">
                                 <?=$t['page03.td.multitapsTelcoRoom']?>
                             </td>
-                            <td width="47">&nbsp;</td>
+                            <td width="47"
+                                class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == 'multitab-in-technical-room')
+                                    <strong>X</strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
                                 <?=$t['page03.td.siemensBlocks']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && $data['insde_cdf_connection_type'] == 'siemens')
+                                    <strong>X</strong>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.cat5orCat6']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && (($data['existing_vertical_cabling'] == 'cat5') || ($data['existing_vertical_cabling'] == 'cat6')))
+                                    <strong>X</strong>@endif</td>
                             <td width="170">
                                 <?=$t['page03.td.coaxAmount']?>
                             </td>
-                            <td width="47">&nbsp;</td>
+                            <td width="47"
+                                class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
+                                    <strong>X</strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
                                 <?=$t['page03.td.adcModules']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && $data['insde_cdf_connection_type'] == 'hds')
+                                    <strong>X</strong>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.cat3orVvt']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && $data['existing_vertical_cabling'] == 'vvt')
+                                    <strong>X</strong>@endif</td>
                             <td width="170">
                                 <?=$t['page03.td.multitapsPaliers']?>
                             </td>
-                            <td width="47">&nbsp;</td>
+                            <td width="47"
+                                class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
+                                    <strong>X</strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
                                 <?=$t['page03.td.screwed']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && $data['insde_cdf_connection_type'] == 'screwed')
+                                    <strong>X</strong>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.redWhiteJumper']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && $data['existing_vertical_cabling'] == 'redwhite')
+                                    <strong>X</strong>@endif</td>
                             <td width="170">
                                 <?=$t['page03.td.directCoax']?>
                             </td>
-                            <td width="47">&nbsp;</td>
+                            <td width="47"
+                                class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
+                                    <strong>X</strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
                                 <?=$t['page03.td.soldered']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && $data['insde_cdf_connection_type'] == 'bolted')
+                                    <span>X</span>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.flatCable']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && $data['existing_vertical_cabling'] == 'flatcable')
+                                    <span>X</span>@endif</td>
                             <td width="170">
                                 <?=$t['page03.td.coaxUnknown']?>
                             </td>
-                            <td width="47">&nbsp;</td>
+                            <td width="47"
+                                class="align-center">@if(isset($data['coax_installations']) && (($data['coax_installations'] == 'unknown') || ($data['coax_installations'] == 'other')))
+                                    <span>X</span>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
                                 <?=$t['page03.td.connectionUnknown']?>
                             </td>
-                            <td width="57">&nbsp;</td>
+                            <td width="57"
+                                class="align-center">@if(isset($data['insde_cdf_connection_type']) && (($data['insde_cdf_connection_type'] == 'unknown') || ($data['insde_cdf_connection_type'] == 'other')))
+                                    <span>X</span>@endif</td>
                             <td width="151">
                                 <?=$t['page03.td.existingVerticalCablingUnknown']?>
                             </td>
-                            <td width="66">&nbsp;</td>
+                            <td width="66"
+                                class="align-center">@if(isset($data['existing_vertical_cabling']) && (($data['existing_vertical_cabling'] == 'unknown') || ($data['existing_vertical_cabling'] == 'other')))
+                                    <span>X</span>@endif</td>
                             <td colspan="2" width="217">&nbsp;</td>
                         </tr>
                         </tbody>
@@ -535,7 +581,7 @@
                 <h3><?=$t['page03.h3.remarks']?></h3>
 
                 <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:8.5cm">
-                    Remarques pertinentes aux rubriques 1 à 6 ci-haut
+                    @if(isset($data['requirements_to_enter_telco_room'])){!! ucfirst($data['requirements_to_enter_telco_room']) !!} @endif
                 </div>
 
 
@@ -543,111 +589,145 @@
             <div class="footer"></div>
         </page>
 
-        <page size="A4" class="page" id="existing_intro">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
+        {{--TODO this
+        Existing Intro - Outdoor / within
 
-                <h3><?=$t['page04.h3.existingIntro']?></h3>
+        Intro existante – extérieur / intérieur - French
+        Bestaande intro – buiten / binnen - Dutch
 
-                <div class="doc-img">
-                    @if(isset($data['copper_intro']['img_outside']))
-                        @if(count($data['copper_intro']['img_outside']) >=5)
-                            @for($ctr_copper_outside=0; $ctr_copper_outside <=5; ++$ctr_copper_outside)
-                                <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr_copper_outside=6?>
-                        @else
-                            @foreach($data['copper_intro']['img_outside'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-                    @endif
-                    @if(isset($data['copper_intro']['img_inside']))
-                        @if(count($data['copper_intro']['img_inside']) >=5)
-                            @for($ctr_copper_inside=0; $ctr_copper_inside <=5; ++$ctr_copper_inside)
-                                <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr_copper_inside=6?>
-                        @else
-                            @foreach($data['copper_intro']['img_inside'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-                    @endif
-                    @if(isset($data['customer_interested_in_fiber']['img_outside']))
-                        @if(count($data['customer_interested_in_fiber']['img_outside']) >=5)
-                            @for($ctr_fiber_outside=0; $ctr_fiber_outside <=5; ++$ctr_fiber_outside)
-                                <img src="{!! $data['copper_intro']['img_outside'][$ctr_fiber_outside] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr_fiber_outside=6?>
-                        @else
-                            @foreach($data['customer_interested_in_fiber']['img_outside'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-                    @endif
-                    @if(isset($data['customer_interested_in_fiber']['img_inside']))
-                        @if(count($data['customer_interested_in_fiber']['img_inside']) >=5)
-                            @for($ctr_copper_inside=0; $ctr_copper_inside <=5; ++$ctr_copper_inside)
-                                <img src="{!! $data['customer_interested_in_fiber']['img_inside'][$ctr_copper_inside] !!}"
-                                     alt=""/>
-                            @endfor
-                            <?php $ctr_copper_inside=6?>
-                        @else
-                            @foreach($data['customer_interested_in_fiber']['img_inside'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-                    @endif
+
+
+
+        Future Intro - Out / In
+
+        Intro future – extérieur / intérieur - French
+        Toekomstige intro – buiten / binnen - Dutch
+        --}}
+        @if(count($data['copper_intro']['img_outside']) > 0)
+            <page size="A4" class="page" id="existing_intro_outside">
+                <div class="header">
+                    <div class="headerTitle"></div>
                 </div>
+                <div class="subpage">
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-780px; display:none">Documentez
-                    l’introduction existante en maquant clairement la localisation à l’alignement externe du bâtiment
-                    ainsi qu’à l’intérieur (cave/salle technique).Si possible, indiquez où une nouvelle intro pourrait
-                    être effectuée.
-                </div>
+                    <h3>8 <?=$t['existingIntro']?></h3>
+                    <h4><?=$t['exterior']?></h4>
 
-
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['existing_intro']['number_of_pages']) && $data['existing_intro']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['existing_intro']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page" class="access-to-telco-room">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-
-                        <div class="doc-img">
-                            @if(((count($data['copper_intro']['img_outside']))+(count($data['copper_intro']['img_inside']))+(count($data['customer_interested_in_fiber']['img_inside']))+(count($data['customer_interested_in_fiber']['img_inside']))) < $data['existing_intro']['number_of_pages']*6)
-                                @for($ctr_copper_outside; $ctr_copper_outside < count($data['copper_intro']['img_outside']); $ctr_copper_outside++)
+                    <div class="doc-img">
+                        @if(isset($data['copper_intro']['img_outside']))
+                            @if(count($data['copper_intro']['img_outside']) >=5)
+                                @for($ctr_copper_outside=0; $ctr_copper_outside <=5; ++$ctr_copper_outside)
+                                    <div class="remarks">
+                                        Remarks: {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div>
                                     <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
                                          alt=""/>
                                 @endfor
-                                @for($ctr_copper_inside; $ctr_copper_inside < count($data['copper_intro']['img_inside']); $ctr_copper_inside++)
-                                    <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
-                                         alt=""/>
-                                @endfor
-                                @for($ctr_fiber_outside; $ctr_fiber_outside < count($data['customer_interested_in_fiber']['img_outside']); $ctr_fiber_outside++)
-                                    <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
-                                         alt=""/>
-                                @endfor
-                                @for($ctr_fiber_inside; $ctr_fiber_inside < count($data['customer_interested_in_fiber']['img_inside']); $ctr_fiber_inside++)
-                                    <img src="{!! $data['customer_interested_in_fiber']['img_inside'][$ctr_fiber_inside] !!}"
-                                         alt=""/>
+                                <?php $ctr_copper_outside=6?>
+                            @else
+                                @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_outside']); $ctr_img++)
+                                    <div class="remarks">{!! $data['copper_intro']['img_outside_remarks'][$ctr_img] !!} </div>
+                                    <img src="{!! $data['copper_intro']['img_outside'][$ctr_img] !!}"
+                                         alt="Not available"/>
                                 @endfor
                             @endif
-                        </div>
-
+                            @if(count($data['copper_intro']['img_outside']) == 0)
+                                No available image
+                            @endif
+                        @endif
                     </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
+
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+
+            @if(isset($data['copper_intro']['img_outside_pages']) && $data['copper_intro']['img_outside_pages'] > 1)
+                @for($ctr2 = 1; $ctr2<$data['copper_intro']['img_outside_pages']; $ctr2++)
+                    <page size="A4" class="page" class="access-to-telco-room">
+                        <div class="header">
+                            <div class="headerTitle"></div>
+                        </div>
+                        <div class="subpage">
+
+                            <div class="doc-img">
+                                @if(count($data['copper_intro']['img_outside']) < $data['existing_intro']['img_outside_pages']*6)
+                                    @for($ctr_copper_outside; $ctr_copper_outside < count($data['copper_intro']['img_outside']); $ctr_copper_outside++)
+                                        <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
+                                             alt=""/>
+                                    @endfor
+                                @endif
+                            </div>
+
+                        </div>
+                        <div class="footer index"></div>
+                    </page>
+                @endfor
+            @endif
         @endif
+
+        @if(count($data['copper_intro']['img_inside']) > 0)
+            <page size="A4" class="page" id="existing_intro_inside">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+
+                    <h4><?=$t['interior']?></h4>
+
+                    <div class="doc-img">
+                        @if(isset($data['copper_intro']['img_inside']))
+                            @if(count($data['copper_intro']['img_inside']) >=5)
+                                @for($ctr_copper_inside=0; $ctr_copper_inside <=5; ++$ctr_copper_inside)
+                                    <div class="remarks">
+                                        Remarks: {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div>
+                                    <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}" alt=""/>
+                                @endfor
+                                <?php $ctr_copper_inside=6?>
+                            @else
+                                @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_inside']); $ctr_img++)
+                                    <div class="remarks">{!! $data['copper_intro']['img_inside_remarks'][$ctr_img] !!} </div>
+                                    <img src="{!! $data['copper_intro']['img_inside'][$ctr_img] !!}"
+                                         alt="Not available"/>
+                                @endfor
+                            @endif
+                        @endif
+                    </div>
+
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+
+            @if(isset($data['copper_intro']['img_inside_pages']) && $data['copper_intro']['img_inside_pages'] > 1)
+                @for($ctr2 = 1; $ctr2<$data['copper_intro']['img_inside_pages']; $ctr2++)
+                    <page size="A4" class="page" class="access-to-telco-room">
+                        <div class="header">
+                            <div class="headerTitle"></div>
+                        </div>
+                        <div class="subpage">
+
+                            <div class="doc-img">
+                                @if(count($data['copper_intro']['img_inside']) < $data['existing_intro']['img_inside_pages']*6)
+                                    @for($ctr_copper_inside; $ctr_copper_inside < count($data['copper_intro']['img_inside']); $ctr_copper_inside++)
+                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
+                                             alt=""/>
+                                    @endfor
+                                @endif
+                            </div>
+
+                        </div>
+                        <div class="footer index"></div>
+                    </page>
+                @endfor
+            @endif
+        @endif
+
+
+        {{--TODO futureintro--}}
+
+
+
+        {{--TODO this - end--}}
 
         <page size="A4" class="page" id="access_to_telco_room">
             <div class="header">
@@ -658,7 +738,7 @@
                 <h3><?=$t['page05.h3.acceessToProximusTools']?></h3>
 
                 <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:2.5cm">
-                    Description accès au MDU (clés, concierge, etc)
+                    @if(isset($data['requirements_to_enter_telco_room'])){!! $data['requirements_to_enter_telco_room'] !!} @endif
                 </div>
 
                 <br>
@@ -678,11 +758,6 @@
 
                     @endif
                 </div>
-
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-680px;">Insérez photos/schémas
-                    relatifs à l’accès vers les équipements Proximus (entrée, sous-sol, etc)
-                </div>
-
 
             </div>
             <div class="footer index"></div>
@@ -718,19 +793,9 @@
 
                 <h3><?=$t['page06.h3.existingSituation']?></h3>
 
-                <h4><?=$t['page06.h4.cadasterPlan']?></h4>
-
-                <img src="http://placehold.it/650x500?text=Plan+cadastral+-+CADGIS">
-
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-450px;">
-                    http://ccff02.minfin.fgov.be/cadgisweb/?local=fr_BE
-                </div>
-
                 <h4><?=$t['page06.h4.googleView']?></h4>
 
-
                 <img src="http://placehold.it/650x300?text=Vue+aérienne+(Google)">
-
 
             </div>
             <div class="footer index"></div>
@@ -746,14 +811,14 @@
                 <h4><?=$t['page07.h4.schemaFacade']?></h4>
 
                 <div class="doc-img">
-                    @if(isset($data['facade']['img']))
-                        @if(count($data['facade']['img']) >=5)
+                    @if(isset($data['intro_on_facade_cabling_proposal']['img']))
+                        @if(count($data['intro_on_facade_cabling_proposal']['img']) >=5)
                             @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['facade']['img'][$ctr] !!}" alt=""/>
+                                <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
                             @endfor
                             <?php $ctr=6?>
                         @else
-                            @foreach($data['facade']['img'] as $imgUrl)
+                            @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
                                 <img src="{!! $imgUrl !!}" alt=""/>
                             @endforeach
                         @endif
@@ -761,27 +826,12 @@
                     @endif
                 </div>
 
-                <div style="position:absolute; width: 640px;margin-left:0px;margin-top:-720px;">
-<pre style="display:none">
-Documentez ici les points suivants à l’aide de photos et/ou schémas
--   Alignement du bâtiment
--   Mobilier de rue et obstructions
--   Position approximative de l’intro telecom existante du bâtiment (trottoir/facade)
--   Photo claire  du bâtiment dans son ensemble
--   Présence de câbles (telco ou autre) sur la façade
-    o   Présence de cables d’éléctricité
-    o   Présence de câbles coaxiaux
--   Autres détails pertinents à la façade
-</pre>
-                </div>
-
-
             </div>
             <div class="footer index"></div>
         </page>
 
-        @if(isset($data['facade']['number_of_pages']) && $data['facade']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['facade']['number_of_pages']; $ctr2++)
+        @if(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && $data['intro_on_facade_cabling_proposal']['number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['intro_on_facade_cabling_proposal']['number_of_pages']; $ctr2++)
                 <page size="A4" class="page" class="access-to-telco-room">
                     <div class="header">
                         <div class="headerTitle"></div>
@@ -789,9 +839,9 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
                     <div class="subpage">
 
                         <div class="doc-img">
-                            @if(count($data['facade']['img']) < $data['facade']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['facade']['img']); $ctr++)
-                                    <img src="{!! $data['facade']['img'][$ctr] !!}" alt=""/>
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
+                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
+                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
                                 @endfor
                             @endif
                         </div>
@@ -802,73 +852,70 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
             @endfor
         @endif
 
-        <page size="A4" class="page">
+        <page size="A4" class="page" id="schemes_underground">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
             <div class="subpage">
 
-                <h4><?=$t['page08.h4.schemaIntro']?></h4>
 
-                <img src="http://placehold.it/650x850?text=Photos+et+schémas+–+Intro+et+Espace+Technique">
+                <h4>Photos & schémas - Underground</h4>
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-840px;">
-<pre>
-Documentez ici les points suivants à l’aide de photos et/ou schémas
--   Information relatif à la sécurité (porte sous clé, accès libre, etc)
--   Installations existantes; elec, gas, eau
-    (compteurs, panneaux, tuyaux, distribution, etc)
--   Installations existantes Proximus :
-    o   Câble d’intro  venant de l’extérieur
-        (type de câble ou marquage/ numérotation sur l’isolation)
-    o   Copper distribution frame (CDF)
-    o   Câblage vertical sortie  CDF
-        (type de câble ou  marquage/ numérotation sur l’isolation)
--   Installation coax :
-    o   Intro & multi-taps si présent
-        (notez le nombre de multi-taps)
--   Percement d’introduction existante
-    (conduit, matériaux (mur), etc)
--   Trajet du câblage existant entre l’intro du bâtiment et la gaine technique verticale
--   Situation et dimension d’espace mural  libre pour l’installation FttH
-    (voir spécifications minimum sur proximus.be/construire)
--   Autres détails pertinents à l’espace technique
-</pre>
+                <div class="doc-img">
+                    @if(isset($data['intro_underground_proposal']['img']))
+                        @if(count($data['intro_underground_proposal']['img']) >=5)
+                            @for($ctr=0; $ctr <=5; ++$ctr)
+                                <img src="{!! $data['intro_underground_proposal']['img'][$ctr] !!}" alt=""/>
+                            @endfor
+                            <?php $ctr=6?>
+                        @else
+                            @foreach($data['intro_underground_proposal']['img'] as $imgUrl)
+                                <img src="{!! $imgUrl !!}" alt=""/>
+                            @endforeach
+                        @endif
+
+                    @endif
                 </div>
 
             </div>
             <div class="footer index"></div>
         </page>
 
-        <page size="A4" class="page">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
+        @if(isset($data['intro_underground_proposal']['number_of_pages']) && $data['intro_underground_proposal']['number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['intro_underground_proposal']['number_of_pages']; $ctr2++)
+                <page size="A4" class="page" class="access-to-telco-room">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
 
-                <h4><?=$t['page09.h4.schemaVertical']?></h4>
+                        <div class="doc-img">
+                            @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*6)
+                                @for($ctr; $ctr < count($data['intro_underground_proposal']['img']); $ctr++)
+                                    <img src="{!! $data['intro_underground_proposal']['img'][$ctr] !!}" alt=""/>
+                                @endfor
+                            @endif
+                        </div>
 
-                <img src="http://placehold.it/650x850?text=Photos+et+schémas+-+Gaine+technique+/+cage+d’escalier+/+colonne+verticale">
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+            @endfor
+        @endif
 
-                <div style="position:absolute; width: 640px;margin-left:5px;margin-top:-840px;">
-<pre>
-Documentez ici les points suivants à l’aide de photos et/ou schémas
--   Emplacement de la  gaine technique / colonne verticale
--   Conduit(s)  disponible(s) pour installation fibre optique verticale
--   Accès à la gaine technique (au  sous-sol et à chaque étage)
--   Installations existantes Proximus :
-    o   Câblage vertical (type de câble ou  marquage/ numérotation sur l’isolation)
--   Câbles coaxiaux verticaux  & multi-taps
--   Espace protégé disponible pour installation de floor box (répartiteur de palier pour FO)
--   Cage d’escalier - matériaux utilisés (plâtrage sur lattes, feuilles de Placoplatre, etc)
--   Cage d’escalier - finition (moulures, décoration, état général)
--   Autres détails pertinents à la cage d’escalier et la colonne technique
-</pre>
-                </div>
+        {{--<page size="A4" class="page">--}}
+        {{--<div class="header">--}}
+        {{--<div class="headerTitle"></div>--}}
+        {{--</div>--}}
+        {{--<div class="subpage">--}}
 
-            </div>
-            <div class="footer index"></div>
-        </page>
+        {{--<h4><?=$t['page09.h4.schemaVertical']?></h4>--}}
+
+        {{--<img src="http://placehold.it/650x850?text=Photos+et+schémas+-+Gaine+technique+/+cage+d’escalier+/+colonne+verticale">--}}
+
+        {{--</div>--}}
+        {{--<div class="footer index"></div>--}}
+        {{--</page>--}}
 
         <page size="A4" class="page" id="vertical_shaft_present_img">
             <div class="header">
@@ -891,16 +938,6 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas
                             @endforeach
                         @endif
                     @endif
-                </div>
-
-                <div style="position:absolute; width: 640px;margin-left:0px;margin-top:-750px;">
-<pre style="display: none">
-Documentez ici les points suivants à l’aide de photos et/ou schémas$
-(attention : il faut vérifier CHAQUE palier et documenter en conséquence)
--   Agencement des LU/BU en relation avec la gaine technique et escalier / ascenseur (schéma)
--   Autres détails pertinents  aux paliers et à l’accès horizontal
-
-</pre>
                 </div>
 
             </div>
@@ -929,7 +966,34 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas$
             @endfor
         @endif
 
-        <page size="A4" class="page">
+        <page size="A4" class="page" id="cabling_solution">
+            <div class="header">
+                <div class="headerTitle"></div>
+            </div>
+            <div class="subpage">
+
+                <h4>Cabling Solution</h4>
+
+                <div class="doc-img">
+                    @if(isset($data['intro_on_facade_cabling_proposal']['img']))
+                        @if(count($data['intro_on_facade_cabling_proposal']['img']) >=5)
+                            @for($ctr=0; $ctr <=5; ++$ctr)
+                                <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                            @endfor
+                            <?php $ctr=6?>
+                        @else
+                            @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
+                                <img src="{!! $imgUrl !!}" alt=""/>
+                            @endforeach
+                        @endif
+                    @endif
+                </div>
+
+            </div>
+            <div class="footer index"></div>
+        </page>
+
+        <page size="A4" class="page" id="unit_details">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -941,41 +1005,15 @@ Documentez ici les points suivants à l’aide de photos et/ou schémas$
                     <table>
                         <tbody>
                         <tr>
-                            <th>
-                                <?=$t['page11.th.zipcode']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.bloc']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.floor']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.unitsCount']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.remarks']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.utac']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.type']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.resident']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.phone']?>
-                            </th>
-                            <th>
-                                <?=$t['page11.th.email']?>
-                            </th>
+                            <th><?=$t['page11.th.utac']?></th>
+                            <th>LU Key</th>
+                            <th><?=$t['page11.th.type']?></th>
+                            <th>LU Address</th>
+                            <th>Intro Address</th>
+                            <th><?=$t['page11.th.floor']?>/<?=$t['page11.th.unitsCount']?></th>
+                            <th><?=$t['page11.th.zipcode']?></th>
                         </tr>
                         <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
