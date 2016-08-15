@@ -589,28 +589,13 @@
             <div class="footer"></div>
         </page>
 
-        {{--TODO this
-        Existing Intro - Outdoor / within
-
-        Intro existante – extérieur / intérieur - French
-        Bestaande intro – buiten / binnen - Dutch
-
-
-
-
-        Future Intro - Out / In
-
-        Intro future – extérieur / intérieur - French
-        Toekomstige intro – buiten / binnen - Dutch
-        --}}
         @if(count($data['copper_intro']['img_outside']) > 0)
             <page size="A4" class="page" id="existing_intro_outside">
                 <div class="header">
                     <div class="headerTitle"></div>
                 </div>
                 <div class="subpage">
-
-                    <h3>8 <?=$t['existingIntro']?></h3>
+                    <h3>8.1 <?=$t['existingIntro']?></h3>
                     <h4><?=$t['exterior']?></h4>
 
                     <div class="doc-img">
@@ -643,7 +628,7 @@
 
             @if(isset($data['copper_intro']['img_outside_pages']) && $data['copper_intro']['img_outside_pages'] > 1)
                 @for($ctr2 = 1; $ctr2<$data['copper_intro']['img_outside_pages']; $ctr2++)
-                    <page size="A4" class="page" class="access-to-telco-room">
+                    <page size="A4" class="page">
                         <div class="header">
                             <div class="headerTitle"></div>
                         </div>
@@ -700,7 +685,7 @@
 
             @if(isset($data['copper_intro']['img_inside_pages']) && $data['copper_intro']['img_inside_pages'] > 1)
                 @for($ctr2 = 1; $ctr2<$data['copper_intro']['img_inside_pages']; $ctr2++)
-                    <page size="A4" class="page" class="access-to-telco-room">
+                    <page size="A4" class="page">
                         <div class="header">
                             <div class="headerTitle"></div>
                         </div>
@@ -722,12 +707,44 @@
             @endif
         @endif
 
+        {{--TODO future intro--}}
 
-        {{--TODO futureintro--}}
+        @if(isset($data['fiber']))
+            @foreach($data['fiber'] as $fiber)
 
+                <page size="A4" class="page" id="future_intro">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
 
+                        <h4><?=$t['exterior']?></h4>
 
-        {{--TODO this - end--}}
+                        <div class="doc-img">
+                            <div class="address">
+                                Address: </div>
+                            @foreach($fiber['imagesOut'] as $entry => $value)
+                            <div class="remarks">{!! $fiber['remarksOut'][$entry] !!}</div>
+                            <img src="{!! $fiber['imagesOut'][$entry] !!}"
+                                 alt="Not Available">
+                            @endforeach
+
+                            @foreach($fiber['imagesIn'] as $entry => $value)
+                                <div class="remarks">{!! $fiber['remarksIn'][$entry] !!}</div>
+                                <img src="{!! $fiber['imagesIn'][$entry] !!}"
+                                     alt="Not Available">
+                            @endforeach
+
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+
+            @endforeach
+        @endif
+
+        {{--TODO future intro - end--}}
 
         <page size="A4" class="page" id="access_to_telco_room">
             <div class="header">
@@ -765,7 +782,7 @@
 
         @if(isset($data['access_to_telco_room']['number_of_pages']) && $data['access_to_telco_room']['number_of_pages'] > 1)
             @for($ctr2 = 1; $ctr2<$data['access_to_telco_room']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page" class="access-to-telco-room">
+                <page size="A4" class="page">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
@@ -832,7 +849,7 @@
 
         @if(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && $data['intro_on_facade_cabling_proposal']['number_of_pages'] > 1)
             @for($ctr2 = 1; $ctr2<$data['intro_on_facade_cabling_proposal']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page" class="access-to-telco-room">
+                <page size="A4" class="page">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
@@ -883,7 +900,7 @@
 
         @if(isset($data['intro_underground_proposal']['number_of_pages']) && $data['intro_underground_proposal']['number_of_pages'] > 1)
             @for($ctr2 = 1; $ctr2<$data['intro_underground_proposal']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page" class="access-to-telco-room">
+                <page size="A4" class="page">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
@@ -903,19 +920,58 @@
             @endfor
         @endif
 
-        {{--<page size="A4" class="page">--}}
-        {{--<div class="header">--}}
-        {{--<div class="headerTitle"></div>--}}
-        {{--</div>--}}
-        {{--<div class="subpage">--}}
+        @if(isset($aData['horizontal_shaft_present']) && $aData['horizontal_shaft_present'] == 'yes' )
+            <page size="A4" class="page" id="horizontal_shaft_present">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
 
-        {{--<h4><?=$t['page09.h4.schemaVertical']?></h4>--}}
+                    <h4><?=$t['page10.h4.schemaHorizontal']?></h4>
 
-        {{--<img src="http://placehold.it/650x850?text=Photos+et+schémas+-+Gaine+technique+/+cage+d’escalier+/+colonne+verticale">--}}
+                    <div class="doc-img">
+                        @if(isset($data['horizontal_shaft_present_img']['img']))
+                            @if(count($data['horizontal_shaft_present_img']['img']) >=5)
+                                @for($ctr_horizontal_shaft=0; $ctr_horizontal_shaft <=5; ++$ctr_horizontal_shaft)
+                                    <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
+                                         alt=""/>
+                                @endfor
+                                <?php $ctr_horizontal_shaft=6?>
+                            @else
+                                @foreach($data['horizontal_shaft_present_img']['img'] as $imgUrl)
+                                    <img src="{!! $imgUrl !!}" alt=""/>
+                                @endforeach
+                            @endif
+                        @endif
+                    </div>
 
-        {{--</div>--}}
-        {{--<div class="footer index"></div>--}}
-        {{--</page>--}}
+                </div>
+                <div class="footer index"></div>
+            </page>
+
+            @if(isset($data['horizontal_shaft_present_img']['number_of_pages']) && $data['horizontal_shaft_present_img']['number_of_pages'] > 1)
+                @for($ctr2 = 1; $ctr2<$data['horizontal_shaft_present_img']['number_of_pages']; $ctr2++)
+                    <page size="A4" class="page" class="horizontal-shaft-present-img">
+                        <div class="header">
+                            <div class="headerTitle"></div>
+                        </div>
+                        <div class="subpage">
+
+                            <div class="doc-img">
+                                @if(count($data['horizontal_shaft_present_img']['img']) < $data['horizontal_shaft_present_img']['number_of_pages']*6)
+                                    @for($ctr_horizontal_shaft; $ctr_horizontal_shaft < count($data['horizontal_shaft_present_img']['img']); $ctr_horizontal_shaft++)
+                                        <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
+                                             alt=""/>
+                                    @endfor
+                                @endif
+                            </div>
+
+                        </div>
+                        <div class="footer index"></div>
+                    </page>
+                @endfor
+            @endif
+        @endif
 
         <page size="A4" class="page" id="vertical_shaft_present_img">
             <div class="header">
@@ -928,10 +984,11 @@
                 <div class="doc-img">
                     @if(isset($data['vertical_shaft_present_img']['img']))
                         @if(count($data['vertical_shaft_present_img']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr] !!}" alt=""/>
+                            @for($ctr_vertical_shaft=0; $ctr_vertical_shaft <=5; ++$ctr_vertical_shaft)
+                                <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
+                                     alt=""/>
                             @endfor
-                            <?php $ctr=6?>
+                            <?php $ctr_vertical_shaft=6?>
                         @else
                             @foreach($data['vertical_shaft_present_img']['img'] as $imgUrl)
                                 <img src="{!! $imgUrl !!}" alt=""/>
@@ -954,8 +1011,9 @@
 
                         <div class="doc-img">
                             @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['vertical_shaft_present_img']['img']); $ctr++)
-                                    <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr] !!}" alt=""/>
+                                @for($ctr_vertical_shaft; $ctr_vertical_shaft < count($data['vertical_shaft_present_img']['img']); $ctr_vertical_shaft++)
+                                    <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
+                                         alt=""/>
                                 @endfor
                             @endif
                         </div>
@@ -1032,11 +1090,9 @@
             <div class="footer index"></div>
         </page>
 
-
         @push('scripts')
 
         <script type="text/javascript">
-
 
             $(document).ready(function () {
 
