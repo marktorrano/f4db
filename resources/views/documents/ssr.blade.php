@@ -26,7 +26,7 @@
                 margin-top: -1cm;
                 height: 2cm;
                 width: 170mm;
-                background-image: url('../assets/img/header_logo_proximus.png') !important;
+                background-image: url({{asset('assets/img/header_logo_proximus.png')}}) !important;
                 background-repeat: no-repeat !important;
             }
 
@@ -45,6 +45,8 @@
     </style>
 
     <div class="book" style="position: relative">
+
+        {{--Front Page--}}
         <div class="page index">
             <div class="header index">
                 <div class="headerTitle">
@@ -90,41 +92,43 @@
             <div class="footer index"></div>
         </div>
 
+        {{--General Information--}}
         <page size="A4" class="page">
             <div class="header"></div>
             <div class="subpage">
 
                 <h3><?=$t['page02.h3.generalInformation']?></h3>
 
-                <table>
-                    <tr>
-                        <td>
+                <div>
+                    <div id="general_information">
+                        <div>
                             <li><?=$t['page02.li.dateSurvey']?><?php ?>
-                                @if(isset($data['survey_outside_started'])){!! $data['survey_outside_started'] !!} @endif</li>
-                            <li><?=$t['page02.li.dateFile']?>@if(isset($data['survey_inside_finished'])){!! $data['survey_inside_finished'] !!} @endif</li>
+                                @if(isset($data['survey_outside_started']))
+                                    <span>{!! $data['survey_outside_started'] !!}</span> @endif</li>
+                            <li><?=$t['page02.li.dateFile']?>@if(isset($data['survey_inside_finished']))
+                                    <span>{!! $data['survey_inside_finished'] !!}</span>  @endif</li>
                             <li><?=$t['page02.li.refSyndic']?></li>
-                        </td>
-                        <td>
+                        </div>
+                        <div>
                             <li><?=$t['page02.li.numberUnits']?>
-                                LU:<span class="italic"> @if(isset($data['nr_lu'])){!! $data['nr_lu'] !!}@else
+                                LU:<span> @if(isset($data['nr_lu'])){!! $data['nr_lu'] !!}@else
                                         0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                BU-S:<span class="italic"> @if(isset($data['nr_bu_s'])){!! $data['nr_bu_s'] !!}@else
+                                BU-S:<span> @if(isset($data['nr_bu_s'])){!! $data['nr_bu_s'] !!}@else
                                         0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                BU-L:<span class="italic"> @if(isset($data['nr_bu_l'])){!! $data['nr_bu_l'] !!}@else
+                                BU-L:<span> @if(isset($data['nr_bu_l'])){!! $data['nr_bu_l'] !!}@else
                                         0</span> @endif</li>
                             <li><?=$t['page02.li.numberUnits']?>
-                                NR-SU:<span class="italic"> @if(isset($data['nr_su'])){!! $data['nr_su'] !!}@else
+                                NR-SU:<span> @if(isset($data['nr_su'])){!! $data['nr_su'] !!}@else
                                         0</span> @endif</li>
-                            <li><?=$t['page02.li.numberFloors']?><span
-                                        class="italic"> @if(isset($data['nr_total'])){!! $data['nr_total'] !!}</span> @endif
+                            <li><?=$t['page02.li.numberFloors']?>
+                                <span> @if(isset($data['nr_total'])){!! $data['nr_total'] !!}</span> @endif
                             </li>
-                        </td>
-                    </tr>
-                </table>
-                <ul>
-
+                        </div>
+                    </div>
+                </div>
+                <ul style="clear:both">
 
                 </ul>
 
@@ -301,6 +305,7 @@
             <div class="footer"></div>
         </page>
 
+        {{--Installation Page--}}
         <page size="A4" class="page">
             <div class="header"></div>
             <div class="subpage">
@@ -589,13 +594,14 @@
             <div class="footer"></div>
         </page>
 
-        @if(count($data['copper_intro']['img_outside']) > 0)
+        {{--Intro Page--}}
+        @if(isset($data['copper_intro']['img_outside']) && count($data['copper_intro']['img_outside']) > 0)
             <page size="A4" class="page" id="existing_intro_outside">
                 <div class="header">
                     <div class="headerTitle"></div>
                 </div>
                 <div class="subpage">
-                    <h3>8.1 <?=$t['existingIntro']?></h3>
+                    <h3>8. <?=$t['existingIntro']?></h3>
                     <h4><?=$t['exterior']?></h4>
 
                     <div class="doc-img">
@@ -620,8 +626,6 @@
                             @endif
                         @endif
                     </div>
-
-
                 </div>
                 <div class="footer index"></div>
             </page>
@@ -650,7 +654,7 @@
             @endif
         @endif
 
-        @if(count($data['copper_intro']['img_inside']) > 0)
+        @if(isset($data['copper_intro']['img_inside']) && count($data['copper_intro']['img_inside']) > 0)
             <page size="A4" class="page" id="existing_intro_inside">
                 <div class="header">
                     <div class="headerTitle"></div>
@@ -707,8 +711,6 @@
             @endif
         @endif
 
-        {{--TODO future intro--}}
-
         @if(isset($data['fiber']))
             @foreach($data['fiber'] as $fiber)
 
@@ -722,11 +724,12 @@
 
                         <div class="doc-img">
                             <div class="address">
-                                Address: </div>
+                                Address:
+                            </div>
                             @foreach($fiber['imagesOut'] as $entry => $value)
-                            <div class="remarks">{!! $fiber['remarksOut'][$entry] !!}</div>
-                            <img src="{!! $fiber['imagesOut'][$entry] !!}"
-                                 alt="Not Available">
+                                <div class="remarks">{!! $fiber['remarksOut'][$entry] !!}</div>
+                                <img src="{!! $fiber['imagesOut'][$entry] !!}"
+                                     alt="Not Available">
                             @endforeach
 
                             @foreach($fiber['imagesIn'] as $entry => $value)
@@ -744,8 +747,7 @@
             @endforeach
         @endif
 
-        {{--TODO future intro - end--}}
-
+        {{--Access to telco room--}}
         <page size="A4" class="page" id="access_to_telco_room">
             <div class="header">
                 <div class="headerTitle"></div>
@@ -802,7 +804,8 @@
             @endfor
         @endif
 
-        <page size="A4" class="page">
+        {{--Cadastal--}}
+        <page size="A4" class="page" id="cadastal">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -811,64 +814,22 @@
                 <h3><?=$t['page06.h3.existingSituation']?></h3>
 
                 <h4><?=$t['page06.h4.googleView']?></h4>
-
-                <img src="http://placehold.it/650x300?text=Vue+aérienne+(Google)">
+                @if(isset($data['geo_location']))
+                    <div id="map"></div>
+                    <br/>
+                    <div id="markers">
+                        <button id="marker" class="btn btn-primary">Remove Marker</button>
+                        <button id="marker-show" class="btn btn-primary hide">Show Marker</button>
+                    </div>
+                @else
+                    <h3>View not available</h3>
+                @endif
 
             </div>
             <div class="footer index"></div>
         </page>
 
-        <page size="A4" class="page" id="schemes_facade">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
-
-
-                <h4><?=$t['page07.h4.schemaFacade']?></h4>
-
-                <div class="doc-img">
-                    @if(isset($data['intro_on_facade_cabling_proposal']['img']))
-                        @if(count($data['intro_on_facade_cabling_proposal']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr=6?>
-                        @else
-                            @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-
-                    @endif
-                </div>
-
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && $data['intro_on_facade_cabling_proposal']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['intro_on_facade_cabling_proposal']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-
-                        <div class="doc-img">
-                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
-                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
-                                @endfor
-                            @endif
-                        </div>
-
-                    </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
-        @endif
-
+        {{--Underground scheme--}}
         <page size="A4" class="page" id="schemes_underground">
             <div class="header">
                 <div class="headerTitle"></div>
@@ -920,6 +881,8 @@
             @endfor
         @endif
 
+
+        {{--Horizontal shaft--}}
         @if(isset($aData['horizontal_shaft_present']) && $aData['horizontal_shaft_present'] == 'yes' )
             <page size="A4" class="page" id="horizontal_shaft_present">
                 <div class="header">
@@ -927,7 +890,7 @@
                 </div>
                 <div class="subpage">
 
-                    <h4><?=$t['page10.h4.schemaHorizontal']?></h4>
+                    <h3>11. <?=$t['page10.h4.schemaHorizontal']?></h3>
 
                     <div class="doc-img">
                         @if(isset($data['horizontal_shaft_present_img']['img']))
@@ -973,6 +936,7 @@
             @endif
         @endif
 
+        {{--Vertical shaft--}}
         <page size="A4" class="page" id="vertical_shaft_present_img">
             <div class="header">
                 <div class="headerTitle"></div>
@@ -1024,13 +988,119 @@
             @endfor
         @endif
 
+        {{--Schematic Overview--}}
+        <page size="A4" class="page" id="floor_plan">
+            <div class="header">
+                <div class="headerTitle"></div>
+            </div>
+            <div class="subpage">
+
+
+                <h3>12. <?=$t['buildingOverview']?></h3>
+                <h4><?=$t['floorPlan']?></h4>
+
+                <div class="doc-img">
+                    @if(isset($data['floor_plan']['img']))
+                        @if(count($data['floor_plan']['img']) >=5)
+                            @for($ctr=0; $ctr <=5; ++$ctr)
+                                <img src="{!! $data['floor_plan']['img'][$ctr] !!}" alt=""/>
+                            @endfor
+                            <?php $ctr=6?>
+                        @else
+                            @foreach($data['floor_plan']['img'] as $imgUrl)
+                                <img src="{!! $imgUrl !!}" alt=""/>
+                            @endforeach
+                        @endif
+
+                    @endif
+                </div>
+
+            </div>
+            <div class="footer index"></div>
+        </page>
+
+        @if(isset($data['floor_plan']['number_of_pages']) && $data['floor_plan']['number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['floor_plan']['number_of_pages']; $ctr2++)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+
+                        <div class="doc-img">
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
+                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
+                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+            @endfor
+        @endif
+
+        <page size="A4" class="page" id="building_plan">
+            <div class="header">
+                <div class="headerTitle"></div>
+            </div>
+            <div class="subpage">
+
+
+                <h4><?=$t['buildingPlan']?></h4>
+
+                <div class="doc-img">
+                    @if(isset($data['building_layout']['img']))
+                        @if(count($data['building_layout']['img']) >=5)
+                            @for($ctr=0; $ctr <=5; ++$ctr)
+                                <img src="{!! $data['building_layout']['img'][$ctr] !!}" alt=""/>
+                            @endfor
+                            <?php $ctr=6?>
+                        @else
+                            @foreach($data['building_layout']['img'] as $imgUrl)
+                                <img src="{!! $imgUrl !!}" alt=""/>
+                            @endforeach
+                        @endif
+
+                    @endif
+                </div>
+
+            </div>
+            <div class="footer index"></div>
+        </page>
+
+        @if(isset($data['building_layout']['number_of_pages']) && $data['building_layout']['number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['building_layout']['number_of_pages']; $ctr2++)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+
+                        <div class="doc-img">
+                            @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*6)
+                                @for($ctr; $ctr < count($data['building_layout']['img']); $ctr++)
+                                    <img src="{!! $data['building_layout']['img'][$ctr] !!}" alt=""/>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+            @endfor
+        @endif
+
+        {{--Cabling Solution--}}
         <page size="A4" class="page" id="cabling_solution">
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
             <div class="subpage">
 
-                <h4>Cabling Solution</h4>
+
+                <h4><?=$t['page07.h4.schemaFacade']?></h4>
 
                 <div class="doc-img">
                     @if(isset($data['intro_on_facade_cabling_proposal']['img']))
@@ -1044,12 +1114,35 @@
                                 <img src="{!! $imgUrl !!}" alt=""/>
                             @endforeach
                         @endif
+
                     @endif
                 </div>
 
             </div>
             <div class="footer index"></div>
         </page>
+
+        @if(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && $data['intro_on_facade_cabling_proposal']['number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['intro_on_facade_cabling_proposal']['number_of_pages']; $ctr2++)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+
+                        <div class="doc-img">
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
+                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
+                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+            @endfor
+        @endif
 
         <page size="A4" class="page" id="unit_details">
             <div class="header">
@@ -1071,16 +1164,58 @@
                             <th><?=$t['page11.th.floor']?>/<?=$t['page11.th.unitsCount']?></th>
                             <th><?=$t['page11.th.zipcode']?></th>
                         </tr>
-                        <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-
+                        @if(isset($data['unit_details']['LU']))
+                            @foreach($data['unit_details']['LU'] as $lu)
+                                <tr>
+                                    <td></td>
+                                    <td>{!! $lu['LU Key'] !!}</td>
+                                    <td>LU</td>
+                                    <td>{!! $lu['LU Address'] !!}</td>
+                                    <td>{!! $lu['Intro and Address'] !!}</td>
+                                    <td>{!! $lu['Enumeration'] !!}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        @if(isset($data['unit_details']['BU-S']))
+                            @foreach($data['unit_details']['BU-S'] as $bu_s)
+                                <tr>
+                                    <td></td>
+                                    <td>{!! $bu_s['LU Key'] !!}</td>
+                                    <td>BU-S</td>
+                                    <td>{!! $bu_s['LU Address'] !!}</td>
+                                    <td>{!! $bu_s['Intro and Address'] !!}</td>
+                                    <td>{!! $bu_s['Enumeration'] !!}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        @if(isset($data['unit_details']['BU-L']))
+                            @foreach($data['unit_details']['BU-L'] as $bu_l)
+                                <tr>
+                                    <td></td>
+                                    <td>{!! $bu_l['LU Key'] !!}</td>
+                                    <td>BU-S</td>
+                                    <td>{!! $bu_l['LU Address'] !!}</td>
+                                    <td>{!! $bu_l['Intro and Address'] !!}</td>
+                                    <td>{!! $bu_l['Enumeration'] !!}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        @endif
+                        @if(isset($data['unit_details']['SU']))
+                            @foreach($data['unit_details']['SU'] as $su)
+                                <tr>
+                                    <td></td>
+                                    <td>{!! $su['LU Key'] !!}</td>
+                                    <td>BU-S</td>
+                                    <td>{!! $su['LU Address'] !!}</td>
+                                    <td>{!! $su['Intro and Address'] !!}</td>
+                                    <td>{!! $su['Enumeration'] !!}</td>
+                                    <td></td>
+                                </tr>
+                            @endforeach
+                        @endif
                         </tbody>
                     </table>
 
@@ -1090,13 +1225,70 @@
             <div class="footer index"></div>
         </page>
 
+        @if(isset($data['total_units_number_of_pages']) && $data['total_units_number_of_pages'] > 1)
+            @for($ctr2 = 1; $ctr2<$data['total_units_number_of_pages']; $ctr2++)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+
+                        <div class="doc-img">
+                            @if($data['total_units'] < $data['total_units_number_of_pages']*37)
+                                @for($ctr = 37; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
+                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+            @endfor
+        @endif
+
         @push('scripts')
 
         <script type="text/javascript">
+            var data = <?php echo json_encode($data) ?>;
+            var map;
+            function initMap() {
+
+                var myLatLng = {lat: data.latitude, lng: data.longitude};
+
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: myLatLng,
+                    zoom: 20,
+                    mapTypeControlOptions: {
+                        mapTypeIds: ['roadmap', 'styled_map']
+                    },
+                    scrollwheel: false,
+                    navigationControl: false,
+                    mapTypeControl: false,
+                    scaleControl: false,
+                    draggable: false,
+                });
+
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: ''
+                });
+
+                $('#marker').on('click', function () {
+                    marker.setMap(null);
+                    $('#marker').addClass('hide');
+                    $('#marker-show').removeClass('hide');
+                });
+
+                $('#marker-show').on('click', function () {
+                    marker.setMap(map);
+                    $('#marker-show').addClass('hide');
+                    $('#marker').removeClass('hide');
+                });
+            }
 
             $(document).ready(function () {
-
-                var data = <?php echo json_encode($data) ?>;
 
                 var headerTxt = '<div class="headerTitle"><table><tr>' + data.street + ' ' + data.house_number + '<td></td></tr><tr><td>' + data.postal_code + ' ' + data.city + '</td><td>&nbsp;</td></tr></table></div>';
                 $.each($('.header'), function () {
