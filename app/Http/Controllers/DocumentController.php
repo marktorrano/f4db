@@ -33,19 +33,23 @@ class DocumentController extends Controller
         $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
 
         $resCDB = Curl::to($path)->asJson()->get();
+        if($resCDB == null){
+            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found...']);
+        }
         $oData = json_encode($resCDB);
         $aData = json_decode($oData, true);
 
         $aData['geo_location'] = $this->getLocation($aData);
 
-        if($aData['geo_location']){
+        if ($aData['geo_location']) {
             $aData['latitude'] = $aData['geo_location']['lat'];
             $aData['longitude'] = $aData['geo_location']['lng'];
         }
-
-        $aData['total_units'] = count($aData['unit_details']['LU']) + count($aData['unit_details']['BU-S']) + count($aData['unit_details']['BU-L']) + count($aData['unit_details']['SU']);
-        $totalUnits = $aData['total_units'];
-        $aData['total_units_number_of_pages'] = ceil($totalUnits / 37);
+        if(isset($aData['unit_details']['LU'])){
+            $aData['total_units'] = count($aData['unit_details']['LU']) + count($aData['unit_details']['BU-S']) + count($aData['unit_details']['BU-L']) + count($aData['unit_details']['SU']);
+            $totalUnits = $aData['total_units'];
+            $aData['total_units_number_of_pages'] = ceil($totalUnits / 37);
+        }
 
         $aData['lang'] = $lang;
 
@@ -112,7 +116,8 @@ class DocumentController extends Controller
                 }
 
 
-            } else if (isset($aData[$imageIndex]['doc_type_image'])) {
+            }
+            else if (isset($aData[$imageIndex]['doc_type_image'])) {
                 $aData[$imageIndex]['img'] = []; //initialize img array
                 foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
                     $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
@@ -207,7 +212,6 @@ class DocumentController extends Controller
 
     public function getLocation($address)
     {
-
         $street = str_replace(' ', '+', $address['street']);
         $houseNumber = str_replace(' ', '+', $address['house_number']);
         $postalCode = str_replace(' ', '+', $address['postal_code']);
@@ -218,9 +222,9 @@ class DocumentController extends Controller
         $res = Curl::to($path)->asJson()->get();
         $res = json_encode($res);
         $data = json_decode($res, true);
-        if($res){
+        if ($res) {
             return $data['results'][0]['geometry']['location'];
-        }else {
+        } else {
             return false;
         }
     }
