@@ -6,8 +6,8 @@ Route::get('/', function () {
 
 Route::group(['middleware' => 'web'], function () {
 
-    Route::get('documents/{id}', 'DocumentController@printReport');
-    Route::get('agreement/{id}', 'DocumentController@printAgreement');
+    Route::get('documents/{id}/{lang}', 'DocumentController@printReport');
+    Route::get('agreement/{id}/{lang}', 'DocumentController@printAgreement');
 
 });
 

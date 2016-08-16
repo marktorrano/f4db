@@ -25,7 +25,9 @@ class DocumentController extends Controller
             'vertical_shaft_present_img',
             'copper_intro',
             'horizontal_shaft_present_img',
-            'vertical_shaft_present_img'
+            'vertical_shaft_present_img',
+            'floor_plan',
+            'building_layout'
         ];
 
         $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
@@ -34,6 +36,16 @@ class DocumentController extends Controller
         $oData = json_encode($resCDB);
         $aData = json_decode($oData, true);
 
+        $aData['geo_location'] = $this->getLocation($aData);
+
+        if($aData['geo_location']){
+            $aData['latitude'] = $aData['geo_location']['lat'];
+            $aData['longitude'] = $aData['geo_location']['lng'];
+        }
+
+        $aData['total_units'] = count($aData['unit_details']['LU']) + count($aData['unit_details']['BU-S']) + count($aData['unit_details']['BU-L']) + count($aData['unit_details']['SU']);
+        $totalUnits = $aData['total_units'];
+        $aData['total_units_number_of_pages'] = ceil($totalUnits / 37);
 
         $aData['lang'] = $lang;
 
@@ -100,8 +112,7 @@ class DocumentController extends Controller
                 }
 
 
-            }
-             else if (isset($aData[$imageIndex]['doc_type_image'])) {
+            } else if (isset($aData[$imageIndex]['doc_type_image'])) {
                 $aData[$imageIndex]['img'] = []; //initialize img array
                 foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
                     $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
@@ -178,6 +189,7 @@ class DocumentController extends Controller
         }
 
         $aData['survey_outside_started'] = date('Y-m-d');
+        $aData['survey_inside_finished'] = date('Y-m-d');
 
         if ($resCDB) { //data is in couchDB
 
@@ -193,8 +205,27 @@ class DocumentController extends Controller
         return $response;
     }
 
-    public
-    function printAgreement($id, $lang)
+    public function getLocation($address)
+    {
+
+        $street = str_replace(' ', '+', $address['street']);
+        $houseNumber = str_replace(' ', '+', $address['house_number']);
+        $postalCode = str_replace(' ', '+', $address['postal_code']);
+        $city = str_replace(' ', '+', $address['city']);
+
+        $path = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $street . '+' . $houseNumber . ',+' . $postalCode . '+' . $city . '&key=' . $_ENV['GOOGLE_API_KEY'];
+
+        $res = Curl::to($path)->asJson()->get();
+        $res = json_encode($res);
+        $data = json_decode($res, true);
+        if($res){
+            return $data['results'][0]['geometry']['location'];
+        }else {
+            return false;
+        }
+    }
+
+    public function printAgreement($id, $lang)
     {
 
         $images['index'] = [
