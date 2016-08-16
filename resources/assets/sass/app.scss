@@ -16,11 +16,6 @@ page[size="A4"] {
   height: 29.7cm !important;
 }
 
-@media print {
-  .btn-tsa {
-    display: none;
-  }
-}
 
 .facade-img {
   display: flex;
@@ -38,12 +33,21 @@ page[size="A4"] {
   width: 640px;
   height: 750px;
   overflow: hidden;
-  img{
+  .remarks {
+    width: 33%;
+    height: auto;
+  }
+  .address {
+    width: 33%;
+    height: auto;
+  }
+  img {
     position: inherit;
     width: 33%;
     margin-top: 5px;
   }
 }
+
 #access_to_telco_room {
   page-break-after: always !important;
 
@@ -52,4 +56,85 @@ page[size="A4"] {
 .access-to-telco-room {
 }
 
+#general_information {
+  width: 100%;
+  div:nth-child(1) {
+    width: 60%;
+    float: left;
+    li {
+      span {
+        font-style: italic;
+      }
+    }
+  }
+  div:nth-child(2) {
+    width: 40%;
+    float: right;
+    li {
+      margin-right: 4em;
+      span {
+        float: right;
+        font-style: italic;
+      }
+    }
+  }
+}
+
+.right-float {
+  display: inline-block;
+  float: right;
+}
+
+.right-float::after {
+  clear: both
+}
+
+#your_data {
+  ul {
+    li {
+      span {
+        font-weight: 900;
+      }
+    }
+  }
+}
+
+.align-center {
+  text-align: center;
+}
+
+#map {
+  width: 100%;
+  height: 650px;
+}
+
+.hide {
+  display: none;
+}
+img {
+  max-width: none !important;
+}
+
+@media print {
+  .btn-tsa {
+    display: none;
+  }
+
+  #markers {
+    display: none;
+  }
+
+  #map {
+    width: 100% !important;
+    max-width: none !important;
+    a{
+      display: none;
+    }
+  }
+
+  img {
+    max-width: none !important;
+  }
+
+}
 
