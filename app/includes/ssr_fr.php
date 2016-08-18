@@ -110,7 +110,16 @@ $t = [
     'interior'                                 => 'Intérieur',
     'buildingOverview'                         => 'Vue batiment',
     'floorPlan'                                => 'Plan d’étage',
-    'buildingPlan'                             => 'Plan du batiment'
+    'buildingPlan'                             => 'Plan du batiment',
+    'photosAndSchemasContinued'                => 'Photos et schémas - Façade (suite)',
+    'continued'                                => '(a continué)',
+    'old'                                      => 'Vieux',
+    'new'                                      => 'Nouveau',
+    'yes'                                      => 'Oui',
+    'no'                                       => 'Non',
+    'undergroundCabling'                       => 'Informations proposition de métro',
+    'facadeCabling'                            => 'Information sur proposition de câblage avant',
+    'remarks'                                  => 'Remarks: '
 
 ];
 ?>
