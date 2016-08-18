@@ -147,8 +147,8 @@
                     @if(isset($data['syndic']))
                         @foreach($data['syndic'] as $syndic)
                             <tr>
-                                <td>@if(isset($syndic['name'])){!! $syndic['name'] !!} - Syndic @endif</td>
-                                <td>@if(isset($syndic['name_contact'])){!! $syndic['name_contact'] !!} @endif</td>
+                                <td>@if(isset($syndic['name'])){!! ucwords($syndic['name']) !!} - Syndic @endif</td>
+                                <td>@if(isset($syndic['name_contact'])){!! ucwords($syndic['name_contact']) !!} @endif</td>
                                 <td>@if(isset($syndic['email'])){!! $syndic['email'] !!} @endif</td>
                                 <td>@if(isset($syndic['primary_phone_contact'])){!! $syndic['primary_phone_contact'] !!} @endif</td>
                             </tr>
@@ -157,8 +157,8 @@
                     @if(isset($data['acp']))
                         @foreach($data['acp'] as $acp)
                             <tr>
-                                <td>@if(isset($acp['name'])){!! $acp['name'] !!} - ACP @endif</td>
-                                <td>@if(isset($acp['name_contact'])){!! $acp['name_contact'] !!} @endif</td>
+                                <td>@if(isset($acp['name'])){!! ucwords($acp['name']) !!} - ACP @endif</td>
+                                <td>@if(isset($acp['name_contact'])){!! ucwords($acp['name_contact']) !!} @endif</td>
                                 <td>@if(isset($acp['email'])){!! $acp['email'] !!} @endif</td>
                                 <td>@if(isset($acp['primary_phone_contact'])){!! $acp['primary_phone_contact'] !!} @endif</td>
                             </tr>
@@ -246,27 +246,44 @@
                     <tr>
                         <td><?=$t['page02.td.facadeType']?></td>
                         <td>@if(isset($data['patrimony_remarks'])){!! $data['patrimony_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['patrimony'])){!! ucwords($data['patrimony']) !!}@endif</td>
+                        <td>@if(isset($data['patrimony'])) @if($data['patrimony'] == 'yes') <?=$t['yes']?> @if($data['patrimony'] == 'no') <?=$t['no']?>  @else
+                                &nbsp; @endif @endif @endif</td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.electricalCablesPresent']?></td>
                         <td>@if(isset($data['existing_infrastructure_electricity_remarks'])){!! $data['existing_infrastructure_electricity_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['existing_infrastructure_electricity'])){!! ucwords($data['existing_infrastructure_electricity']) !!}@endif</td>
+                        <td>@if(isset($data['existing_infrastructure_electricity']))
+                                @if($data['existing_infrastructure_electricity'] == 'yes') <?=$t['yes']?>
+                                @else <?=$t['no']?>
+                                @endif
+                            @endif</td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.coaxCablesPresent']?></td>
                         <td>@if(isset($data['existing_infrastructure_public_lighting_remarks'])){!! $data['existing_infrastructure_public_lighting_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['existing_infrastructure_public_lighting'])){!! ucwords($data['existing_infrastructure_public_lighting']) !!}@endif</td>
+                        <td>@if(isset($data['existing_infrastructure_public_lighting']))
+                                @if($data['existing_infrastructure_public_lighting'] == 'yes') <?=$t['yes']?>
+                                @else <?=$t['no']?>
+                                @endif
+                            @endif</td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.multiTapCoaxPresent']?></td>
                         <td>@if(isset($data['existing_infrastructure_multitaps_remarks'])){!! $data['existing_infrastructure_multitaps_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['existing_infrastructure_multitaps'])){!! ucwords($data['existing_infrastructure_multitaps']) !!}@endif</td>
+                        <td>@if(isset($data['existing_infrastructure_multitaps']))
+                                @if($data['existing_infrastructure_multitaps'] == 'yes') <?=$t['yes']?>
+                                @else <?=$t['no']?>
+                                @endif
+                            @endif</td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.publicLightningPresent']?></td>
                         <td>@if(isset($data['existing_infrastructure_public_lighting_remarks'])){!! $data['existing_infrastructure_public_lighting_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['existing_infrastructure_public_lighting'])){!! ucwords($data['existing_infrastructure_public_lighting']) !!}@endif</td>
+                        <td>@if(isset($data['existing_infrastructure_public_lighting']))
+                                @if($data['existing_infrastructure_public_lighting'] == 'yes') <?=$t['yes']?>
+                                @else <?=$t['no']?>
+                                @endif
+                            @endif</td>
                     </tr>
                     </tbody>
                 </table>
@@ -287,12 +304,20 @@
                     <tr>
                         <td><?=$t['page02.td.streetFurniture']?></td>
                         <td>@if(isset($data['street_objects_remarks'])){!! $data['street_objects_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['street_objects'])){!! ucwords($data['street_objects']) !!}@endif</td>
+                        <td>@if(isset($data['street_objects']))
+                                @if($data['street_objects'] == 'yes') <?=$t['yes']?>
+                                @else <?=$t['no']?>
+                                @endif
+                            @endif </td>
                     </tr>
                     <tr>
                         <td><?=$t['page02.td.facadeObstruction']?></td>
                         <td>@if(isset($data['street_obstructions_remarks'])){!! $data['street_obstructions_remarks'] !!}@endif</td>
-                        <td>@if(isset($data['street_obstructions'])){!! ucwords($data['street_obstructions']) !!}@endif</td>
+                        <td>@if(isset($data['street_obstructions']))
+                                @if($data['street_obstructions'] == 'yes') <?=$t['yes']?>
+                                @else<?=$t['no']?>
+                                @endif
+                            @endif </td>
                     </tr>
                     </tbody>
                 </table>
@@ -320,50 +345,47 @@
                                 <strong><?=$t['page03.th.repariteurType']?> Copper Intro</strong>
                             </th>
                             <th colspan="4" width="434">
-                                <strong>@if(isset($data['coper_intro_type'])) {!! ucwords($data['coper_intro_type']) !!}@endif</strong>
+                                <strong>
+                                    &nbsp; @if(isset($data['coper_intro_type'])) @if($data['coper_intro_type'] == 'new') <?= $t['new'] ?> @else <?= $t['old'] ?> @endif @endif</strong>
                             </th>
-                        </tr>
-                        <tr>
-                            <td colspan="2" width="212">&nbsp;</td>
-                            <td colspan="4" width="434">&nbsp;</td>
                         </tr>
                         </tbody>
                     </table>
                     <hr>
                     <table>
                         <tbody>
-                        <tr>
+                        <tr id="equipment">
                             <th width="157">
                                 <strong><?=$t['page03.th.tools']?></strong>
                             </th>
-                            <th width="55">
+                            <th width="90">
                                 <strong><?=$t['page03.th.hdpe']?></strong>
                             </th>
-                            <th width="75">
+                            <th width="90">
                                 <strong><?=$t['page03.th.lasbox']?></strong>
                             </th>
-                            <th width="63">
+                            <th width="90">
                                 <strong><?=$t['page03.th.fiber']?></strong>
                             </th>
-                            <th width="116">
+                            <th width="90">
                                 <strong><?=$t['page03.th.rack']?></strong>
                             </th>
-                            <th width="180">
+                            <th width="130">
                                 <strong><?=$t['page03.th.subduct']?></strong>
                             </th>
                         </tr>
-                        <tr>
+                        <tr id="equipment-answer">
                             <td width="157">&nbsp;</td>
-                            <td width="55">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'hdpe'))
+                            <td width="90">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'hdpe'))
                                     X @endif</td>
-                            <td width="75">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'splice_box'))
+                            <td width="90">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'splice_box'))
                                     X @endif</td>
-                            <td width="63">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'fiber'))
+                            <td width="90">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'fiber'))
                                     X @endif</td>
-                            <td width="116">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'rack'))
+                            <td width="90">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'rack'))
                                     X @endif</td>
-                            <td width="180">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'subduct'))
-                                    X @endif</td>
+                            <td width="130">@if(isset($data['equipment_present']) && ($data['equipment_present'] == 'subduct'))
+                                    X @endif </td>
                         </tr>
                         </tbody>
                     </table>
@@ -385,38 +407,40 @@
                             <td colspan="2" width="212">
                                 &nbsp;<?=$t['page03.td.vertical']?>
                             </td>
-                            <td colspan="2" width="138">&nbsp;</td>
                             <td colspan="2"
-                                width="296">@if(isset($data['vertical_shaft_present'])){!! ucwords($data['vertical_shaft_present']) !!}@endif</td>
+                                width="138">@if(isset($data['vertical_shaft_present'])) @if($data['vertical_shaft_present'] == 'no' || $data['vertical_shaft_present'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?>  @endif @endif</td>
+                            <td colspan="2"
+                                width="296">@if(isset($data['vertical_shaft_present']) && ($data['vertical_shaft_present'] == 'no-accessible' || $data['vertical_shaft_present'] == 'yes-accessible')) @if($data['vertical_shaft_present'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?> @endif @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
                                 &nbsp;<?=$t['page03.td.horizontal']?>
                             </td>
                             <td colspan="2"
-                                width="138">@if(isset($data['horizontal_shaft_present'])){!! ucwords($data['horizontal_shaft_present']) !!}@endif</td>
-                            <td colspan="2" width="296">&nbsp;</td>
+                                width="138">@if(isset($data['horizontal_shaft_present'])) @if($data['horizontal_shaft_present'] == 'no' || $data['horizontal_shaft_present'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?>  @endif @endif</td>
+                            <td colspan="2"
+                                width="296">@if(isset($data['horizontal_shaft_present']) && ($data['horizontal_shaft_present'] == 'no-accessible' || $data['horizontal_shaft_present'] == 'yes-accessible') ) @if($data['vertical_shaft_present'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?> @endif @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
-                                <?=$t['page03.td.electricity']?>&eacute;
+                                &nbsp;<?=$t['page03.td.electricity']?>&eacute;
                             </td>
                             <td colspan="4"
-                                width="434">@if(isset($data['electricity_in_telco'])){!! ucwords($data['electricity_in_telco']) !!}@endif</td>
+                                width="434">@if(isset($data['electricity_in_telco'])) @if($data['electricity_in_telco'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?> @endif @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
-                                <?=$t['page03.td.detailsHt']?>&nbsp;
+                                &nbsp;<?=$t['page03.td.detailsHt']?>&nbsp;
                             </td>
                             <td colspan="4"
                                 width="434">@if(isset($data['installation_remarks'])){!! ucfirst($data['installation_remarks']) !!} @endif</td>
                         </tr>
                         <tr>
                             <td colspan="2" width="212">
-                                <?=$t['page03.td.roomForTools']?>
+                                &nbsp;<?=$t['page03.td.roomForTools']?>
                             </td>
                             <td colspan="4" width="434">
-                                <strong>@if(isset($data['installation_space'])){!! ucwords($data['installation_space']) !!} @endif</strong>
+                                <strong>@if(isset($data['installation_space'])) @if($data['installation_space'] == 'no-accessible') <?= $t['no']?> @else <?= $t['yes']?> @endif @endif</strong>
                             </td>
                         </tr>
                         </tbody>
@@ -606,23 +630,27 @@
 
                     <div class="doc-img">
                         @if(isset($data['copper_intro']['img_outside']))
-                            @if(count($data['copper_intro']['img_outside']) >=5)
-                                @for($ctr_copper_outside=0; $ctr_copper_outside <=5; ++$ctr_copper_outside)
-                                    <div class="remarks">
-                                        Remarks: {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div>
-                                    <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
-                                         alt=""/>
-                                @endfor
-                                <?php $ctr_copper_outside=6?>
+                            @if(count($data['copper_intro']['img_outside']) > $data['image_count_per_page'])
+                                <div class="items">
+                                    @for($ctr_copper_outside=0; $ctr_copper_outside < $data['image_count_per_page']; ++$ctr_copper_outside)
+                                        <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
+                                             alt=""/>
+                                        @if(isset($data['copper_intro']['img_outside_remarks'][$ctr_copper_outside]))
+                                            <div class="remarks">
+                                                {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div> @endif
+                                    @endfor
+                                </div>
+                                <?php $ctr_copper_outside=$data['image_count_per_page']?>
                             @else
-                                @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_outside']); $ctr_img++)
-                                    <div class="remarks">{!! $data['copper_intro']['img_outside_remarks'][$ctr_img] !!} </div>
-                                    <img src="{!! $data['copper_intro']['img_outside'][$ctr_img] !!}"
-                                         alt="Not available"/>
+                                <div class="items">
+                                    @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_outside']); $ctr_img++)
+                                        <img src="{!! $data['copper_intro']['img_outside'][$ctr_img] !!}"
+                                             alt="Not available"/>
+                                        @if(isset($data['copper_intro']['img_outside_remarks'][$ctr_img]))
+                                            <div class="remarks">
+                                                {!! $data['copper_intro']['img_outside_remarks'][$ctr_img] !!} </div> @endif
+                                </div>
                                 @endfor
-                            @endif
-                            @if(count($data['copper_intro']['img_outside']) == 0)
-                                No available image
                             @endif
                         @endif
                     </div>
@@ -637,13 +665,19 @@
                             <div class="headerTitle"></div>
                         </div>
                         <div class="subpage">
+                            <h4><?=$t['exterior']?><?=$t['continued']?></h4>
 
                             <div class="doc-img">
-                                @if(count($data['copper_intro']['img_outside']) < $data['existing_intro']['img_outside_pages']*6)
-                                    @for($ctr_copper_outside; $ctr_copper_outside < count($data['copper_intro']['img_outside']); $ctr_copper_outside++)
-                                        <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
-                                             alt=""/>
-                                    @endfor
+                                @if(count($data['copper_intro']['img_outside']) < $data['existing_intro']['img_outside_pages']*$data['image_count_per_page'])
+                                    <div class="items">
+                                        @for($ctr_copper_outside; $ctr_copper_outside < count($data['copper_intro']['img_outside']); $ctr_copper_outside++)
+                                            <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
+                                                 alt=""/>
+                                            @if(isset($data['copper_intro']['img_outside_remarks'][$ctr_copper_outside]))
+                                                <div class="remarks">
+                                                    {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div> @endif
+                                        @endfor
+                                    </div>
                                 @endif
                             </div>
 
@@ -665,19 +699,26 @@
 
                     <div class="doc-img">
                         @if(isset($data['copper_intro']['img_inside']))
-                            @if(count($data['copper_intro']['img_inside']) >=5)
-                                @for($ctr_copper_inside=0; $ctr_copper_inside <=5; ++$ctr_copper_inside)
-                                    <div class="remarks">
-                                        Remarks: {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div>
-                                    <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}" alt=""/>
-                                @endfor
-                                <?php $ctr_copper_inside=6?>
+                            @if(count($data['copper_intro']['img_inside']) > $data['image_count_per_page'])
+                                <div class="items">
+                                    @for($ctr_copper_inside=0; $ctr_copper_inside < $data['image_count_per_page']; ++$ctr_copper_inside)
+                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
+                                             alt=""/>
+                                        @if(isset($data['copper_intro']['img_inside_remarks'][$ctr_copper_inside]))
+                                            <div class="remarks">
+                                                {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div> @endif
+                                    @endfor
+                                    <?php $ctr_copper_inside=$data['image_count_per_page']?>
+                                </div>
                             @else
-                                @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_inside']); $ctr_img++)
-                                    <div class="remarks">{!! $data['copper_intro']['img_inside_remarks'][$ctr_img] !!} </div>
-                                    <img src="{!! $data['copper_intro']['img_inside'][$ctr_img] !!}"
-                                         alt="Not available"/>
-                                @endfor
+                                <div class="items">
+                                    @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_inside']); $ctr_img++)
+                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_img] !!}"
+                                             alt="Not available"/>
+                                        <div class="remarks">
+                                            {!! $data['copper_intro']['img_inside_remarks'][$ctr_img] !!} </div>
+                                    @endfor
+                                </div>
                             @endif
                         @endif
                     </div>
@@ -694,13 +735,18 @@
                             <div class="headerTitle"></div>
                         </div>
                         <div class="subpage">
+                            <h4><?=$t['interior']?><?=$t['continued']?></h4>
 
                             <div class="doc-img">
-                                @if(count($data['copper_intro']['img_inside']) < $data['existing_intro']['img_inside_pages']*6)
-                                    @for($ctr_copper_inside; $ctr_copper_inside < count($data['copper_intro']['img_inside']); $ctr_copper_inside++)
-                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
-                                             alt=""/>
-                                    @endfor
+                                @if(count($data['copper_intro']['img_inside']) < $data['existing_intro']['img_inside_pages']*$data['image_count_per_page'])
+                                    <div class="items">
+                                        @for($ctr_copper_inside; $ctr_copper_inside < count($data['copper_intro']['img_inside']); $ctr_copper_inside++)
+                                            <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
+                                                 alt=""/>
+                                            <div class="remarks">
+                                                {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div>
+                                        @endfor
+                                    </div>
                                 @endif
                             </div>
 
@@ -713,31 +759,38 @@
 
         @if(isset($data['fiber']))
             @foreach($data['fiber'] as $fiber)
-
                 <page size="A4" class="page" id="future_intro">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
                     <div class="subpage">
 
-                        <h4><?=$t['exterior']?></h4>
+                        <h3><?=$t['futureIntro']?></h3>
 
                         <div class="doc-img">
-                            <div class="address">
+                            <div class="address" style="width: 100%; height: 2em">
                                 Address:
                             </div>
-                            @foreach($fiber['imagesOut'] as $entry => $value)
-                                <div class="remarks">{!! $fiber['remarksOut'][$entry] !!}</div>
-                                <img src="{!! $fiber['imagesOut'][$entry] !!}"
-                                     alt="Not Available">
-                            @endforeach
-
-                            @foreach($fiber['imagesIn'] as $entry => $value)
-                                <div class="remarks">{!! $fiber['remarksIn'][$entry] !!}</div>
-                                <img src="{!! $fiber['imagesIn'][$entry] !!}"
-                                     alt="Not Available">
-                            @endforeach
-
+                            @if(isset($fiber['imagesOut']))
+                                <div class="items">
+                                    <h4><?=$t['exterior']?></h4>
+                                    @foreach($fiber['imagesOut'] as $entry => $value)
+                                        <img src="{!! $fiber['imagesOut'][$entry] !!}" alt="Not Available">
+                                        @if(isset($fiber['remarksOut'][$entry]))
+                                            <div class="remarks">
+                                                {!! $fiber['remarksOut'][$entry] !!}</div> @endif
+                                    @endforeach
+                                </div>
+                                <div class="items">
+                                    <h4><?=$t['interior']?></h4>
+                                    @foreach($fiber['imagesIn'] as $entry => $value)
+                                        <img src="{!! $fiber['imagesIn'][$entry] !!}" alt="Not Available">
+                                        @if(isset($fiber['remarksIn'][$entry]))
+                                            <div class="remarks">
+                                                {!! $fiber['remarksIn'][$entry] !!}</div> @endif
+                                    @endforeach
+                                </div>
+                            @endif
                         </div>
 
                     </div>
@@ -748,7 +801,9 @@
         @endif
 
         {{--Access to telco room--}}
+
         <page size="A4" class="page" id="access_to_telco_room">
+
             <div class="header">
                 <div class="headerTitle"></div>
             </div>
@@ -764,14 +819,23 @@
 
                 <div class="doc-img">
                     @if(isset($data['access_to_telco_room']['img']))
-                        @if(count($data['access_to_telco_room']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['access_to_telco_room']['img'][$ctr] !!}" alt=""/>
+                        @if(count($data['access_to_telco_room']['img']) > $data['image_count_per_page'])
+                            @for($ctr=0; $ctr < $data['image_count_per_page']; $ctr++)
+                                <div class="items">
+                                    <img src="@if(isset($data['access_to_telco_room']['img'][$ctr])){!! $data['access_to_telco_room']['img'][$ctr] !!} @endif"
+                                         alt=""/>
+                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                        <div class="remarks">
+                                            {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}</div> @endif
+                                </div>
                             @endfor
-                            <?php $ctr=6?>
                         @else
                             @foreach($data['access_to_telco_room']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
+                                <div class="items">
+                                    <img src="{!! $imgUrl !!}" alt=""/>
+                                    <div class="remarks">
+                                    </div>
+                                </div>
                             @endforeach
                         @endif
 
@@ -780,20 +844,28 @@
 
             </div>
             <div class="footer index"></div>
+
         </page>
 
-        @if(isset($data['access_to_telco_room']['number_of_pages']) && $data['access_to_telco_room']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['access_to_telco_room']['number_of_pages']; $ctr2++)
+        <?php $pageNumber = 2; $ctr=$data['image_count_per_page'];?>
+        @while($data['access_to_telco_room']['number_of_pages'] >= $pageNumber)
                 <page size="A4" class="page">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
                     <div class="subpage">
+                        <h4><?=$t['page05.h3.acceessToProximusTools']?><?=$t['continued']?></h4>
 
                         <div class="doc-img">
-                            @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['access_to_telco_room']['img']); $ctr++)
-                                    <img src="{!! $data['access_to_telco_room']['img'][$ctr] !!}" alt=""/>
+                            @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                    <div class="items">
+                                        <img src="@if(isset($data['access_to_telco_room']['img'][$ctr])){!! $data['access_to_telco_room']['img'][$ctr] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!} </div>@endif
+                                    </div>
                                 @endfor
                             @endif
                         </div>
@@ -801,10 +873,10 @@
                     </div>
                     <div class="footer index"></div>
                 </page>
-            @endfor
-        @endif
+            <?php $pageNumber++ ?>
+        @endwhile
 
-        {{--Cadastal--}}
+        {{--Aerial View--}}
         <page size="A4" class="page" id="cadastal">
             <div class="header">
                 <div class="headerTitle"></div>
@@ -829,61 +901,9 @@
             <div class="footer index"></div>
         </page>
 
-        {{--Underground scheme--}}
-        <page size="A4" class="page" id="schemes_underground">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
-
-
-                <h4>Photos & schémas - Underground</h4>
-
-                <div class="doc-img">
-                    @if(isset($data['intro_underground_proposal']['img']))
-                        @if(count($data['intro_underground_proposal']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['intro_underground_proposal']['img'][$ctr] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr=6?>
-                        @else
-                            @foreach($data['intro_underground_proposal']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-
-                    @endif
-                </div>
-
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['intro_underground_proposal']['number_of_pages']) && $data['intro_underground_proposal']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['intro_underground_proposal']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-
-                        <div class="doc-img">
-                            @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['intro_underground_proposal']['img']); $ctr++)
-                                    <img src="{!! $data['intro_underground_proposal']['img'][$ctr] !!}" alt=""/>
-                                @endfor
-                            @endif
-                        </div>
-
-                    </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
-        @endif
-
 
         {{--Horizontal shaft--}}
-        @if(isset($aData['horizontal_shaft_present']) && $aData['horizontal_shaft_present'] == 'yes' )
+        @if(isset($aData['horizontal_shaft_present']) && $aData['horizontal_shaft_present'] == 'yes' && $data['planned_distribution'] == 'underground')
             <page size="A4" class="page" id="horizontal_shaft_present">
                 <div class="header">
                     <div class="headerTitle"></div>
@@ -894,15 +914,23 @@
 
                     <div class="doc-img">
                         @if(isset($data['horizontal_shaft_present_img']['img']))
-                            @if(count($data['horizontal_shaft_present_img']['img']) >=5)
-                                @for($ctr_horizontal_shaft=0; $ctr_horizontal_shaft <=5; ++$ctr_horizontal_shaft)
-                                    <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
-                                         alt=""/>
+                            @if(count($data['horizontal_shaft_present_img']['img']) > $data['image_count_per_page'])
+                                @for($ctr_horizontal_shaft=0; $ctr_horizontal_shaft < $data['image_count_per_page']; ++$ctr_horizontal_shaft)
+                                    <div class="items">
+                                        <img src="@if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft])){!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft]))
+                                            <div class="remarks">
+                                                {!! $data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft] !!}</div> @endif
+                                    </div>
                                 @endfor
-                                <?php $ctr_horizontal_shaft=6?>
+                                <?php $ctr_horizontal_shaft=$data['image_count_per_page']?>
                             @else
                                 @foreach($data['horizontal_shaft_present_img']['img'] as $imgUrl)
-                                    <img src="{!! $imgUrl !!}" alt=""/>
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
                                 @endforeach
                             @endif
                         @endif
@@ -921,10 +949,15 @@
                         <div class="subpage">
 
                             <div class="doc-img">
-                                @if(count($data['horizontal_shaft_present_img']['img']) < $data['horizontal_shaft_present_img']['number_of_pages']*6)
+                                @if(count($data['horizontal_shaft_present_img']['img']) < $data['horizontal_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
                                     @for($ctr_horizontal_shaft; $ctr_horizontal_shaft < count($data['horizontal_shaft_present_img']['img']); $ctr_horizontal_shaft++)
-                                        <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
-                                             alt=""/>
+                                        <div class="items">
+                                            <img src="@if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft])){!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!} @endif"
+                                                 alt=""/>
+                                            @if(isset($data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft]))
+                                                <div class="remarks">
+                                                    {!! $data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft] !!}</div> @endif
+                                        </div>
                                     @endfor
                                 @endif
                             </div>
@@ -937,47 +970,62 @@
         @endif
 
         {{--Vertical shaft--}}
-        <page size="A4" class="page" id="vertical_shaft_present_img">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
+        @if(isset($data['vertical_shaft_present_img']['img']) && $data['planned_distribution'] == 'facade')
 
-                <h4><?=$t['page10.h4.schemaHorizontal']?></h4>
-
-                <div class="doc-img">
-                    @if(isset($data['vertical_shaft_present_img']['img']))
-                        @if(count($data['vertical_shaft_present_img']['img']) >=5)
-                            @for($ctr_vertical_shaft=0; $ctr_vertical_shaft <=5; ++$ctr_vertical_shaft)
-                                <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
-                                     alt=""/>
-                            @endfor
-                            <?php $ctr_vertical_shaft=6?>
-                        @else
-                            @foreach($data['vertical_shaft_present_img']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-                    @endif
+            <page size="A4" class="page" id="vertical_shaft_present_img">
+                <div class="header">
+                    <div class="headerTitle"></div>
                 </div>
+                <div class="subpage">
 
-            </div>
-            <div class="footer index"></div>
-        </page>
+                    <h4><?=$t['page10.h4.schemaHorizontal']?></h4>
 
-        @if(isset($data['vertical_shaft_present_img']['number_of_pages']) && $data['vertical_shaft_present_img']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['vertical_shaft_present_img']['number_of_pages']; $ctr2++)
+                    <div class="doc-img">
+                        @if(isset($data['vertical_shaft_present_img']['img']))
+                            @if(count($data['vertical_shaft_present_img']['img']) > $data['image_count_per_page'])
+                                @for($ctr_vertical_shaft=0; $ctr_vertical_shaft < $data['image_count_per_page']; ++$ctr_vertical_shaft)
+                                    <div class="items">
+                                        <img src="@if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft])){!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
+                                            <div class="remarks">
+                                                {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @else
+                                @foreach($data['vertical_shaft_present_img']['img'] as $imgUrl)
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        @endif
+                    </div>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+        @endif
+
+        <?php $pageNumber = 2; $ctr_vertical_shaft=$data['image_count_per_page']?>
+        @while($data['vertical_shaft_present_img']['number_of_pages'] >= $pageNumber)
                 <page size="A4" class="page" class="vertical-shaft-present-img">
                     <div class="header">
                         <div class="headerTitle"></div>
                     </div>
                     <div class="subpage">
-
+                        <h4><?=$t['page10.h4.schemaHorizontal']?><?=$t['continued']?></h4>
                         <div class="doc-img">
-                            @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*6)
-                                @for($ctr_vertical_shaft; $ctr_vertical_shaft < count($data['vertical_shaft_present_img']['img']); $ctr_vertical_shaft++)
-                                    <img src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
-                                         alt=""/>
+                            @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr_vertical_shaft; $ctr_vertical_shaft < ($data['image_count_per_page']*$pageNumber); $ctr_vertical_shaft++)
+                                    <div class="items">
+                                        <img src="@if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft])){!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
+                                            <div class="remarks">
+                                                {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
+                                    </div>
                                 @endfor
                             @endif
                         </div>
@@ -985,164 +1033,284 @@
                     </div>
                     <div class="footer index"></div>
                 </page>
-            @endfor
-        @endif
+            <?php $pageNumber++ ?>
+        @endwhile
 
         {{--Schematic Overview--}}
-        <page size="A4" class="page" id="floor_plan">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
-
-
-                <h3>12. <?=$t['buildingOverview']?></h3>
-                <h4><?=$t['floorPlan']?></h4>
-
-                <div class="doc-img">
-                    @if(isset($data['floor_plan']['img']))
-                        @if(count($data['floor_plan']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['floor_plan']['img'][$ctr] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr=6?>
-                        @else
-                            @foreach($data['floor_plan']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-
-                    @endif
+        @if(isset($data['floor_plan']['img']))
+            <page size="A4" class="page" id="floor_plan">
+                <div class="header">
+                    <div class="headerTitle"></div>
                 </div>
+                <div class="subpage">
+                    <h3>@if(isset($aData['horizontal_shaft_present']) || isset($data['vertical_shaft_present_img']))
+                            12. @else 11. @endif <?=$t['buildingOverview']?></h3>
+                    <h4><?=$t['floorPlan']?></h4>
 
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['floor_plan']['number_of_pages']) && $data['floor_plan']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['floor_plan']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-
-                        <div class="doc-img">
-                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
-                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                    <div class="doc-img">
+                        @if(isset($data['floor_plan']['img']))
+                            @if(count($data['floor_plan']['img']) > $data['image_count_per_page'])
+                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
+                                    <div class="items">
+                                        <img src="@if(isset($data['floor_plan']['img'][$ctr])){!! $data['floor_plan']['img'][$ctr] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['floor_plan']['img_remarks'][$ctr])))
+                                        <div class="remarks">
+                                            {!! $data['floor_plan']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
                                 @endfor
+                                <?php $ctr=$data['image_count_per_page']?>
+                            @else
+                                @foreach($data['floor_plan']['img'] as $imgUrl)
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
+                                @endforeach
                             @endif
-                        </div>
 
+                        @endif
                     </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
+
+                </div>
+                <div class="footer index"></div>
+            </page>
         @endif
 
-        <page size="A4" class="page" id="building_plan">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
-
-
-                <h4><?=$t['buildingPlan']?></h4>
-
-                <div class="doc-img">
-                    @if(isset($data['building_layout']['img']))
-                        @if(count($data['building_layout']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['building_layout']['img'][$ctr] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr=6?>
-                        @else
-                            @foreach($data['building_layout']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-
-                    @endif
+        <?php $pageNumber = 2?>
+        @while($data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
+            <page size="A4" class="page">
+                <div class="header">
+                    <div class="headerTitle"></div>
                 </div>
+                <div class="subpage">
+                    <h4><?=$t['floorPlan']?><?=$t['continued']?></h4>
 
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['building_layout']['number_of_pages']) && $data['building_layout']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['building_layout']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
+                    <div class="doc-img">
+                        @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                <div class="items">
+                                    <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
+                                         alt=""/>
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                        <div class="remarks">
+                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
                     </div>
-                    <div class="subpage">
 
-                        <div class="doc-img">
-                            @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['building_layout']['img']); $ctr++)
-                                    <img src="{!! $data['building_layout']['img'][$ctr] !!}" alt=""/>
+                </div>
+                <div class="footer index"></div>
+            </page>
+            <?php $pageNumber++ ?>
+        @endwhile
+
+        @if(isset($data['building_layout']['img']))
+            <page size="A4" class="page" id="building_plan">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+
+                    <h4><?=$t['buildingPlan']?></h4>
+
+                    <div class="doc-img">
+                        @if(isset($data['building_layout']['img']))
+                            @if(count($data['building_layout']['img']) >$data['image_count_per_page'])
+                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
+                                    <div class="items">
+                                        <img src="@if(isset($data['building_layout']['img'][$ctr])){!! $data['building_layout']['img'][$ctr] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['building_layout']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
                                 @endfor
+                                <?php $ctr=6?>
+                            @else
+                                @foreach($data['building_layout']['img'] as $imgUrl)
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
+                                @endforeach
                             @endif
-                        </div>
 
+                        @endif
                     </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
+
+                </div>
+                <div class="footer index"></div>
+            </page>
         @endif
+
+        <?php $pageNumber = 2?>
+        @while($data['building_layout']['number_of_pages'] >= $pageNumber)
+            <page size="A4" class="page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+                    <h4><?=$t['buildingPlan']?><?=$t['continued']?></h4>
+
+                    <div class="doc-img">
+                        @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                <div class="items">
+                                    <img src="@if(isset($data['building_layout']['img'][$ctr])){!! $data['building_layout']['img'][$ctr] !!} @endif"
+                                         alt=""/>
+                                    @if(isset($data['building_layout']['img_remarks'][$ctr])))
+                                    <div class="remarks">
+                                        {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
+                    </div>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+            <?php $pageNumber++ ?>
+        @endwhile
 
         {{--Cabling Solution--}}
-        <page size="A4" class="page" id="cabling_solution">
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
-
-
-                <h4><?=$t['page07.h4.schemaFacade']?></h4>
-
-                <div class="doc-img">
-                    @if(isset($data['intro_on_facade_cabling_proposal']['img']))
-                        @if(count($data['intro_on_facade_cabling_proposal']['img']) >=5)
-                            @for($ctr=0; $ctr <=5; ++$ctr)
-                                <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
-                            @endfor
-                            <?php $ctr=6?>
-                        @else
-                            @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
-                                <img src="{!! $imgUrl !!}" alt=""/>
-                            @endforeach
-                        @endif
-
-                    @endif
+        {{--Facade--}}
+        @if(isset($data['intro_on_facade_cabling_proposal']['img']))
+            <page size="A4" class="page" id="cabling_solution">
+                <div class="header">
+                    <div class="headerTitle"></div>
                 </div>
+                <div class="subpage">
+                    <h3><?=$t['facadeCabling']?></h3>
 
-            </div>
-            <div class="footer index"></div>
-        </page>
-
-        @if(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && $data['intro_on_facade_cabling_proposal']['number_of_pages'] > 1)
-            @for($ctr2 = 1; $ctr2<$data['intro_on_facade_cabling_proposal']['number_of_pages']; $ctr2++)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-
-                        <div class="doc-img">
-                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*6)
-                                @for($ctr; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
-                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
+                    <div class="doc-img">
+                        @if(isset($data['intro_on_facade_cabling_proposal']['img']))
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) > $data['image_count_per_page'])
+                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
+                                    <div class="items">
+                                        <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
                                 @endfor
+                                <?php $ctr=$data['image_count_per_page']?>
+                            @else
+                                @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
+                                @endforeach
                             @endif
-                        </div>
 
+                        @endif
                     </div>
-                    <div class="footer index"></div>
-                </page>
-            @endfor
+
+                </div>
+                <div class="footer index"></div>
+            </page>
         @endif
+
+        <?php $pageNumber = 2?>
+        @while($data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
+            <page size="A4" class="page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+
+                    <h4>Façade cabling proposal info<?=$t['continued']?></h4>
+                    <div class="doc-img">
+                        @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                <div class="items">
+                                    <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
+                                         alt=""/>
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                        <div class="remarks">
+                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
+                    </div>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+            <?php $pageNumber++ ?>
+        @endwhile
+
+        <?php $ctr = 0; ?>
+        {{--Underground--}}
+        @if(isset($data['intro_underground_proposal']['img']))
+            <page size="A4" class="page" id="schemes_underground">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+                    <h3><?=$t['undergroundCabling']?></h3>
+
+                    <div class="doc-img">
+                        @if(isset($data['intro_underground_proposal']['img']))
+                            @if(count($data['intro_underground_proposal']['img']) > $data['image_count_per_page'])
+                                @for($ctr_underground_cabling=0; $ctr_underground_cabling < $data['image_count_per_page']; ++$ctr_underground_cabling)
+                                    <div class="items">
+                                        <img src="@if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling])){!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} @endif"
+                                             alt=""/>
+                                        @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
+                                            <div class="remarks">
+                                                {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
+                                    </div>
+                                @endfor
+                                <?php $ctr_underground_cabling=$data['image_count_per_page']?>
+                            @else
+                                @foreach($data['intro_underground_proposal']['img'] as $imgUrl)
+                                    <div class="items">
+                                        <img src="{!! $imgUrl !!}" alt=""/>
+                                        <div class="remarks"></div>
+                                    </div>
+                                @endforeach
+                            @endif
+
+                        @endif
+                    </div>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+        @endif
+
+        <?php $pageNumber = 2?>
+        @while($data['intro_underground_proposal']['number_of_pages'] >= $pageNumber)
+            <page size="A4" class="page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+                    <h3>Underground proposal info<?= $t['continued']?></h3>
+
+                    <div class="doc-img">
+                        @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
+                                <div class="items">
+                                    <img src="@if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling])){!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} @endif"
+                                         alt=""/>
+                                    @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
+                                        <div class="remarks">
+                                            {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
+                    </div>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
+            <?php $pageNumber++ ?>
+        @endwhile
 
         <page size="A4" class="page" id="unit_details">
             <div class="header">
@@ -1216,6 +1384,7 @@
                                 </tr>
                             @endforeach
                         @endif
+                        <?php $ctr= 36?>
                         </tbody>
                     </table>
 
@@ -1232,15 +1401,68 @@
                         <div class="headerTitle"></div>
                     </div>
                     <div class="subpage">
+                        @if($data['total_units'] < $data['total_units_number_of_pages']*37)
+                            <div class="landscape">
+                                <h4><?=$t['page11.h4.unitDetails']?></h4>
 
-                        <div class="doc-img">
-                            @if($data['total_units'] < $data['total_units_number_of_pages']*37)
-                                @for($ctr = 37; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
-                                    <img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}" alt=""/>
-                                @endfor
-                            @endif
-                        </div>
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <th><?=$t['page11.th.utac']?></th>
+                                        <th>LU Key</th>
+                                        <th><?=$t['page11.th.type']?></th>
+                                        <th>LU Address</th>
+                                        <th>Intro Address</th>
+                                        <th><?=$t['page11.th.floor']?>/<?=$t['page11.th.unitsCount']?></th>
+                                        <th><?=$t['page11.th.zipcode']?></th>
+                                    </tr>
+                                    @if(isset($data['unit_details']['LU']))
+                                        @for($ctr; $ctr < count($data['total_units']); $ctr++)
+                                            <tr>
+                                                <td></td>
+                                                <td>{!! $lu['LU Key'][$ctr] !!}</td>
+                                                <td>LU</td>
+                                                <td>{!! $lu['LU Address'][$ctr] !!}</td>
+                                                <td>{!! $lu['Intro and Address'][$ctr] !!}</td>
+                                                <td>{!! $lu['Enumeration'][$ctr] !!}</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>{!! $bu_s['LU Key'] !!}</td>
+                                                <td>BU-S</td>
+                                                <td>{!! $bu_s['LU Address'] !!}</td>
+                                                <td>{!! $bu_s['Intro and Address'] !!}</td>
+                                                <td>{!! $bu_s['Enumeration'] !!}</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>{!! $bu_l['LU Key'] !!}</td>
+                                                <td>BU-S</td>
+                                                <td>{!! $bu_l['LU Address'] !!}</td>
+                                                <td>{!! $bu_l['Intro and Address'] !!}</td>
+                                                <td>{!! $bu_l['Enumeration'] !!}</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>{!! $su['LU Key'] !!}</td>
+                                                <td>BU-S</td>
+                                                <td>{!! $su['LU Address'] !!}</td>
+                                                <td>{!! $su['Intro and Address'] !!}</td>
+                                                <td>{!! $su['Enumeration'] !!}</td>
+                                                <td></td>
+                                            </tr>
+                                        @endfor
+                                    @endif
+                                    </tbody>
+                                </table>
 
+                            </div>
+
+
+                        @endif
                     </div>
                     <div class="footer index"></div>
                 </page>
@@ -1290,6 +1512,10 @@
 
             $(document).ready(function () {
 
+                $('img').error(function () {
+                    $(this).attr('src', '{!! asset('assets/img/image_not_available.png') !!}');
+                });
+
                 var headerTxt = '<div class="headerTitle"><table><tr>' + data.street + ' ' + data.house_number + '<td></td></tr><tr><td>' + data.postal_code + ' ' + data.city + '</td><td>&nbsp;</td></tr></table></div>';
                 $.each($('.header'), function () {
                     if (!$(this).hasClass('index')) {
@@ -1317,6 +1543,8 @@
             });
 
         </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-5nbgHOw8SPU2_guouxGhryuD4F81nrs&callback=initMap"
+                async defer></script>
     @endpush
 @endsection
 

@@ -1,5 +1,7 @@
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+$primary-color: #5C2D91;
+
 page {
   background: white;
   display: block;
@@ -31,21 +33,30 @@ page[size="A4"] {
 
 .doc-img {
   width: 640px;
-  height: 750px;
+  height: 865px;
   overflow: hidden;
-  .remarks {
-    width: 33%;
-    height: auto;
+  display: flex;
+  flex-wrap: wrap;
+
+  .items {
+    width: 50%;
+
+    .remarks {
+      width: 95%;
+      height: auto;
+      padding: 1px 2.5%;
+    }
+    .address {
+      width: 95%;
+      height: auto;
+    }
+    img {
+      position: inherit;
+      width: 95%;
+      margin: 5px 2.5%;
+    }
   }
-  .address {
-    width: 33%;
-    height: auto;
-  }
-  img {
-    position: inherit;
-    width: 33%;
-    margin-top: 5px;
-  }
+
 }
 
 #access_to_telco_room {
@@ -96,6 +107,20 @@ page[size="A4"] {
         font-weight: 900;
       }
     }
+  }
+}
+
+#equipment {
+  th{
+    text-align: center;
+  }
+}
+#equipment-answer {
+  td {
+    color: $primary-color;
+    font-weight: bolder;
+    font-size: 1.2em;
+    text-align: center;
   }
 }
 

@@ -5756,18 +5756,25 @@ page[size="A4"] {
 
 .doc-img {
   width: 640px;
-  height: 750px;
-  overflow: hidden; }
-  .doc-img .remarks {
-    width: 33%;
-    height: auto; }
-  .doc-img .address {
-    width: 33%;
-    height: auto; }
-  .doc-img img {
-    position: inherit;
-    width: 33%;
-    margin-top: 5px; }
+  height: 865px;
+  overflow: hidden;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap; }
+  .doc-img .items {
+    width: 50%; }
+    .doc-img .items .remarks {
+      width: 95%;
+      height: auto;
+      padding: 1px 2.5%; }
+    .doc-img .items .address {
+      width: 95%;
+      height: auto; }
+    .doc-img .items img {
+      position: inherit;
+      width: 95%;
+      margin: 5px 2.5%; }
 
 #access_to_telco_room {
   page-break-after: always !important; }
@@ -5797,6 +5804,15 @@ page[size="A4"] {
 
 #your_data ul li span {
   font-weight: 900; }
+
+#equipment th {
+  text-align: center; }
+
+#equipment-answer td {
+  color: #5C2D91;
+  font-weight: bolder;
+  font-size: 1.2em;
+  text-align: center; }
 
 .align-center {
   text-align: center; }
