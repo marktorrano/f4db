@@ -313,7 +313,7 @@
                                 @foreach($data['intro_underground_proposal']['img'] as $imgUrl)
                                     <div class="items">
                                         <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks">Remarks: </div>
+                                        <div class="remarks"></div>
 
                                     </div>
                                 @endforeach
@@ -367,7 +367,7 @@
                                     <div class="items">
                                         <img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground] !!}"
                                              alt=" "/>
-                                        <div class="remarks">Remarks: </div>
+                                        <div class="remarks"></div>
                                     </div>
                                 @endfor
                             @endif
