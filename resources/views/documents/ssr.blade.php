@@ -525,7 +525,7 @@
                             </td>
                             <td width="47"
                                 class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
-                                    <strong>X</strong>@endif</td>
+                                    <strong></strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
@@ -545,7 +545,7 @@
                             </td>
                             <td width="47"
                                 class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
-                                    <strong>X</strong>@endif</td>
+                                    <strong></strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
@@ -565,7 +565,7 @@
                             </td>
                             <td width="47"
                                 class="align-center">@if(isset($data['coax_installations']) && $data['coax_installations'] == '')
-                                    <strong>X</strong>@endif</td>
+                                    <strong></strong>@endif</td>
                         </tr>
                         <tr>
                             <td width="154">
