@@ -18,6 +18,24 @@ page[size="A4"] {
   height: 29.7cm !important;
 }
 
+#survinator {
+  width: 800px;
+  margin: 10% auto;
+}
+#form{
+  width: 30%;
+  margin: 0 auto;
+}
+
+#form {
+  #docType {
+    width: 80%;
+  }
+  #lang {
+    width: 40%;
+  }
+}
+
 
 .facade-img {
   display: flex;
