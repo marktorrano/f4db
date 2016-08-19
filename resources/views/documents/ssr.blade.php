@@ -46,14 +46,15 @@
             background: red;
             color: #fff;
             position: fixed;
-            top:0px;
+            top: 0px;
             right: 1em;
             padding: 1em;
         }
 
     </style>
 
-    @if(isset($data['server']) && $data['server'] == 'Test')<div id="server">Test</div> @endif
+    @if(isset($data['server']) && $data['server'] == 'Test')
+        <div id="server">Test</div> @endif
 
     <div class="book" style="position: relative">
 
@@ -794,6 +795,7 @@
                             @if(isset($fiber['imagesOut']))
                                 <div class="items">
                                     <h4><?=$t['exterior']?></h4>
+                                    {{--TODO this--}}
                                     @foreach($fiber['imagesOut'] as $entry => $value)
                                         <img src="{!! $fiber['imagesOut'][$entry] !!}" alt="Not Available">
                                         @if(isset($fiber['remarksOut'][$entry]))
@@ -816,7 +818,6 @@
                     </div>
                     <div class="footer index"></div>
                 </page>
-
             @endforeach
         @endif
 
