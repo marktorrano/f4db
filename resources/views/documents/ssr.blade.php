@@ -811,85 +811,89 @@
 
         {{--Access to telco room--}}
 
-        <page size="A4" class="page" id="access_to_telco_room">
+        @if(isset($data['requirements_to_enter_telco_room']))
 
-            <div class="header">
-                <div class="headerTitle"></div>
-            </div>
-            <div class="subpage">
+            <page size="A4" class="page" id="access_to_telco_room">
 
-                <h3><?=$t['page05.h3.acceessToProximusTools']?></h3>
-
-                <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:2.5cm">
-                    @if(isset($data['requirements_to_enter_telco_room'])){!! $data['requirements_to_enter_telco_room'] !!} @endif
-                </div>
-
-                <br>
-
-                <div class="doc-img">
-                    @if(isset($data['access_to_telco_room']['img']))
-                        @if(count($data['access_to_telco_room']['img']) > $data['image_count_per_page'])
-                            @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
-                                <div class="items">
-                                    @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
-                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
-                                        <div class="remarks">
-                                            {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}</div> @endif
-                                </div>
-                            @endfor
-                            <?php $ctr=$data['image_count_per_page']?>
-                        @else
-                            @for($ctr=0; $ctr < count($data['access_to_telco_room']['img']); $ctr++)
-                                <div class="items">
-                                    @if(isset($data['access_to_telco_room']['img'][$ctr])) <img
-                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
-                                        <div class="remarks"> {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}
-                                        </div> @endif
-                                </div>
-                            @endfor
-                        @endif
-
-                    @endif
-                </div>
-
-            </div>
-            <div class="footer index"></div>
-
-        </page>
-
-        <?php $pageNumber = 2; $ctr=$data['image_count_per_page'];?>
-        @while($data['access_to_telco_room']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page">
                 <div class="header">
                     <div class="headerTitle"></div>
                 </div>
                 <div class="subpage">
-                    <h4><?=$t['page05.h3.acceessToProximusTools']?><?=$t['continued']?></h4>
+
+                    <h3><?=$t['page05.h3.acceessToProximusTools']?></h3>
+
+                    <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:2.5cm">
+                        @if(isset($data['requirements_to_enter_telco_room'])){!! $data['requirements_to_enter_telco_room'] !!} @endif
+                    </div>
+
+                    <br>
 
                     <div class="doc-img">
-                        @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
-                                <div class="items">
-                                    @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
-                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
-                                        <div class="remarks">
-                                            {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!} </div>@endif
-                                </div>
-                            @endfor
+                        @if(isset($data['access_to_telco_room']['img']))
+                            @if(count($data['access_to_telco_room']['img']) > $data['image_count_per_page'])
+                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
+                                    <div class="items">
+                                        @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
+                                                src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
+                                @endfor
+                                <?php $ctr=$data['image_count_per_page']?>
+                            @else
+                                @for($ctr=0; $ctr < count($data['access_to_telco_room']['img']); $ctr++)
+                                    <div class="items">
+                                        @if(isset($data['access_to_telco_room']['img'][$ctr])) <img
+                                                src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}
+                                            </div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+
                         @endif
                     </div>
 
                 </div>
                 <div class="footer index"></div>
+
             </page>
-            <?php $pageNumber++ ?>
-        @endwhile
+
+            <?php $pageNumber = 2; $ctr=$data['image_count_per_page'];?>
+            @while($data['access_to_telco_room']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+                        <h4><?=$t['page05.h3.acceessToProximusTools']?><?=$t['continued']?></h4>
+
+                        <div class="doc-img">
+                            @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                    <div class="items">
+                                        @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
+                                                src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!} </div>@endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
+
+        @endif
 
         {{--Aerial View--}}
         <page size="A4" class="page" id="cadastal">
@@ -1032,36 +1036,37 @@
                 </div>
                 <div class="footer index"></div>
             </page>
-        @endif
 
-        <?php $pageNumber = 2; $ctr_vertical_shaft=$data['image_count_per_page']?>
-        @while($data['vertical_shaft_present_img']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page" class="vertical-shaft-present-img">
-                <div class="header">
-                    <div class="headerTitle"></div>
-                </div>
-                <div class="subpage">
-                    <h4><?=$t['page10.h4.schemaHorizontal']?><?=$t['continued']?></h4>
-                    <div class="doc-img">
-                        @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr_vertical_shaft; $ctr_vertical_shaft < ($data['image_count_per_page']*$pageNumber); $ctr_vertical_shaft++)
-                                <div class="items">
-                                    @if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft]))<img
-                                            src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
-                                        <div class="remarks">
-                                            {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
-                                </div>
-                            @endfor
-                        @endif
+
+            <?php $pageNumber = 2; $ctr_vertical_shaft=$data['image_count_per_page']?>
+            @while($data['vertical_shaft_present_img']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page" class="vertical-shaft-present-img">
+                    <div class="header">
+                        <div class="headerTitle"></div>
                     </div>
+                    <div class="subpage">
+                        <h4><?=$t['page10.h4.schemaHorizontal']?><?=$t['continued']?></h4>
+                        <div class="doc-img">
+                            @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr_vertical_shaft; $ctr_vertical_shaft < ($data['image_count_per_page']*$pageNumber); $ctr_vertical_shaft++)
+                                    <div class="items">
+                                        @if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft]))<img
+                                                src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
+                                            <div class="remarks">
+                                                {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
 
-                </div>
-                <div class="footer index"></div>
-            </page>
-            <?php $pageNumber++ ?>
-        @endwhile
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
+        @endif
 
         {{--Schematic Overview--}}
         @if(isset($data['floor_plan']['img']))
@@ -1107,37 +1112,38 @@
                 </div>
                 <div class="footer index"></div>
             </page>
-        @endif
 
-        <?php $pageNumber = 2?>
-        @while($data['floor_plan']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page">
-                <div class="header">
-                    <div class="headerTitle"></div>
-                </div>
-                <div class="subpage">
-                    <h4><?=$t['floorPlan']?><?=$t['continued']?></h4>
-
-                    <div class="doc-img">
-                        @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr_floor_plan; $ctr_floor_plan < ($data['image_count_per_page']*$pageNumber); $ctr_floor_plan++)
-                                <div class="items">
-                                    @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan]))<img
-                                            src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan]))
-                                        <div class="remarks">
-                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan] !!}</div> @endif
-                                </div>
-                            @endfor
-                        @endif
+            <?php $pageNumber = 2?>
+            @while($data['floor_plan']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
                     </div>
+                    <div class="subpage">
+                        <h4><?=$t['floorPlan']?><?=$t['continued']?></h4>
 
-                </div>
-                <div class="footer index"></div>
-            </page>
-            <?php $pageNumber++ ?>
-        @endwhile
+                        <div class="doc-img">
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr_floor_plan; $ctr_floor_plan < ($data['image_count_per_page']*$pageNumber); $ctr_floor_plan++)
+                                    <div class="items">
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan]))
+                                            <img
+                                                    src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan] !!}"
+                                                    alt=""/> @endif
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan]))
+                                            <div class="remarks">
+                                                {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
+        @endif
 
         @if(isset($data['building_layout']['img']))
             <page size="A4" class="page" id="building_plan">
@@ -1180,37 +1186,38 @@
                 </div>
                 <div class="footer index"></div>
             </page>
+
+            <?php $pageNumber = 2?>
+            @while($data['building_layout']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+                        <h4><?=$t['buildingPlan']?><?=$t['continued']?></h4>
+
+                        <div class="doc-img">
+                            @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                    <div class="items">
+                                        @if(isset($data['building_layout']['img'][$ctr]))<img
+                                                src="{!! $data['building_layout']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['building_layout']['img_remarks'][$ctr])))
+                                        <div class="remarks">
+                                            {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
         @endif
 
-        <?php $pageNumber = 2?>
-        @while($data['building_layout']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page">
-                <div class="header">
-                    <div class="headerTitle"></div>
-                </div>
-                <div class="subpage">
-                    <h4><?=$t['buildingPlan']?><?=$t['continued']?></h4>
-
-                    <div class="doc-img">
-                        @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
-                                <div class="items">
-                                    @if(isset($data['building_layout']['img'][$ctr]))<img
-                                            src="{!! $data['building_layout']['img'][$ctr] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['building_layout']['img_remarks'][$ctr])))
-                                    <div class="remarks">
-                                        {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
-                                </div>
-                            @endfor
-                        @endif
-                    </div>
-
-                </div>
-                <div class="footer index"></div>
-            </page>
-            <?php $pageNumber++ ?>
-        @endwhile
 
         {{--Cabling Solution--}}
         {{--Facade--}}
@@ -1255,37 +1262,37 @@
                 </div>
                 <div class="footer index"></div>
             </page>
-        @endif
 
-        <?php $pageNumber = 2?>
-        @while($data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page">
-                <div class="header">
-                    <div class="headerTitle"></div>
-                </div>
-                <div class="subpage">
-
-                    <h4>Façade cabling proposal info<?=$t['continued']?></h4>
-                    <div class="doc-img">
-                        @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
-                                <div class="items">
-                                    @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr]))<img
-                                            src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}"
-                                            alt=""/> @endif
-                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
-                                        <div class="remarks">
-                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
-                                </div>
-                            @endfor
-                        @endif
+            <?php $pageNumber = 2?>
+            @while($data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
                     </div>
+                    <div class="subpage">
 
-                </div>
-                <div class="footer index"></div>
-            </page>
-            <?php $pageNumber++ ?>
-        @endwhile
+                        <h4>Façade cabling proposal info<?=$t['continued']?></h4>
+                        <div class="doc-img">
+                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                    <div class="items">
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr]))<img
+                                                src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
+        @endif
 
         <?php $ctr = 0; ?>
         {{--Underground--}}
@@ -1329,36 +1336,39 @@
                 </div>
                 <div class="footer index"></div>
             </page>
+
+            <?php $pageNumber = 2?>
+            @while($data['intro_underground_proposal']['number_of_pages'] >= $pageNumber)
+                <page size="A4" class="page">
+                    <div class="header">
+                        <div class="headerTitle"></div>
+                    </div>
+                    <div class="subpage">
+                        <h3>Underground proposal info<?= $t['continued']?></h3>
+
+                        <div class="doc-img">
+                            @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
+                                @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
+                                    <div class="items">
+                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))
+                                            <img
+                                                    src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
+                                                    alt=""/> @endif
+                                        @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
+                                            <div class="remarks">
+                                                {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
+                                    </div>
+                                @endfor
+                            @endif
+                        </div>
+
+                    </div>
+                    <div class="footer index"></div>
+                </page>
+                <?php $pageNumber++ ?>
+            @endwhile
         @endif
 
-        <?php $pageNumber = 2?>
-        @while($data['intro_underground_proposal']['number_of_pages'] >= $pageNumber)
-            <page size="A4" class="page">
-                <div class="header">
-                    <div class="headerTitle"></div>
-                </div>
-                <div class="subpage">
-                    <h3>Underground proposal info<?= $t['continued']?></h3>
-
-                    <div class="doc-img">
-                        @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
-                                <div class="items">
-                                    @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))<img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
-                                         alt=""/> @endif
-                                    @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
-                                        <div class="remarks">
-                                            {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
-                                </div>
-                            @endfor
-                        @endif
-                    </div>
-
-                </div>
-                <div class="footer index"></div>
-            </page>
-            <?php $pageNumber++ ?>
-        @endwhile
 
         <page size="A4" class="page" id="unit_details">
             <div class="header">
