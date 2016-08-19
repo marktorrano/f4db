@@ -42,7 +42,18 @@
 
         }
 
+        #server {
+            background: red;
+            color: #fff;
+            position: fixed;
+            top:0px;
+            right: 1em;
+            padding: 1em;
+        }
+
     </style>
+
+    @if(isset($data['server']) && $data['server'] == 'Test')<div id="server">Test</div> @endif
 
     <div class="book" style="position: relative">
 
