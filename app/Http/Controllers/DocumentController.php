@@ -28,17 +28,12 @@ class DocumentController extends Controller
             'building_layout'
         ];
 
-        $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
+        $aData = Document::getData($id);
 
-        $resCDB = Curl::to($path)->get();
-        if ($resCDB) {
-            $aData = json_decode($resCDB, true);
-            $aData['survey_outside_started'] = date('Y-m-d');
-            $aData['survey_inside_finished'] = date('Y-m-d');
-            $aData['image_count_per_page'] = 4;
-
-            $aData['geo_location'] = $this->getLocation($aData);
-
+        if ($aData) {
+            $Image = new Document;
+            //get coordinates from googleAPI
+            $aData['geo_location'] = Document::getLocation($aData);
             if ($aData['geo_location']) {
                 $aData['latitude'] = $aData['geo_location']['lat'];
                 $aData['longitude'] = $aData['geo_location']['lng'];
@@ -50,7 +45,6 @@ class DocumentController extends Controller
             }
 
             $aData['lang'] = $lang;
-
             if (isset($aData['bu_type']) && $aData['bu_type'] == 'mdu' && isset($aData['nr_lu']) && $aData['nr_lu'] >= 1) {
                 if (isset($aData['quandrant'])) {
                     if ($aData['quandrant'] == 'a' || $aData['quandrant'] == 'c' || $aData['quandrant'] == 'e') {
@@ -60,7 +54,6 @@ class DocumentController extends Controller
             } else {
                 $aData['hasTSA'] = false;
             }
-
             foreach ($images['index'] as $imageIndex) {
                 if (isset($aData[$imageIndex]) && ($imageIndex == 'copper_intro')) {
                     $aData['copper_intro']['img_outside'] = []; //initialize img outside array
@@ -71,11 +64,11 @@ class DocumentController extends Controller
                     if ($aData['copper_intro'] && isset($aData['copper_intro']['copper_intro_photos'])) {
                         if (isset($aData['copper_intro']['copper_intro_photos'][0]['outside']['doc_type_image'])) {
                             foreach ($aData['copper_intro']['copper_intro_photos'][0]['outside']['doc_type_image'] as $image) {
-                                $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                                $res = Curl::to($path)->get();
-                                $arr = json_decode($res, true);
+                                $arr = $Image->getImage($image);
                                 $imgRemarks = ' ';
-                                if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                                if ($arr == null) {
+                                    $imgPath = $_ENV['SURVINATOR'];
+                                } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                     $nearlineId = $arr['edited_nearline_id'];
                                     $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                                     if (isset($arr['remarks'])) {
@@ -91,11 +84,11 @@ class DocumentController extends Controller
                         }
                         if (isset($aData['copper_intro']['copper_intro_photos'][0]['inside']['doc_type_image'])) {
                             foreach ($aData['copper_intro']['copper_intro_photos'][0]['inside']['doc_type_image'] as $image) {
-                                $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                                $res = Curl::to($path)->get();
-                                $arr = json_decode($res, true);
+                                $arr = $Image->getImage($image);
                                 $imgRemarks = ' ';
-                                if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                                if ($arr == null) {
+                                    $imgPath = $_ENV['SURVINATOR'];
+                                } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                     $nearlineId = $arr['edited_nearline_id'];
                                     $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                                 }
@@ -116,22 +109,23 @@ class DocumentController extends Controller
                     $aData[$imageIndex]['img'] = []; //initialize img array
                     $aData[$imageIndex]['img_remarks'] = [];
                     foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
-                        $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                        $res = Curl::to($path)->get();
-                        $arr = json_decode($res, true);
-
-                        if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                        $arr = $Image->getImage($image);
+                        $imgRemarks = ' ';
+                        if ($arr == null) {
+                            $imgPath = $_ENV['SURVINATOR'];
+                        } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
                             if (isset($arr['is_main']) && $arr['is_main'] == 1) {
                                 $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                             }
                             if (isset($arr['remarks'])) {
-                                array_push($aData[$imageIndex]['img_remarks'], $arr['remarks']);
+                                $imgRemarks = $arr['remarks'];
                             } else {
                                 $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                             }
                             $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                         }
+                        array_push($aData[$imageIndex]['img_remarks'], $imgRemarks);
                         array_push($aData[$imageIndex]['img'], $imgPath); //img url
                     }
 
@@ -148,11 +142,11 @@ class DocumentController extends Controller
                     $aRemarksIn = [];
                     $aPathsIn = [];
                     foreach ($intro['outside']['doc_type_image'] as $image) {
-                        $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                        $res = Curl::to($path)->get();
-                        $arr = json_decode($res, true);
+                        $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
-                        if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                        if ($arr == null) {
+                            $imgPath = $_ENV['SURVINATOR'];
+                        } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
                             $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                         }
@@ -163,11 +157,11 @@ class DocumentController extends Controller
                         $aPathsOut[] = $imgPath;
                     }
                     foreach ($intro['inside']['doc_type_image'] as $image) {
-                        $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                        $res = Curl::to($path)->get();
-                        $arr = json_decode($res, true);
+                        $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
-                        if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                        if ($arr == null) {
+                            $imgPath = $_ENV['SURVINATOR'];
+                        } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
                             $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                         }
@@ -207,90 +201,71 @@ class DocumentController extends Controller
         return $response;
     }
 
-    public function getLocation($address)
-    {
-        $street = str_replace(' ', '+', $address['street']);
-        $houseNumber = str_replace(' ', '+', $address['house_number']);
-        $postalCode = str_replace(' ', '+', $address['postal_code']);
-        $city = str_replace(' ', '+', $address['city']);
-
-        $path = 'https://maps.googleapis.com/maps/api/geocode/json?address=' . $street . '+' . $houseNumber . ',+' . $postalCode . '+' . $city . '&key=' . $_ENV['GOOGLE_API_KEY'];
-
-        $res = Curl::to($path)->get();
-        $data = json_decode($res, true);
-        if ($res) {
-            return $data['results'][0]['geometry']['location'];
-        } else {
-            return false;
-        }
-    }
 
     public function printAgreement($id, $lang)
     {
-
+        //Define image arrays
         $images['index'] = [
             'facade',
             'intro_underground_proposal',
             'intro_on_facade_cabling_proposal'
-
         ];
 
+        $aData = Document::getData($id);
+        $Image = new Document;
 
+        if ($aData) {
+            $aData['image_count_per_page'] = 4;
+            $aData['survey_outside_started'] = date('Y-m-d');
+            $aData['survey_inside_finished'] = date('Y-m-d');
+            $aData['lang'] = $lang;
 
-        $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
-
-        $res = Curl::to($path)->get();
-        $aData = json_decode($res, true);
-
-        $aData['image_count_per_page'] = 4;
-        $aData['survey_outside_started'] = date('Y-m-d');
-        $aData['survey_inside_finished'] = date('Y-m-d');
-        $aData['lang'] = $lang;
-        foreach ($images['index'] as $imageIndex) {
-            if (isset($aData[$imageIndex]['doc_type_image'])) {
-                $aData[$imageIndex]['img'] = []; //initialize img array
-                $aData[$imageIndex]['main_img'] = [];
-                foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
-                    $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $image;
-                    $res = Curl::to($path)->get();
-                    $arr = json_decode($res, true);
-
-                    if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
-                        $nearlineId = $arr['edited_nearline_id'];
-                        if (isset($arr['is_main']) && $arr['is_main'] == 1) {
-                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
-                        } else {
-                            $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+            foreach ($images['index'] as $imageIndex) {
+                if (isset($aData[$imageIndex]['doc_type_image'])) {
+                    //Initialize arrays
+                    $aData[$imageIndex]['img'] = [];
+                    $aData[$imageIndex]['main_img'] = [];
+                    $aData[$imageIndex]['img_remarks'] = [];
+                    foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
+                        $arr = $Image->getImage($image);
+                        $imgRemarks = ' ';
+                        if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
+                            $nearlineId = $arr['edited_nearline_id'];
+                            if (isset($arr['remarks'])) {
+                                $imgRemarks = $arr['remarks'];
+                            }
+                            if (isset($arr['is_main']) && $arr['is_main'] == 1) {
+                                $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                            } else {
+                                $aData[$imageIndex]['main_img'] = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                            }
+                            $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
                         }
-                        $imgPath = $_ENV['SURVINATOR'] . '/image/' . $nearlineId;
+                        array_push($aData[$imageIndex]['img_remarks'], $imgRemarks);
+                        array_push($aData[$imageIndex]['img'], $imgPath);
                     }
-                    array_push($aData[$imageIndex]['img'], $imgPath); //img url
+
+                    $aData[$imageIndex]['number_of_pages'] = ceil((count($aData[$imageIndex]['img'])) / $aData['image_count_per_page']);
                 }
-
-                $aData[$imageIndex]['number_of_pages'] = ceil((count($aData[$imageIndex]['img'])) / $aData['image_count_per_page']);
             }
-        }
-        $totalLu = 0;
-        $aData['total_lu'] = [];
-        if (isset($aData['nr_lu'])) {
-            $totalLu += $aData['nr_lu'];
-        }
-        if (isset($aData['nr_bu_s'])) {
-            $totalLu += $aData['nr_bu_s'];
-        }
-        if (isset($aData['nr_bu_l'])) {
-            $totalLu += $aData['nr_bu_l'];
-        }
-        if (isset($aData['nr_su'])) {
-            $totalLu += $aData['nr_su'];
-        }
-        $aData['total_lu'] = $totalLu;
-
-        if ($res) { //data is in couchDB
+            $totalLu = 0;
+            $aData['total_lu'] = [];
+            if (isset($aData['nr_lu'])) {
+                $totalLu += $aData['nr_lu'];
+            }
+            if (isset($aData['nr_bu_s'])) {
+                $totalLu += $aData['nr_bu_s'];
+            }
+            if (isset($aData['nr_bu_l'])) {
+                $totalLu += $aData['nr_bu_l'];
+            }
+            if (isset($aData['nr_su'])) {
+                $totalLu += $aData['nr_su'];
+            }
+            $aData['total_lu'] = $totalLu;
 
             $response = view('documents.tsa', [
                 'data' => $aData]);
-
         } else { //data is in f4db
 
             return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found...']);
