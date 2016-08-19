@@ -277,8 +277,8 @@
                             @if(count($data['intro_on_facade_cabling_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr_facade=0; $ctr_facade < $data['image_count_per_page']; $ctr_facade++)
                                     <div class="items">
-                                        <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
+                                             alt=""/> @endif
                                         @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_underground]))
                                             <div class="remarks"></div> @endif
                                     </div>
@@ -307,8 +307,8 @@
                             @if(count($data['intro_underground_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr_underground_cabling=0; $ctr_underground_cabling < $data['image_count_per_page']; ++$ctr_underground_cabling)
                                     <div class="items">
-                                        <img src="@if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling])){!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))<img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
+                                             alt=""/> @endif
                                         @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
                                             <div class="remarks">
                                                 {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
@@ -347,8 +347,8 @@
                             @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
                                 @for($ctr_facade; $ctr_facade < count($data['intro_on_facade_cabling_proposal']['img']); $ctr_facade++)
                                     <div class="items">
-                                        <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
+                                             alt=""/> @endif
                                         @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_facade]))
                                             <div class="remarks"></div> @endif
                                     </div>
