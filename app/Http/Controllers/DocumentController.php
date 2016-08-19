@@ -37,6 +37,9 @@ class DocumentController extends Controller
             if ($aData['geo_location']) {
                 $aData['latitude'] = $aData['geo_location']['lat'];
                 $aData['longitude'] = $aData['geo_location']['lng'];
+            } else {
+                $aData['latitude'] = '';
+                $aData['longitude'] = '';
             }
             if (isset($aData['unit_details']['LU'])) {
                 $aData['total_units'] = count($aData['unit_details']['LU']) + count($aData['unit_details']['BU-S']) + count($aData['unit_details']['BU-L']) + count($aData['unit_details']['SU']);
@@ -194,7 +197,7 @@ class DocumentController extends Controller
 
         } else { //data is in f4db
 
-            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found...']);
+            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not ready...']);
 
         }
 
