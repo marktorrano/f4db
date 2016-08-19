@@ -1077,25 +1077,25 @@
                     <div class="doc-img">
                         @if(isset($data['floor_plan']['img']))
                             @if(count($data['floor_plan']['img']) > $data['image_count_per_page'])
-                                @for($ctr_floor_plan=0; $ctr_floor_plan < $data['image_count_per_page']; ++$ctr_floor_plan)
+                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
                                     <div class="items">
                                         @if(isset($data['floor_plan']['img'][$ctr]))<img
-                                                src="{!! $data['floor_plan']['img'][$ctr_floor_plan] !!}"
+                                                src="{!! $data['floor_plan']['img'][$ctr] !!}"
                                                 alt=""/> @endif
-                                        @if(isset($data['floor_plan']['img_remarks'][$ctr_floor_plan])))
-                                        <div class="remarks">
-                                            {!! $data['floor_plan']['img_remarks'][$ctr_floor_plan] !!}</div> @endif
+                                        @if(isset($data['floor_plan']['img_remarks'][$ctr]))
+                                            <div class="remarks">
+                                                {!! $data['floor_plan']['img_remarks'][$ctr] !!}</div> @endif
                                     </div>
                                 @endfor
-                                <?php $ctr_floor_plan=$data['image_count_per_page']?>
+                                <?php $ctr=$data['image_count_per_page']?>
                             @else
-                                @for($ctr_floor_plan=0; $ctr_floor_plan < count($data['floor_plan']['img']); $ctr_floor_plan++)
+                                @for($ctr=0; $ctr < count($data['floor_plan']['img']); $ctr++)
                                     <div class="items">
-                                        @if(isset($data['floor_plan']['img'][$ctr_floor_plan])) <img
-                                                src="{!! $data['floor_plan']['img'][$ctr_floor_plan] !!}"
+                                        @if(isset($data['floor_plan']['img'][$ctr])) <img
+                                                src="{!! $data['floor_plan']['img'][$ctr] !!}"
                                                 alt=""/> @endif
-                                        @if(isset($data['floor_plan']['img_remarks'][$ctr_floor_plan]))
-                                            <div class="remarks"> {!! $data['floor_plan']['img_remarks'][$ctr_floor_plan] !!}
+                                        @if(isset($data['floor_plan']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['floor_plan']['img_remarks'][$ctr] !!}
                                             </div> @endif
                                     </div>
                                 @endfor
@@ -1344,8 +1344,8 @@
                         @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
                             @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
                                 <div class="items">
-                                    <img src="@if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling])){!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} @endif"
-                                         alt=""/>
+                                    @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))<img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
+                                         alt=""/> @endif
                                     @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
                                         <div class="remarks">
                                             {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
