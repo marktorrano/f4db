@@ -633,8 +633,9 @@
                             @if(count($data['copper_intro']['img_outside']) > $data['image_count_per_page'])
                                 <div class="items">
                                     @for($ctr_copper_outside=0; $ctr_copper_outside < $data['image_count_per_page']; ++$ctr_copper_outside)
-                                        <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
-                                             alt=""/>
+                                        @if(isset($data['copper_intro']['img_outside'][$ctr_copper_outside]))<img
+                                                src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['copper_intro']['img_outside_remarks'][$ctr_copper_outside]))
                                             <div class="remarks">
                                                 {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div> @endif
@@ -671,8 +672,9 @@
                                 @if(count($data['copper_intro']['img_outside']) < $data['existing_intro']['img_outside_pages']*$data['image_count_per_page'])
                                     <div class="items">
                                         @for($ctr_copper_outside; $ctr_copper_outside < count($data['copper_intro']['img_outside']); $ctr_copper_outside++)
-                                            <img src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
-                                                 alt=""/>
+                                            @if(isset($data['copper_intro']['img_outside'][$ctr_copper_outside]))<img
+                                                    src="{!! $data['copper_intro']['img_outside'][$ctr_copper_outside] !!}"
+                                                    alt=""/> @endif
                                             @if(isset($data['copper_intro']['img_outside_remarks'][$ctr_copper_outside]))
                                                 <div class="remarks">
                                                     {!! $data['copper_intro']['img_outside_remarks'][$ctr_copper_outside] !!}</div> @endif
@@ -702,8 +704,9 @@
                             @if(count($data['copper_intro']['img_inside']) > $data['image_count_per_page'])
                                 <div class="items">
                                     @for($ctr_copper_inside=0; $ctr_copper_inside < $data['image_count_per_page']; ++$ctr_copper_inside)
-                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
-                                             alt=""/>
+                                        @if(isset($data['copper_intro']['img_inside'][$ctr_copper_inside]))<img
+                                                src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['copper_intro']['img_inside_remarks'][$ctr_copper_inside]))
                                             <div class="remarks">
                                                 {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div> @endif
@@ -713,10 +716,13 @@
                             @else
                                 <div class="items">
                                     @for($ctr_img = 0; $ctr_img < count($data['copper_intro']['img_inside']); $ctr_img++)
-                                        <img src="{!! $data['copper_intro']['img_inside'][$ctr_img] !!}"
-                                             alt="Not available"/>
-                                        <div class="remarks">
-                                            {!! $data['copper_intro']['img_inside_remarks'][$ctr_img] !!} </div>
+                                        @if(isset($data['copper_intro']['img_inside'][$ctr_img]))
+                                            <img src="{!! $data['copper_intro']['img_inside'][$ctr_img] !!}"
+                                                 alt="Not available"/> @endif
+                                        @if(isset($data['copper_intro']['img_inside_remarks'][$ctr_img]))
+                                            <div class="remarks">
+                                                {!! $data['copper_intro']['img_inside_remarks'][$ctr_img] !!} </div>
+                                        @endif
                                     @endfor
                                 </div>
                             @endif
@@ -741,10 +747,13 @@
                                 @if(count($data['copper_intro']['img_inside']) < $data['existing_intro']['img_inside_pages']*$data['image_count_per_page'])
                                     <div class="items">
                                         @for($ctr_copper_inside; $ctr_copper_inside < count($data['copper_intro']['img_inside']); $ctr_copper_inside++)
-                                            <img src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
-                                                 alt=""/>
-                                            <div class="remarks">
-                                                {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div>
+                                            @if(isset($data['copper_intro']['img_inside'][$ctr_copper_inside]))<img
+                                                    src="{!! $data['copper_intro']['img_inside'][$ctr_copper_inside] !!}"
+                                                    alt=""/> @endif
+                                            @if(isset($data['copper_intro']['img_inside_remarks'][$ctr_copper_inside]))
+                                                <div class="remarks">
+                                                    {!! $data['copper_intro']['img_inside_remarks'][$ctr_copper_inside] !!}</div>
+                                            @endif
                                         @endfor
                                     </div>
                                 @endif
@@ -820,23 +829,28 @@
                 <div class="doc-img">
                     @if(isset($data['access_to_telco_room']['img']))
                         @if(count($data['access_to_telco_room']['img']) > $data['image_count_per_page'])
-                            @for($ctr=0; $ctr < $data['image_count_per_page']; $ctr++)
+                            @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
                                 <div class="items">
-                                    <img src="@if(isset($data['access_to_telco_room']['img'][$ctr])){!! $data['access_to_telco_room']['img'][$ctr] !!} @endif"
-                                         alt=""/>
+                                    @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
+                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                            alt=""/> @endif
                                     @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
                                         <div class="remarks">
                                             {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}</div> @endif
                                 </div>
                             @endfor
+                            <?php $ctr=$data['image_count_per_page']?>
                         @else
-                            @foreach($data['access_to_telco_room']['img'] as $imgUrl)
+                            @for($ctr=0; $ctr < count($data['access_to_telco_room']['img']); $ctr++)
                                 <div class="items">
-                                    <img src="{!! $imgUrl !!}" alt=""/>
-                                    <div class="remarks">
-                                    </div>
+                                    @if(isset($data['access_to_telco_room']['img'][$ctr])) <img
+                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                            alt=""/> @endif
+                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                        <div class="remarks"> {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!}
+                                        </div> @endif
                                 </div>
-                            @endforeach
+                            @endfor
                         @endif
 
                     @endif
@@ -849,30 +863,31 @@
 
         <?php $pageNumber = 2; $ctr=$data['image_count_per_page'];?>
         @while($data['access_to_telco_room']['number_of_pages'] >= $pageNumber)
-                <page size="A4" class="page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
-                        <h4><?=$t['page05.h3.acceessToProximusTools']?><?=$t['continued']?></h4>
+            <page size="A4" class="page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+                    <h4><?=$t['page05.h3.acceessToProximusTools']?><?=$t['continued']?></h4>
 
-                        <div class="doc-img">
-                            @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*$data['image_count_per_page'])
-                                @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
-                                    <div class="items">
-                                        <img src="@if(isset($data['access_to_telco_room']['img'][$ctr])){!! $data['access_to_telco_room']['img'][$ctr] !!} @endif"
-                                             alt=""/>
-                                        @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
-                                            <div class="remarks">
-                                                {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!} </div>@endif
-                                    </div>
-                                @endfor
-                            @endif
-                        </div>
-
+                    <div class="doc-img">
+                        @if(count($data['access_to_telco_room']['img']) < $data['access_to_telco_room']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                                <div class="items">
+                                    @if(isset($data['access_to_telco_room']['img'][$ctr]))<img
+                                            src="{!! $data['access_to_telco_room']['img'][$ctr] !!}"
+                                            alt=""/> @endif
+                                    @if(isset($data['access_to_telco_room']['img_remarks'][$ctr]))
+                                        <div class="remarks">
+                                            {!! $data['access_to_telco_room']['img_remarks'][$ctr] !!} </div>@endif
+                                </div>
+                            @endfor
+                        @endif
                     </div>
-                    <div class="footer index"></div>
-                </page>
+
+                </div>
+                <div class="footer index"></div>
+            </page>
             <?php $pageNumber++ ?>
         @endwhile
 
@@ -917,8 +932,9 @@
                             @if(count($data['horizontal_shaft_present_img']['img']) > $data['image_count_per_page'])
                                 @for($ctr_horizontal_shaft=0; $ctr_horizontal_shaft < $data['image_count_per_page']; ++$ctr_horizontal_shaft)
                                     <div class="items">
-                                        <img src="@if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft])){!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft]))
+                                            <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
+                                                 alt=""/> @endif
                                         @if(isset($data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft]))
                                             <div class="remarks">
                                                 {!! $data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft] !!}</div> @endif
@@ -926,12 +942,16 @@
                                 @endfor
                                 <?php $ctr_horizontal_shaft=$data['image_count_per_page']?>
                             @else
-                                @foreach($data['horizontal_shaft_present_img']['img'] as $imgUrl)
+                                @for($ctr=0; $ctr < count($data['horizontal_shaft_present_img']['img']); $ctr++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['horizontal_shaft_present_img']['img'][$ctr])) <img
+                                                src="{!! $data['horizontal_shaft_present_img']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['horizontal_shaft_present_img']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['horizontal_shaft_present_img']['img_remarks'][$ctr] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
                         @endif
                     </div>
@@ -952,8 +972,9 @@
                                 @if(count($data['horizontal_shaft_present_img']['img']) < $data['horizontal_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
                                     @for($ctr_horizontal_shaft; $ctr_horizontal_shaft < count($data['horizontal_shaft_present_img']['img']); $ctr_horizontal_shaft++)
                                         <div class="items">
-                                            <img src="@if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft])){!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!} @endif"
-                                                 alt=""/>
+                                            @if(isset($data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft]))
+                                                <img src="{!! $data['horizontal_shaft_present_img']['img'][$ctr_horizontal_shaft] !!}"
+                                                     alt=""/> @endif
                                             @if(isset($data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft]))
                                                 <div class="remarks">
                                                     {!! $data['horizontal_shaft_present_img']['img_remarks'][$ctr_horizontal_shaft] !!}</div> @endif
@@ -985,20 +1006,25 @@
                             @if(count($data['vertical_shaft_present_img']['img']) > $data['image_count_per_page'])
                                 @for($ctr_vertical_shaft=0; $ctr_vertical_shaft < $data['image_count_per_page']; ++$ctr_vertical_shaft)
                                     <div class="items">
-                                        <img src="@if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft])){!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft]))<img
+                                                src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
                                             <div class="remarks">
                                                 {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
                                     </div>
                                 @endfor
                             @else
-                                @foreach($data['vertical_shaft_present_img']['img'] as $imgUrl)
+                                @for($ctr=0; $ctr < count($data['vertical_shaft_present_img']['img']); $ctr++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['vertical_shaft_present_img']['img'][$ctr])) <img
+                                                src="{!! $data['vertical_shaft_present_img']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
                         @endif
                     </div>
@@ -1010,29 +1036,30 @@
 
         <?php $pageNumber = 2; $ctr_vertical_shaft=$data['image_count_per_page']?>
         @while($data['vertical_shaft_present_img']['number_of_pages'] >= $pageNumber)
-                <page size="A4" class="page" class="vertical-shaft-present-img">
-                    <div class="header">
-                        <div class="headerTitle"></div>
+            <page size="A4" class="page" class="vertical-shaft-present-img">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
+                    <h4><?=$t['page10.h4.schemaHorizontal']?><?=$t['continued']?></h4>
+                    <div class="doc-img">
+                        @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr_vertical_shaft; $ctr_vertical_shaft < ($data['image_count_per_page']*$pageNumber); $ctr_vertical_shaft++)
+                                <div class="items">
+                                    @if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft]))<img
+                                            src="{!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!}"
+                                            alt=""/> @endif
+                                    @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
+                                        <div class="remarks">
+                                            {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
                     </div>
-                    <div class="subpage">
-                        <h4><?=$t['page10.h4.schemaHorizontal']?><?=$t['continued']?></h4>
-                        <div class="doc-img">
-                            @if(count($data['vertical_shaft_present_img']['img']) < $data['vertical_shaft_present_img']['number_of_pages']*$data['image_count_per_page'])
-                                @for($ctr_vertical_shaft; $ctr_vertical_shaft < ($data['image_count_per_page']*$pageNumber); $ctr_vertical_shaft++)
-                                    <div class="items">
-                                        <img src="@if(isset($data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft])){!! $data['vertical_shaft_present_img']['img'][$ctr_vertical_shaft] !!} @endif"
-                                             alt=""/>
-                                        @if(isset($data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft]))
-                                            <div class="remarks">
-                                                {!! $data['vertical_shaft_present_img']['img_remarks'][$ctr_vertical_shaft] !!}</div> @endif
-                                    </div>
-                                @endfor
-                            @endif
-                        </div>
 
-                    </div>
-                    <div class="footer index"></div>
-                </page>
+                </div>
+                <div class="footer index"></div>
+            </page>
             <?php $pageNumber++ ?>
         @endwhile
 
@@ -1050,23 +1077,28 @@
                     <div class="doc-img">
                         @if(isset($data['floor_plan']['img']))
                             @if(count($data['floor_plan']['img']) > $data['image_count_per_page'])
-                                @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
+                                @for($ctr_floor_plan=0; $ctr_floor_plan < $data['image_count_per_page']; ++$ctr_floor_plan)
                                     <div class="items">
-                                        <img src="@if(isset($data['floor_plan']['img'][$ctr])){!! $data['floor_plan']['img'][$ctr] !!} @endif"
-                                             alt=""/>
-                                        @if(isset($data['floor_plan']['img_remarks'][$ctr])))
+                                        @if(isset($data['floor_plan']['img'][$ctr]))<img
+                                                src="{!! $data['floor_plan']['img'][$ctr_floor_plan] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['floor_plan']['img_remarks'][$ctr_floor_plan])))
                                         <div class="remarks">
-                                            {!! $data['floor_plan']['img_remarks'][$ctr] !!}</div> @endif
+                                            {!! $data['floor_plan']['img_remarks'][$ctr_floor_plan] !!}</div> @endif
                                     </div>
                                 @endfor
-                                <?php $ctr=$data['image_count_per_page']?>
+                                <?php $ctr_floor_plan=$data['image_count_per_page']?>
                             @else
-                                @foreach($data['floor_plan']['img'] as $imgUrl)
+                                @for($ctr_floor_plan=0; $ctr_floor_plan < count($data['floor_plan']['img']); $ctr_floor_plan++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['floor_plan']['img'][$ctr_floor_plan])) <img
+                                                src="{!! $data['floor_plan']['img'][$ctr_floor_plan] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['floor_plan']['img_remarks'][$ctr_floor_plan]))
+                                            <div class="remarks"> {!! $data['floor_plan']['img_remarks'][$ctr_floor_plan] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
 
                         @endif
@@ -1078,7 +1110,7 @@
         @endif
 
         <?php $pageNumber = 2?>
-        @while($data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
+        @while($data['floor_plan']['number_of_pages'] >= $pageNumber)
             <page size="A4" class="page">
                 <div class="header">
                     <div class="headerTitle"></div>
@@ -1088,13 +1120,14 @@
 
                     <div class="doc-img">
                         @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
-                            @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
+                            @for($ctr_floor_plan; $ctr_floor_plan < ($data['image_count_per_page']*$pageNumber); $ctr_floor_plan++)
                                 <div class="items">
-                                    <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
-                                         alt=""/>
-                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan]))<img
+                                            src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_floor_plan] !!}"
+                                            alt=""/> @endif
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan]))
                                         <div class="remarks">
-                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
+                                            {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_floor_plan] !!}</div> @endif
                                 </div>
                             @endfor
                         @endif
@@ -1120,8 +1153,9 @@
                             @if(count($data['building_layout']['img']) >$data['image_count_per_page'])
                                 @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
                                     <div class="items">
-                                        <img src="@if(isset($data['building_layout']['img'][$ctr])){!! $data['building_layout']['img'][$ctr] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['building_layout']['img'][$ctr]))<img
+                                                src="{!! $data['building_layout']['img'][$ctr] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['building_layout']['img_remarks'][$ctr]))
                                             <div class="remarks">
                                                 {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
@@ -1129,12 +1163,15 @@
                                 @endfor
                                 <?php $ctr=6?>
                             @else
-                                @foreach($data['building_layout']['img'] as $imgUrl)
+                                @for($ctr=0; $ctr < count($data['building_layout']['img']); $ctr++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['building_layout']['img'][$ctr])) <img
+                                                src="{!! $data['building_layout']['img'][$ctr] !!}" alt=""/> @endif
+                                        @if(isset($data['building_layout']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['building_layout']['img_remarks'][$ctr] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
 
                         @endif
@@ -1158,8 +1195,9 @@
                         @if(count($data['building_layout']['img']) < $data['building_layout']['number_of_pages']*$data['image_count_per_page'])
                             @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
                                 <div class="items">
-                                    <img src="@if(isset($data['building_layout']['img'][$ctr])){!! $data['building_layout']['img'][$ctr] !!} @endif"
-                                         alt=""/>
+                                    @if(isset($data['building_layout']['img'][$ctr]))<img
+                                            src="{!! $data['building_layout']['img'][$ctr] !!}"
+                                            alt=""/> @endif
                                     @if(isset($data['building_layout']['img_remarks'][$ctr])))
                                     <div class="remarks">
                                         {!! $data['building_layout']['img_remarks'][$ctr] !!}</div> @endif
@@ -1189,8 +1227,9 @@
                             @if(count($data['intro_on_facade_cabling_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr=0; $ctr < $data['image_count_per_page']; ++$ctr)
                                     <div class="items">
-                                        <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr]))<img
+                                                src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
                                             <div class="remarks">
                                                 {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
@@ -1198,12 +1237,16 @@
                                 @endfor
                                 <?php $ctr=$data['image_count_per_page']?>
                             @else
-                                @foreach($data['intro_on_facade_cabling_proposal']['img'] as $imgUrl)
+                                @for($ctr=0; $ctr < count($data['intro_on_facade_cabling_proposal']['img']); $ctr++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])) <img
+                                                src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
 
                         @endif
@@ -1227,8 +1270,9 @@
                         @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
                             @for($ctr; $ctr < ($data['image_count_per_page']*$pageNumber); $ctr++)
                                 <div class="items">
-                                    <img src="@if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr])){!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!} @endif"
-                                         alt=""/>
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr]))<img
+                                            src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr] !!}"
+                                            alt=""/> @endif
                                     @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr]))
                                         <div class="remarks">
                                             {!! $data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr] !!}</div> @endif
@@ -1258,8 +1302,9 @@
                             @if(count($data['intro_underground_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr_underground_cabling=0; $ctr_underground_cabling < $data['image_count_per_page']; ++$ctr_underground_cabling)
                                     <div class="items">
-                                        <img src="@if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling])){!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} @endif"
-                                             alt=""/>
+                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))
+                                            <img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
+                                                 alt=""/> @endif
                                         @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
                                             <div class="remarks">
                                                 {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
@@ -1267,14 +1312,17 @@
                                 @endfor
                                 <?php $ctr_underground_cabling=$data['image_count_per_page']?>
                             @else
-                                @foreach($data['intro_underground_proposal']['img'] as $imgUrl)
+                                @for($ctr=0; $ctr < count($data['intro_underground_proposal']['img']); $ctr++)
                                     <div class="items">
-                                        <img src="{!! $imgUrl !!}" alt=""/>
-                                        <div class="remarks"></div>
+                                        @if(isset($data['intro_underground_proposal']['img'][$ctr])) <img
+                                                src="{!! $data['intro_underground_proposal']['img'][$ctr] !!}"
+                                                alt=""/> @endif
+                                        @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr]))
+                                            <div class="remarks"> {!! $data['intro_underground_proposal']['img_remarks'][$ctr] !!}
+                                            </div> @endif
                                     </div>
-                                @endforeach
+                                @endfor
                             @endif
-
                         @endif
                     </div>
 
