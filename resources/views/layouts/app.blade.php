@@ -16,7 +16,13 @@
 
     </footer>
     @if(isset($data['hasTSA']) && isset($data['_id']) && $data['hasTSA'] == true)
-        <a href="{{url('/agreement/'. $data['_id'])}}" class="btn btn-tsa">Proceed to Next Document</a>
+        {!! Form::open(array('url' => 'agreement')) !!}
+
+        {!! Form::hidden('id', $data['_id']) !!}
+        {!! Form::hidden('lang', $data['lang']) !!}
+
+        {!! Form::submit('Next Document', ['class' => 'btn btn-primary']) !!}
+        {!! Form::close() !!}
     @endif
 </div>
 
