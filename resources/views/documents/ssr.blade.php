@@ -1539,6 +1539,18 @@
             @endfor
         @endif
 
+        <div class="tsa-btn">
+            @if(isset($data['hasTSA']) && isset($data['_id']) && $data['hasTSA'] == true)
+                {!! Form::open(array('url' => 'agreement')) !!}
+
+                {!! Form::hidden('id', $data['_id']) !!}
+                {!! Form::hidden('lang', $data['lang']) !!}
+
+                {!! Form::submit('Next Document', ['class' => 'btn btn-primary']) !!}
+                {!! Form::close() !!}
+            @endif
+        </div>
+
         @push('scripts')
 
         <script type="text/javascript">

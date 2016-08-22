@@ -5751,10 +5751,17 @@ page[size="A4"] {
   margin: 0 auto; }
 
 #form #docType {
-  width: 80%; }
+  width: 100%; }
 
 #form #lang {
   width: 40%; }
+
+.tsa-btn {
+  height: 3em;
+  width: 21cm;
+  margin: 0 auto; }
+  .tsa-btn form {
+    margin-left: 17cm; }
 
 .your_data {
   display: -ms-flexbox;
@@ -5780,18 +5787,24 @@ page[size="A4"] {
 
 .doc-img {
   width: 640px;
-  height: 865px;
+  height: 960px;
   overflow: hidden;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-  flex-wrap: wrap; }
+  flex-wrap: wrap;
+  -ms-flex-pack: center;
+  justify-content: center; }
   .doc-img .items {
-    width: 50%; }
+    width: 35%;
+    margin: 0 auto; }
     .doc-img .items .remarks {
       width: 95%;
       height: auto;
-      padding: 1px 2.5%; }
+      padding: 1px 2.5%;
+      line-height: 1.1;
+      font-size: .9em;
+      font-style: italic; }
     .doc-img .items .address {
       width: 95%;
       height: auto; }
@@ -5802,6 +5815,8 @@ page[size="A4"] {
 
 #access_to_telco_room {
   page-break-after: always !important; }
+  #access_to_telco_room .doc-img .items img {
+    width: 80%; }
 
 #general_information {
   width: 100%; }
