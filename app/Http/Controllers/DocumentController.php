@@ -29,42 +29,19 @@ class DocumentController extends Controller
             'building_layout'
         ];
 
-        $aData = Document::getData($request->id);
+        $aData = Document::getData($request->id, $request->lang);
 
         if ($aData) {
             $Image = new Document;
             //get coordinates from googleAPI
             $aData['geo_location'] = Document::getLocation($aData);
-            if ($aData['geo_location']) {
-                $aData['latitude'] = $aData['geo_location']['lat'];
-                $aData['longitude'] = $aData['geo_location']['lng'];
-            } else {
-                $aData['latitude'] = '';
-                $aData['longitude'] = '';
-            }
-            if (isset($aData['unit_details']['LU'])) {
-                $aData['total_units'] = count($aData['unit_details']['LU']) + count($aData['unit_details']['BU-S']) + count($aData['unit_details']['BU-L']) + count($aData['unit_details']['SU']);
-                $totalUnits = $aData['total_units'];
-                $aData['total_units_number_of_pages'] = ceil($totalUnits / 37);
-            }
-
-            $aData['lang'] = $request->lang;
-            if (isset($aData['bu_type']) && $aData['bu_type'] == 'mdu' && isset($aData['nr_lu']) && $aData['nr_lu'] >= 1) {
-                if (isset($aData['quadrant'])) {
-                    if ($aData['quadrant'] == 'a' || $aData['quadrant'] == 'c' || $aData['quadrant'] == 'e') {
-                        $aData['hasTSA'] = true;
-                    }
-                }
-            } else {
-                $aData['hasTSA'] = false;
-            }
 
             foreach ($images['index'] as $imageIndex) {
                 if (isset($aData[$imageIndex]) && ($imageIndex == 'copper_intro')) {
-                    $aData['copper_intro']['img_outside'] = []; //initialize img outside array
-                    $aData['copper_intro']['img_outside_remarks'] = []; //initialize img outside array
-                    $aData['copper_intro']['img_inside'] = []; //initialize img inside array
-                    $aData['copper_intro']['img_inside_remarks'] = []; //initialize img inside array
+                    $aData['copper_intro']['img_outside'] =
+                    $aData['copper_intro']['img_outside_remarks'] =
+                    $aData['copper_intro']['img_inside'] =
+                    $aData['copper_intro']['img_inside_remarks'] = [];
                     $imgCount = 0;
                     if ($aData['copper_intro'] && isset($aData['copper_intro']['copper_intro_photos'])) {
                         if (isset($aData['copper_intro']['copper_intro_photos'][0]['outside']['doc_type_image'])) {
@@ -111,7 +88,7 @@ class DocumentController extends Controller
 
 
                 } else if (isset($aData[$imageIndex]['doc_type_image'])) {
-                    $aData[$imageIndex]['img'] = []; //initialize img array
+                    $aData[$imageIndex]['img'] =
                     $aData[$imageIndex]['img_remarks'] = [];
                     foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
@@ -142,10 +119,7 @@ class DocumentController extends Controller
                 foreach ($aData['customer_interested_in_fiber']['desired_fiber_photos'] as $intro) {
                     $fiber = new Document;
                     $intro['desired_fiber_address'];
-                    $aRemarksOut = [];
-                    $aPathsOut = [];
-                    $aRemarksIn = [];
-                    $aPathsIn = [];
+                    $aRemarksOut = $aPathsOut = $aRemarksIn = $aPathsIn = [];
                     foreach ($intro['outside']['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
@@ -227,21 +201,23 @@ class DocumentController extends Controller
             $aData['person_count_per_page'] = 14;
             $people = 0;
 
-            if(isset($aData['syndic'])){
+            if (isset($aData['syndic'])) {
                 $people += count($aData['syndic']);
-            } if(isset($aData['acp'])){
+            }
+            if (isset($aData['acp'])) {
                 $people += count($aData['acp']);
-            } if(isset($aData['owner'])){
+            }
+            if (isset($aData['owner'])) {
                 $people += count($aData['owner']);
             }
-            $aData['total_number_of_page'] = ceil($people/$aData['person_count_per_page']);
+            $aData['total_number_of_page'] = ceil($people / $aData['person_count_per_page']);
             $aData['people'] = $people;
 
             foreach ($images['index'] as $imageIndex) {
                 if (isset($aData[$imageIndex]['doc_type_image'])) {
                     //Initialize arrays
-                    $aData[$imageIndex]['img'] = [];
-                    $aData[$imageIndex]['main_img'] = [];
+                    $aData[$imageIndex]['img'] =
+                    $aData[$imageIndex]['main_img'] =
                     $aData[$imageIndex]['img_remarks'] = [];
                     foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
