@@ -3,15 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use Ixudra\Curl\Facades\Curl;
 use DB;
 use App\Models\Document;
+use Illuminate\Http\Request;
 
 class DocumentController extends Controller
 {
     //
-    public function printReport($id, $lang)
+    public function printReport(Request $request)
     {
+        //TODO check if logged in to Survinator
 
         $images['index'] = [
             'facade',
@@ -28,7 +29,7 @@ class DocumentController extends Controller
             'building_layout'
         ];
 
-        $aData = Document::getData($id);
+        $aData = Document::getData($request->id);
 
         if ($aData) {
             $Image = new Document;
@@ -47,16 +48,17 @@ class DocumentController extends Controller
                 $aData['total_units_number_of_pages'] = ceil($totalUnits / 37);
             }
 
-            $aData['lang'] = $lang;
+            $aData['lang'] = $request->lang;
             if (isset($aData['bu_type']) && $aData['bu_type'] == 'mdu' && isset($aData['nr_lu']) && $aData['nr_lu'] >= 1) {
-                if (isset($aData['quandrant'])) {
-                    if ($aData['quandrant'] == 'a' || $aData['quandrant'] == 'c' || $aData['quandrant'] == 'e') {
+                if (isset($aData['quadrant'])) {
+                    if ($aData['quadrant'] == 'a' || $aData['quadrant'] == 'c' || $aData['quadrant'] == 'e') {
                         $aData['hasTSA'] = true;
                     }
                 }
             } else {
                 $aData['hasTSA'] = false;
             }
+
             foreach ($images['index'] as $imageIndex) {
                 if (isset($aData[$imageIndex]) && ($imageIndex == 'copper_intro')) {
                     $aData['copper_intro']['img_outside'] = []; //initialize img outside array
@@ -205,7 +207,7 @@ class DocumentController extends Controller
     }
 
 
-    public function printAgreement($id, $lang)
+    public function printAgreement(Request $request)
     {
         //Define image arrays
         $images['index'] = [
@@ -214,14 +216,26 @@ class DocumentController extends Controller
             'intro_on_facade_cabling_proposal'
         ];
 
-        $aData = Document::getData($id);
+        $aData = Document::getData($request->id);
         $Image = new Document;
 
         if ($aData) {
             $aData['image_count_per_page'] = 4;
             $aData['survey_outside_started'] = date('Y-m-d');
             $aData['survey_inside_finished'] = date('Y-m-d');
-            $aData['lang'] = $lang;
+            $aData['lang'] = $request->lang;
+            $aData['person_count_per_page'] = 14;
+            $people = 0;
+
+            if(isset($aData['syndic'])){
+                $people += count($aData['syndic']);
+            } if(isset($aData['acp'])){
+                $people += count($aData['acp']);
+            } if(isset($aData['owner'])){
+                $people += count($aData['owner']);
+            }
+            $aData['total_number_of_page'] = ceil($people/$aData['person_count_per_page']);
+            $aData['people'] = $people;
 
             foreach ($images['index'] as $imageIndex) {
                 if (isset($aData[$imageIndex]['doc_type_image'])) {

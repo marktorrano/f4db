@@ -5756,6 +5756,16 @@ page[size="A4"] {
 #form #lang {
   width: 40%; }
 
+.your_data {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  width: 640px; }
+  .your_data .person {
+    width: 50%;
+    height: auto; }
+
 .facade-img {
   display: -ms-flexbox;
   display: flex;

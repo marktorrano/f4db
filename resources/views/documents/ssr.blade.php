@@ -67,10 +67,10 @@
             </div>
             <div class="subpage index">
                 <div class="facade-img">
-                    @if(isset($data['facade']['img']))
-                        @foreach(($data['facade']['img']) as $imgUrl)
-                            <img src="{!! $imgUrl !!}">
-                        @endforeach
+                    @if(isset($data['facade']['main_img']))
+                        <img src="{!! $data['facade']['main_img'] !!}" alt=" "/>
+                    @elseif(isset($data['facade']))
+                        <img src="{!! $data['facade']['img'][0] !!}" alt=" "/>
                     @endif
                 </div>
                 <br>

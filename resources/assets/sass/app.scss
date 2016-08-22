@@ -36,6 +36,16 @@ page[size="A4"] {
   }
 }
 
+.your_data{
+  display: flex;
+  flex-wrap: wrap;
+  width: 640px;
+  .person {
+    width: 50%;
+    height: auto;
+  }
+}
+
 
 .facade-img {
   display: flex;
