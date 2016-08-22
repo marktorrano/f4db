@@ -194,7 +194,7 @@ class DocumentController extends Controller
             'intro_on_facade_cabling_proposal'
         ];
 
-        $aData = Document::getData($request->id);
+        $aData = Document::getData($request->id, $request->lang);
         $Image = new Document;
 
         if ($aData) {
