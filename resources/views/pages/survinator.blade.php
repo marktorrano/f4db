@@ -8,19 +8,20 @@
     <div id="form">
         <h3>Document Generator</h3>
         <br/>
-        {!! Form::open(array('url' => 'documents/', 'target' => '_blank')) !!}
-        <div class="form-group">
-            <div class="form-group">
-                {!! Form::label('id', 'ID:') !!}
-                {!! Form::text('id', '', ['class' => 'form-control']) !!}
-            </div>
-        </div>
 
         <div class="form-group category_field">
             {!! Form::label('docType', 'Document:') !!}
             <select id="docType" name="docType" class="form-control">
                 <option value="ssr" selected>Site Survey Report</option>
             </select>
+        </div>
+
+        {!! Form::open(array('url' => 'documents/', 'target' => '_blank')) !!}
+        <div class="form-group">
+            <div class="form-group">
+                {!! Form::label('id', 'ID:') !!}
+                {!! Form::text('id', '', ['class' => 'form-control']) !!}
+            </div>
         </div>
 
         <div class="form-group category_field">
