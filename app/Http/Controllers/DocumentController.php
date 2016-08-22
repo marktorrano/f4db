@@ -6,6 +6,7 @@ use App\Http\Requests;
 use DB;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
@@ -29,7 +30,10 @@ class DocumentController extends Controller
             'building_layout'
         ];
 
-        $aData = Document::getData($request->id, $request->lang);
+        if ($request->id == '') {
+            Log::info('Trying to retrieve document without ID');
+            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not ready...']);
+        } else $aData = Document::getData($request->id, $request->lang);
 
         if ($aData) {
             $Image = new Document;
