@@ -29,7 +29,7 @@ page[size="A4"] {
 
 #form {
   #docType {
-    width: 80%;
+    width: 100%;
   }
   #lang {
     width: 40%;
@@ -61,19 +61,24 @@ page[size="A4"] {
 
 .doc-img {
   width: 640px;
-  height: 865px;
+  height: 960px;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
-
+  justify-content: center;
   .items {
-    width: 50%;
+    width: 35%;
+    margin: 0 auto;
 
     .remarks {
       width: 95%;
       height: auto;
       padding: 1px 2.5%;
+      line-height: 1.1;
+      font-size: .9em;
+      font-style: italic;
     }
+
     .address {
       width: 95%;
       height: auto;
@@ -89,6 +94,15 @@ page[size="A4"] {
 
 #access_to_telco_room {
   page-break-after: always !important;
+
+  .doc-img {
+    .items {
+      img {
+        width: 80%;
+      }
+    }
+
+  }
 
 }
 
