@@ -1546,7 +1546,7 @@
             var map;
             function initMap() {
 
-                var myLatLng = {lat: data.latitude, lng: data.longitude};
+                var myLatLng = {lat: data.geo_location.latitude, lng: data.geo_location.longitude};
 
                 map = new google.maps.Map(document.getElementById('map'), {
                     center: myLatLng,
