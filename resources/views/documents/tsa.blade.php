@@ -71,8 +71,11 @@
             <div class="header"></div>
             <div class="subpage">
                 <div class="facade-img">
-                    @if(isset($data['facade']['main_img']))<img src="{!! $data['facade']['main_img'] !!}"
-                                                                alt=" "/> @endif
+                    @if(isset($data['facade']['main_img']))
+                        <img src="{!! $data['facade']['main_img'] !!}" alt=" "/>
+                    @elseif(isset($data['facade']))
+                        <img src="{!! $data['facade']['img'][0] !!}" alt=" "/>
+                    @endif
                 </div>
                 <br>
                 <br>
@@ -149,23 +152,48 @@
 
                 <h4><?=$t['page03.h4.yourDetails']?></h4>
 
-                <table id="your_data">
+                <h6><?=$t['page03.h6.syndic']?></h6>
+                <div class="your_data">
+                    <?php $person_count = 1?>
                     @if(isset($data['syndic']))
-                        @foreach($data['syndic'] as $syndic)
-                            <tr>
-                                <h6><?=$t['page03.h6.syndic']?></h6>
-
-                                <td>
+                        @if(count($data['syndic']) > $data['person_count_per_page'])
+                            @for($ctr = 0; $ctr < count($data['syndic']);$ctr++)
+                                <div class="person">
+                                    <ul>
+                                        <li>
+                                            <span><?=$t['page03.li.name']?></span> @if(isset($data['syndic'][$ctr]['name'])){!! $data['syndic'][$ctr]['name'] !!}@endif
+                                        </li>
+                                        <li>
+                                            <span><?=$t['page03.li.adres']?></span> @if(isset($data['syndic'][$ctr]['street'])){!! $data['syndic'][$ctr]['street'] !!} @endif @if(isset($data['syndic'][$ctr]['house_number'])){!! $data['syndic'][$ctr]['house_number'] !!}
+                                            , @endif @if(isset($data['syndic'][$ctr]['postal_code'])){!! $data['syndic'][$ctr]['postal_code'] !!} @endif @if(isset($data['syndic'][$ctr]['city'])){!! $data['syndic'][$ctr]['city'] !!} @endif
+                                        </li>
+                                        <li>
+                                            <span><?=$t['page03.li.contact']?></span> @if(isset($data['syndic'][$ctr]['name_contact'])){!! $data['syndic'][$ctr]['name_contact'] !!} @endif
+                                        </li>
+                                        <li>
+                                            <span><?=$t['page03.li.email']?></span> @if(isset($data['syndic'][$ctr]['email'])){!! $data['syndic'][$ctr]['email'] !!} @endif
+                                        </li>
+                                        <li>
+                                            <span><?=$t['page03.li.phone']?></span> @if(isset($data['syndic'][$ctr]['primary_phone_contact'])){!! $data['syndic'][$ctr]['primary_phone_contact'] !!} @endif
+                                        </li>
+                                    </ul>
+                                </div>
+                                <?php $person_count++ ?>
+                            @endfor
+                        @else
+                            @foreach($data['syndic'] as $syndic)
+                                <div class="person">
                                     <ul>
                                         <li>
                                             <span><?=$t['page03.li.name']?></span> @if(isset($syndic['name'])){!! $syndic['name'] !!}@endif
                                         </li>
                                         <li>
                                             <span><?=$t['page03.li.adres']?></span> @if(isset($syndic['street'])){!! $syndic['street'] !!} @endif @if(isset($syndic['house_number'])){!! $syndic['house_number'] !!}
-                                            , @endif @if(isset($syndic['postal_code'])){!! $syndic['postal_code'] !!} @endif @if(isset($syndic['city'])){!! $syndic['city'] !!} @endif
+                                            , @endif @if(isset($syndic['postal_code'])){!! $syndic['postal_code'] !!} @endif @if($syndic['city'])
+                                                ){!! $syndic['city'] !!} @endif
                                         </li>
                                         <li>
-                                            <span><?=$t['page03.li.contact']?></span> @if(isset($syndic['name_contact'])){!! $syndic['name_contact'] !!} @endif
+                                            <span><?=$t['page03.li.contact']?></span> @if(isset($syndic['name_contact'])){!!$syndic['name_contact'] !!} @endif
                                         </li>
                                         <li>
                                             <span><?=$t['page03.li.email']?></span> @if(isset($syndic['email'])){!! $syndic['email'] !!} @endif
@@ -174,42 +202,103 @@
                                             <span><?=$t['page03.li.phone']?></span> @if(isset($syndic['primary_phone_contact'])){!! $syndic['primary_phone_contact'] !!} @endif
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        @endforeach
+                                </div>
+                                <?php $person_count++ ?>
+                            @endforeach
+                        @endif
                     @endif
-                    @if(isset($data['acp']))
-                        @foreach($data['acp'] as $acp)
-                            <tr>
-                                <h6><?=$t['page03.h6.vme']?></h6>
-                                <td>
+                </div>
+
+                @if(isset($data['acp']) && $person_count < $data['person_count_per_page'] && ($person_count+count($data['acp'])) < $data['person_count_per_page'])
+                    <h6><?=$t['page03.h6.vme']?></h6>
+                    @for($ctr=0; $ctr < count($data['acp']); $ctr++)
+                        <div class="person">
+                            <ul>
+                                <li>
+                                    <span><?=$t['page03.li.name']?></span> @if(isset($data['acp'][$ctr]['name'])){!! $data['acp'][$ctr]['name'] !!}@endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.adres']?></span> @if(isset($data['acp'][$ctr]['street'])){!! $data['acp'][$ctr]['street'] !!} @endif @if(isset($data['acp'][$ctr]['house_number'])){!! $data['acp'][$ctr]['house_number'] !!}
+                                    , @endif @if(isset($data['acp'][$ctr]['postal_code'])){!! $data['acp'][$ctr]['postal_code'] !!} @endif @if(isset($data['acp'][$ctr]['city'])){!! $data['acp'][$ctr]['city'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.contact']?></span> @if(isset($data['acp'][$ctr]['name_contact'])){!! $data['acp'][$ctr]['name_contact'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.email']?></span> @if(isset($data['acp'][$ctr]['email'])){!! $data['acp'][$ctr]['email'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.phone']?></span> @if(isset($data['acp'][$ctr]['primary_phone_contact'])){!! $data['acp'][$ctr]['primary_phone_contact'] !!} @endif
+                                </li>
+                            </ul>
+                        </div>
+                        <?php $person_count++ ?>
+                    @endfor
+                @elseif(isset($data['acp']))
+                    <page size="A4" class="page" class="people-extra-page">
+                        <div class="header"></div>
+                        <div class="subpage">
+                            <h6><?=$t['page03.h6.vme']?></h6>
+                            @foreach(($data['acp']) as $acp)
+                                <div class="person">
                                     <ul>
                                         <li>
-                                            <span><?=$t['page03.li.name']?></span> @if(isset($acp['name'])){!! $acp['name'] !!}@endif
+                                            <span><?=$t['page03.li.name']?></span> @if(isset($acp['name'])){!! $data['acp'][$ctr]['name'] !!}@endif
                                         </li>
                                         <li>
-                                            <span><?=$t['page03.li.adres']?></span> @if(isset($acp['street'])){!! $acp['street'] !!} @endif @if(isset($acp['house_number'])){!! $acp['house_number'] !!}
-                                            , @endif @if(isset($acp['postal_code'])){!! $acp['postal_code'] !!} @endif @if(isset($acp['city'])){!! $acp['city'] !!} @endif
+                                            <span><?=$t['page03.li.adres']?></span> @if(isset($data['acp'][$ctr]['street'])){!! $data['acp'][$ctr]['street'] !!} @endif @if(isset($data['acp'][$ctr]['house_number'])){!! $data['acp'][$ctr]['house_number'] !!}
+                                            , @endif @if(isset($data['acp'][$ctr]['postal_code'])){!! $data['acp'][$ctr]['postal_code'] !!} @endif @if(isset($data['acp'][$ctr]['city'])){!! $data['acp'][$ctr]['city'] !!} @endif
                                         </li>
                                         <li>
-                                            <span><?=$t['page03.li.contact']?></span> @if(isset($acp['name_contact'])){!! $acp['name_contact'] !!} @endif
+                                            <span><?=$t['page03.li.contact']?></span> @if(isset($data['acp'][$ctr]['name_contact'])){!! $data['acp'][$ctr]['name_contact'] !!} @endif
                                         </li>
                                         <li>
-                                            <span><?=$t['page03.li.email']?></span> @if(isset($acp['email'])){!! $acp['email'] !!} @endif
+                                            <span><?=$t['page03.li.email']?></span> @if(isset($data['acp'][$ctr]['email'])){!! $data['acp'][$ctr]['email'] !!} @endif
                                         </li>
                                         <li>
-                                            <span><?=$t['page03.li.phone']?></span> @if(isset($acp['primary_phone_contact'])){!! $acp['primary_phone_contact'] !!} @endif
+                                            <span><?=$t['page03.li.phone']?></span> @if(isset($data['acp'][$ctr]['primary_phone_contact'])){!! $data['acp'][$ctr]['primary_phone_contact'] !!} @endif
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                    @if(isset($data['owner']))
-                        @foreach($data['owner'] as $owner)
-                            <tr>
-                                <h6><?=$t['page03.h6.owners']?></h6>
-                                <td>
+                                </div>
+                                <?php $person_count++ ?>
+                            @endforeach
+                        </div>
+                        <div class="footer"></div>
+                    </page>
+                @endif
+
+                @if(isset($data['owner']) && $person_count < $data['person_count_per_page'] && ($person_count+count($data['owner'])) < $data['person_count_per_page'])
+                    <h6><?=$t['page03.h6.owners']?></h6>
+                    @for($ctr=0; $ctr < count($data['owner']); $ctr++)
+                        <div class="person">
+                            <ul>
+                                <li>
+                                    <span><?=$t['page03.li.name']?></span> @if(isset($data['owner'][$ctr]['name'])){!! $data['owner'][$ctr]['name'] !!}@endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.adres']?></span> @if(isset($data['owner'][$ctr]['street'])){!! $data['owner'][$ctr]['street'] !!} @endif @if(isset($data['owner'][$ctr]['house_number'])){!! $data['owner'][$ctr]['house_number'] !!}
+                                    , @endif @if(isset($data['owner'][$ctr]['postal_code'])){!! $data['owner'][$ctr]['postal_code'] !!} @endif @if(isset($data['owner'][$ctr]['city'])){!! $data['owner'][$ctr]['city'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.contact']?></span> @if(isset($data['owner'][$ctr]['name_contact'])){!! $data['owner'][$ctr]['name_contact'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.email']?></span> @if(isset($data['owner'][$ctr]['email'])){!! $data['owner'][$ctr]['email'] !!} @endif
+                                </li>
+                                <li>
+                                    <span><?=$t['page03.li.phone']?></span> @if(isset($data['owner'][$ctr]['primary_phone_contact'])){!! $data['owner'][$ctr]['primary_phone_contact'] !!} @endif
+                                </li>
+                            </ul>
+                        </div>
+                        <?php $person_count++ ?>
+                    @endfor
+                @elseif(isset($data['owner']))
+                    <page size="A4" class="page" class="people-extra-page">
+                        <div class="header"></div>
+                        <div class="subpage">
+                            <h6><?=$t['page03.h6.owners']?></h6>
+                            @foreach(($data['owner']) as $owner)
+                                <div class="person">
                                     <ul>
                                         <li>
                                             <span><?=$t['page03.li.name']?></span> @if(isset($owner['name'])){!! $owner['name'] !!}@endif
@@ -228,14 +317,27 @@
                                             <span><?=$t['page03.li.phone']?></span> @if(isset($owner['primary_phone_contact'])){!! $owner['primary_phone_contact'] !!} @endif
                                         </li>
                                     </ul>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
-                </table>
+                                </div>
+                                <?php $person_count++ ?>
+                            @endforeach
+                        </div>
+                        <div class="footer"></div>
+                    </page>
+                @endif
             </div>
             <div class="footer"></div>
         </page>
+
+        <?php $pageNumber = 2?>
+        @while(isset($data['total_number_of_page']) && $data['total_number_of_page'] >= $pageNumber)
+            <page size="A4" class="page extra_page">
+                <div class="header"></div>
+                <div class="subpage">
+
+                </div>
+            </page>
+            <?php $pageNumber++ ?>
+        @endwhile
 
         <page size="A4" class="page">
             <div class="header"></div>
@@ -277,8 +379,9 @@
                             @if(count($data['intro_on_facade_cabling_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr_facade=0; $ctr_facade < $data['image_count_per_page']; $ctr_facade++)
                                     <div class="items">
-                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
-                                             alt=""/> @endif
+                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img
+                                                src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
+                                                alt=""/> @endif
                                         @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_underground]))
                                             <div class="remarks"></div> @endif
                                     </div>
@@ -307,8 +410,9 @@
                             @if(count($data['intro_underground_proposal']['img']) > $data['image_count_per_page'])
                                 @for($ctr_underground_cabling=0; $ctr_underground_cabling < $data['image_count_per_page']; ++$ctr_underground_cabling)
                                     <div class="items">
-                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))<img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
-                                             alt=""/> @endif
+                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))
+                                            <img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!}"
+                                                 alt=""/> @endif
                                         @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
                                             <div class="remarks">
                                                 {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
@@ -337,54 +441,55 @@
         </page>
         <?php $pageNumber = 2?>
         @while(isset($data['intro_on_facade_cabling_proposal']['number_of_pages']) && ($data['planned_distribution'] == 'facade') && $data['intro_on_facade_cabling_proposal']['number_of_pages'] >= $pageNumber)
-                <page size="A4" class="page" class="facade_proposal extra_page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
+            <page size="A4" class="page" class="facade_proposal extra_page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
 
-                        <div class="doc-img">
-                            @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
-                                @for($ctr_facade; $ctr_facade < count($data['intro_on_facade_cabling_proposal']['img']); $ctr_facade++)
-                                    <div class="items">
-                                        @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
-                                             alt=""/> @endif
-                                        @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_facade]))
-                                            <div class="remarks"></div> @endif
-                                    </div>
-                                @endfor
-                            @endif
-                        </div>
+                    <div class="doc-img">
+                        @if(count($data['intro_on_facade_cabling_proposal']['img']) < $data['intro_on_facade_cabling_proposal']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr_facade; $ctr_facade < count($data['intro_on_facade_cabling_proposal']['img']); $ctr_facade++)
+                                <div class="items">
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img'][$ctr_facade]))<img
+                                            src="{!! $data['intro_on_facade_cabling_proposal']['img'][$ctr_facade] !!}"
+                                            alt=""/> @endif
+                                    @if(isset($data['intro_on_facade_cabling_proposal']['img_remarks'][$ctr_facade]))
+                                        <div class="remarks"></div> @endif
+                                </div>
+                            @endfor
+                        @endif
                     </div>
-                </page>
+                </div>
+            </page>
             <?php $pageNumber++ ?>
         @endwhile
 
         <?php $pageNumber = 2?>
         @while(isset($data['intro_underground_proposal']['number_of_pages']) && ($data['planned_distribution'] == 'underground') && $data['intro_underground_proposal']['number_of_pages'] >= $pageNumber)
-                <page size="A4" class="page" class="underground_proposal extra_page">
-                    <div class="header">
-                        <div class="headerTitle"></div>
-                    </div>
-                    <div class="subpage">
+            <page size="A4" class="page" class="underground_proposal extra_page">
+                <div class="header">
+                    <div class="headerTitle"></div>
+                </div>
+                <div class="subpage">
 
-                        <div class="doc-img">
-                            @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
-                                @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
-                                    <div class="items">
-                                        @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))
-                                            <img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} "
-                                                 alt=""/> @endif
-                                        @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
-                                            <div class="remarks">
-                                                {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
-                                    </div>
-                                @endfor
-                            @endif
-                        </div>
-
+                    <div class="doc-img">
+                        @if(count($data['intro_underground_proposal']['img']) < $data['intro_underground_proposal']['number_of_pages']*$data['image_count_per_page'])
+                            @for($ctr_underground_cabling; $ctr_underground_cabling < ($data['image_count_per_page']*$pageNumber) ; $ctr_underground_cabling++)
+                                <div class="items">
+                                    @if(isset($data['intro_underground_proposal']['img'][$ctr_underground_cabling]))
+                                        <img src="{!! $data['intro_underground_proposal']['img'][$ctr_underground_cabling] !!} "
+                                             alt=""/> @endif
+                                    @if(isset($data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling]))
+                                        <div class="remarks">
+                                            {!! $data['intro_underground_proposal']['img_remarks'][$ctr_underground_cabling] !!}</div> @endif
+                                </div>
+                            @endfor
+                        @endif
                     </div>
-                </page>
+
+                </div>
+            </page>
             <?php $pageNumber++ ?>
         @endwhile
 
