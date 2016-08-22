@@ -789,7 +789,7 @@
                         <h3><?=$t['futureIntro']?></h3>
 
                         <div class="doc-img">
-                            <div class="address" style="width: 100%; height: 2em">
+                            <div class="address" style="width: 100%; height: auto">
                                 Address:
                             </div>
                             @if(isset($fiber['imagesOut']))
