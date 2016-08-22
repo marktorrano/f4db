@@ -834,7 +834,7 @@
 
                     <h3><?=$t['page05.h3.acceessToProximusTools']?></h3>
 
-                    <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:2.5cm">
+                    <div style="border: 1px solid black; padding: 6px; font-size: 10px; height:auto">
                         @if(isset($data['requirements_to_enter_telco_room'])){!! $data['requirements_to_enter_telco_room'] !!} @endif
                     </div>
 
