@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => env('DB_CONNECTION', 'couchdb'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -47,16 +47,15 @@ return [
     'connections' => [
 
         'couchdb' => [
-            'driver'   => 'couchdb',
-            'type'     => 'socket',
-            'host'     => 'couch_main',
-            'ip'       => null,
-            'port'     => 5984,
-            'dbname'   => 'survinator',
-            'user'     => 'root',
-//            'password' => '',
-            'password' => '1234qwer',
-            'logging'  => false,
+            'driver'    => 'couchdb',
+            'type'      => 'socket',
+            'host'      => env('COUCH_HOST', 'testmachine.jfs.be'),
+            'ip'        => null,
+            'port'      => 5984,
+            'dbname'    => env('COUCH_DB', 'survinator_f4db_2'),
+            'user'      => env('COUCH_USERNAME', 'username'),
+            'password'  => env('COUCH_PASSWORD', ''),
+            'logging'   => false,
         ],
 
         'sqlite' => [

@@ -18,6 +18,7 @@ elixir(function(mix) {
         .sass('ssr-nl.scss', 'public/assets/css/ssr-nl.css')
         .sass('tsa-nl.scss', 'public/assets/css/tsa-nl.css')
         .sass('print.scss', 'public/assets/css/print.css')
+        .sass('login.scss', 'public/assets/css/login.css')
     ;
 
     mix.sass(['app.scss'], 'public/assets/css/app.css');

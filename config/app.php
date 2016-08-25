@@ -158,6 +158,15 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /*
+         * Custom
+         */
+
+        App\Library\Auth\ErpAuthProvider::class,
+        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+//        App\Library\Graylog\ServiceProvider::class,
+//        App\Library\CouchDb\CouchdbServiceProvider::class,
+
     ],
 
     /*

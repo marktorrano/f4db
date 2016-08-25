@@ -7,6 +7,9 @@
 @section('content')
 
     <div id="survinator">
+        <div id="logout" style="position:fixed; right: 1em; top: 1em">
+            <a href="{{url('users/logout')}}"></a>
+        </div>
         <div id="form">
             <h3>Document Generator</h3>
             <br/>

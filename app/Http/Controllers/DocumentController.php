@@ -7,13 +7,22 @@ use DB;
 use App\Models\Document;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Ixudra\Curl\Facades\Curl;
 
 class DocumentController extends Controller
 {
     //
+//    public function __construct()
+//    {
+//        $this->middleware('auth');
+//    }
+
     public function printReport(Request $request)
     {
+
         //TODO check if logged in to Survinator
+
+//        $res = Curl::to($_ENV['SURVINATOR'])->get();
 
         $images['index'] = [
             'facade',
@@ -29,10 +38,8 @@ class DocumentController extends Controller
             'floor_plan',
             'building_layout'
         ];
-
         if ($request->id == '') {
-            Log::info('Trying to retrieve document without ID');
-            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not ready...']);
+            Log::error('Trying to retrieve document without ID');
         } else $aData = Document::getData($request->id, $request->lang);
 
         if ($aData) {
@@ -52,7 +59,7 @@ class DocumentController extends Controller
                             foreach ($aData['copper_intro']['copper_intro_photos'][0]['outside']['doc_type_image'] as $image) {
                                 $arr = $Image->getImage($image);
                                 $imgRemarks = ' ';
-                                if ($arr == null) {
+                                if ($arr == null || $arr == false) {
                                     $imgPath = $_ENV['SURVINATOR'];
                                 } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                     $nearlineId = $arr['edited_nearline_id'];
@@ -72,7 +79,7 @@ class DocumentController extends Controller
                             foreach ($aData['copper_intro']['copper_intro_photos'][0]['inside']['doc_type_image'] as $image) {
                                 $arr = $Image->getImage($image);
                                 $imgRemarks = ' ';
-                                if ($arr == null) {
+                                if ($arr == null || $arr == false) {
                                     $imgPath = $_ENV['SURVINATOR'];
                                 } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                                     $nearlineId = $arr['edited_nearline_id'];
@@ -97,7 +104,7 @@ class DocumentController extends Controller
                     foreach ($aData[$imageIndex]['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
-                        if ($arr == null) {
+                        if ($arr == null || $arr == false) {
                             $imgPath = $_ENV['SURVINATOR'];
                         } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
@@ -127,7 +134,7 @@ class DocumentController extends Controller
                     foreach ($intro['outside']['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
-                        if ($arr == null) {
+                        if ($arr == null || $arr == false) {
                             $imgPath = $_ENV['SURVINATOR'];
                         } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
@@ -142,7 +149,7 @@ class DocumentController extends Controller
                     foreach ($intro['inside']['doc_type_image'] as $image) {
                         $arr = $Image->getImage($image);
                         $imgRemarks = ' ';
-                        if ($arr == null) {
+                        if ($arr == null || $arr == false) {
                             $imgPath = $_ENV['SURVINATOR'];
                         } else if (isset($arr['original_nearline_id']) || $arr['edited_nearline_id']) {
                             $nearlineId = $arr['edited_nearline_id'];
@@ -175,9 +182,9 @@ class DocumentController extends Controller
                 'data' => $aData
             ]);
 
-        } else { //data is in f4db
+        } else { //data is in ServiceDocument
 
-            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not ready...']);
+            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not yet ready...']);
 
         }
 
@@ -263,9 +270,10 @@ class DocumentController extends Controller
 
             $response = view('documents.tsa', [
                 'data' => $aData]);
-        } else { //data is in f4db
+        } else { //data is in ServiceDocument
 
-            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found...']);
+            Log::notice($request->id . ' is not available in couchDB');
+            return response()->view('errors.404', ['error' => 'Oops! The document you are requesting was not found or is not yet ready...']);
 
         }
 

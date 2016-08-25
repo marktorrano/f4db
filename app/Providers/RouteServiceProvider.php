@@ -24,9 +24,21 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
-        //
-
         parent::boot($router);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Route Model Binding
+        |--------------------------------------------------------------------------
+        */
+        $this->binds($router);
+
+        /*
+        |--------------------------------------------------------------------------
+        | Other route stuff
+        |--------------------------------------------------------------------------
+        */
+        $router->pattern('id', '[0-9]+');
     }
 
     /**
@@ -52,10 +64,50 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(Router $router)
     {
+        $host = request()->getHttpHost();
+
+        $blackListedHosts = explode(',', env('BLACK_LISTED_HOSTS'));
+
+        if (in_array($host, $blackListedHosts)) {
+            die();
+        }
+
+        switch ($host) {
+            case 'survinator.fiber4belgium.be':
+            case 'survinator.jfs.be':
+            case 'survinator.local':
+                $environment = 'live';
+                break;
+
+            case 'survinatorstage.fiber4belgium.be':
+            case 'survinatorstage.jfs.be':
+            case 'survinatorstage.local':
+                $environment = 'stage';
+                break;
+
+            default:
+                $environment = 'stage';
+                break;
+        }
+
+        define('ENVIRONMENT', $environment);
+
         $router->group([
-            'namespace' => $this->namespace, 'middleware' => 'web',
+            'namespace' => $this->namespace,
+            'middleware' => 'web',
         ], function ($router) {
             require app_path('Http/routes.php');
         });
+    }
+
+    /**
+     * binds()
+     *
+     * Route Model Binding
+     * @param \Illuminate\Routing\Router $router
+     */
+    private function binds(Router $router)
+    {
+        $router->model('ticket', \App\Models\Ticket::class);
     }
 }

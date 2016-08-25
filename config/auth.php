@@ -38,12 +38,14 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'erpUsers',
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'session',
             'provider' => 'users',
+//            'driver' => 'token',
+//            'provider' => 'users',
         ],
     ],
 
@@ -68,6 +70,11 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+
+        'erpUsers' => [
+            'driver' => 'erpAuth',
+            'model' => App\Models\ErpUser::class,
         ],
 
         // 'users' => [

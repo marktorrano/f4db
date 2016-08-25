@@ -9,8 +9,11 @@
         "laravel/framework": "5.2.*",
         "laravelcollective/html": "5.2.*",
         "doctrine/couchdb": "^1.0@beta",
+        "phpxmlrpc/phpxmlrpc": "^4.0",
+        "tymon/jwt-auth": "0.5.*",
         "ixudra/curl": "6.*",
         "lukaszkujawa/couch-php": "dev-master",
+        "rbewley4/laravel-couchdb": "dev-master",
         "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {

@@ -34,5 +34,8 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
+    'couchdb' => [
+        'path' => env('COUCHDB_PATH', 'testmachine.jfs.be/client/_cdb')
+    ],
 
 ];

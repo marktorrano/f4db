@@ -15,9 +15,9 @@ class Document extends Model
         $path = 'http://' . $_ENV['DB_USERNAME'] . ':' . $_ENV['DB_PASSWORD'] . '@' . $_ENV['DB_HOST'] . ':' . $_ENV['DB_PORT'] . '/' . $_ENV['DB_DATABASE'] . '/' . $id;
 
         $resCDB = Curl::to($path)->get();
-
         if ($resCDB) {
             $res = json_decode($resCDB, true);
+
             $res['server'] = '';
             if ($_ENV['DB_HOST'] == '192.168.101.34') {
                 $res['server'] = 'Test';
@@ -56,7 +56,14 @@ class Document extends Model
         $res = Curl::to($path)->get();
         $arr = json_decode($res, true);
 
-        return $arr;
+        if($res){
+            Log::info($image . ' = '. $arr['edited_nearline_id']);
+            return $arr;
+        }else {
+            Log::warning($image . ' has no nearline id ');
+            return false;
+        }
+
     }
 
     public static function getLocation($address)
