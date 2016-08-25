@@ -5796,8 +5796,9 @@ page[size="A4"] {
   -ms-flex-pack: center;
   justify-content: center; }
   .doc-img .items {
-    width: 35%;
-    margin: 0 auto; }
+    width: 45%;
+    height: 420px;
+    margin: 1px auto; }
     .doc-img .items .remarks {
       width: 95%;
       height: auto;
@@ -5807,7 +5808,7 @@ page[size="A4"] {
       font-style: italic; }
     .doc-img .items .address {
       width: 95%;
-      height: auto; }
+      height: 2em; }
     .doc-img .items img {
       position: inherit;
       width: 95%;
